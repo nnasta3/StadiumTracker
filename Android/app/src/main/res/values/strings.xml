@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">StadiumTracker</string>
+    <string name="prompt_login">Username or Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in_short">Username or Email</string>
+    <string name="action_sign_in">Sign In</string>
+    <string name="action_register">Register</string>
+</resources>
