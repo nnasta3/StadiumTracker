@@ -1,12 +1,13 @@
 package com.example.stadiumtracker;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     EditText usernameField;
     EditText passwordField;
@@ -14,10 +15,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
 
-         usernameField = (EditText) findViewById(R.id.username);
-         passwordField = (EditText) findViewById(R.id.password);
+         usernameField = (EditText) findViewById(R.id.username_login);
+         passwordField = (EditText) findViewById(R.id.password_login);
     }
 
     public void loginHandler(View v){
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void registerHandler(View v){
         //TODO: send to signup activity
-        Toast.makeText(getApplicationContext(),"Send to register page would occur here",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(),"Send to register page would occur here",Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this,SignUpActivity.class);
+        startActivity(intent);
     }
 }
