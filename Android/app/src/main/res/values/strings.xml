@@ -8,4 +8,5 @@
     <string name="action_sign_in_short">Username or Email</string>
     <string name="action_sign_in">Sign In</string>
     <string name="action_register">Register</string>
+    <string name="base_url">https://localhost/server/</string>
 </resources>

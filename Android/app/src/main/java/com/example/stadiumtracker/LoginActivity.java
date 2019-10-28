@@ -1,6 +1,8 @@
 package com.example.stadiumtracker;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +13,9 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText usernameField;
     EditText passwordField;
+    private ProgressDialog dialog;
+
+    private static String url_login = R.string.base_url + "login_activity"
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,5 +47,25 @@ public class LoginActivity extends AppCompatActivity {
         //Toast.makeText(getApplicationContext(),"Send to register page would occur here",Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this,SignUpActivity.class);
         startActivity(intent);
+    }
+
+    class loginHandlerClass extends AsyncTask<String, String, String>{
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = new ProgressDialog(LoginActivity.this);
+            dialog.setMessage("Attempting Login.");
+            dialog.setIndeterminate(false);
+            dialog.setCancelable(false);
+            dialog.show();
+        }
+        @Override
+        protected String doInBackground(String... strings) {
+            return null;
+        }
+        protected void onPostExecute(String idkWhatToUseThisFor){
+            dialog.dismiss();
+        }
     }
 }
