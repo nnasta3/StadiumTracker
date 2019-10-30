@@ -1,0 +1,78 @@
+﻿<mockup version="5.3" minAllowVersion="5.3" ID="90E7A070-4092-47B7-8129-42F773C43D51" platform="MtMobile" defaultW="360" defaultH="640" measureW="360" measureH="640" screenOrientation="MoPortrait" mobileScreenScale="1.77777779102325" clipArea="(0,0,0,0)">
+  <controls controlCount="6">
+    <control controlID="7AACF70D-4911-41F0-B81F-34255D0A9276" controlTypeID="Button" x="120" y="128" w="120" h="48" zOrder="0">
+      <links eventType="AtClick" animate="AmNone" animateAutoDelay="0" animateDuration="500">
+        <link targetPageID="616C9153-9B30-4EA4-A2B1-79E2EAC8853C" linkType="ltPageLink" isApplyIncludePage="False" title="Record+Visit">
+          <area shape="0" alt="" ID="{B981151A-B8FA-4823-9D14-4E6A7169B96B}" coords="(0,0,120,48)"/>
+        </link>
+      </links>
+      <font family="Segoe+UI" displayName="Segoe+UI" postScript="" weightStyle="Regular" weight="400" isBold="False" isItalic="False"/>
+      <text>Record+A+Visit</text>
+      <lineSpacing>0</lineSpacing>
+      <selectedIndex>-1</selectedIndex>
+    </control>
+    <control controlID="F55A7CC3-8A3D-4AEB-916A-26856B0A62D6" controlTypeID="Button" x="120" y="201" w="120" h="48" zOrder="1">
+      <links eventType="AtClick" animate="AmNone" animateAutoDelay="0" animateDuration="500">
+        <link targetPageID="B48B22B8-E2AE-4181-8875-B07E344358B2" linkType="ltPageLink" isApplyIncludePage="False" title="List+of+Stadiums">
+          <area shape="0" alt="" ID="{E493B0E8-68D1-44BB-8711-179E753F96AD}" coords="(0,0,120,48)"/>
+        </link>
+      </links>
+      <font family="Segoe+UI" displayName="Segoe+UI" postScript="" weightStyle="Regular" weight="400" isBold="False" isItalic="False"/>
+      <text>View+List+of+Stadiums</text>
+      <lineSpacing>0</lineSpacing>
+      <selectedIndex>-1</selectedIndex>
+    </control>
+    <control controlID="A6B90200-FBE9-4A66-9B12-34928175314A" controlTypeID="Button" x="120" y="274" w="120" h="48" zOrder="2">
+      <links eventType="AtClick" animate="AmNone" animateAutoDelay="0" animateDuration="500">
+        <link targetPageID="250AD6C9-CE37-47D8-BDB5-F328045C677A" linkType="ltPageLink" isApplyIncludePage="False" title="List+of+Visits">
+          <area shape="0" alt="" ID="{F23EE527-0ACB-44A5-8B9C-4C0CA74A2031}" coords="(0,0,120,48)"/>
+        </link>
+      </links>
+      <font family="Segoe+UI" displayName="Segoe+UI" postScript="" weightStyle="Regular" weight="400" isBold="False" isItalic="False"/>
+      <text>View+All+Visits</text>
+      <lineSpacing>0</lineSpacing>
+      <selectedIndex>-1</selectedIndex>
+    </control>
+    <control controlID="16F1349C-D808-4F7F-9530-9D4881FD9BBC" controlTypeID="Button" x="120" y="347" w="120" h="48" zOrder="3">
+      <links eventType="AtClick" animate="AmNone" animateAutoDelay="0" animateDuration="500">
+        <link targetPageID="8B8DA184-919E-440C-A20B-C2A886426AAB" linkType="ltPageLink" isApplyIncludePage="False" title="Friends+List">
+          <area shape="0" alt="" ID="{0C16E14F-4283-40A3-99A6-896EB8D4C394}" coords="(0,0,120,48)"/>
+        </link>
+      </links>
+      <font family="Segoe+UI" displayName="Segoe+UI" postScript="" weightStyle="Regular" weight="400" isBold="False" isItalic="False"/>
+      <text>Friends+List</text>
+      <lineSpacing>0</lineSpacing>
+      <selectedIndex>-1</selectedIndex>
+    </control>
+    <control controlID="0643C044-AEB7-48D6-B510-280C4390DE7F" controlTypeID="Icon" x="336" y="0" w="24" h="24" zOrder="4">
+      <links eventType="AtClick" animate="AmNone" animateAutoDelay="0" animateDuration="500">
+        <link targetPageID="1BA916A3-FF5D-408B-B769-446037910DFB" linkType="ltPageLink" isApplyIncludePage="False" title="Login">
+          <area shape="0" alt="" ID="{02FA1B9E-4EA3-4947-B432-AF4D21E8ACEB}" coords="(0,0,24,24)"/>
+        </link>
+      </links>
+      <icon>
+        <ID/>
+        <iconFontName>jdIonicons</iconFontName>
+        <iconCode>62341</iconCode>
+      </icon>
+      <URL>691E43A0CADD5AF1CA372E5138075E19.svg</URL>
+    </control>
+    <control controlID="351A149B-6E54-4467-B7D9-2634557E5C51" controlTypeID="TextArea" x="0" y="26" w="360" h="66" zOrder="5">
+      <font family="Segoe+UI" displayName="Segoe+UI+Bold" postScript="" weightStyle="Bold" weight="700" isBold="True" isItalic="False"/>
+      <text>Main+Menu</text>
+      <textColor>4278229248</textColor>
+      <textSize>20</textSize>
+      <textAlign>HaCenter</textAlign>
+      <textVAlign>VaMiddle</textVAlign>
+      <textStyles>[fsBold]</textStyles>
+      <useDefaultTextSize>False</useDefaultTextSize>
+      <selectedIndex>-1</selectedIndex>
+    </control>
+  </controls>
+  <param>
+    <backgroundColor>4294967295</backgroundColor>
+    <fontSize>0</fontSize>
+    <fontFamily/>
+    <guideLines/>
+  </param>
+</mockup>

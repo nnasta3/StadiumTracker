@@ -1,0 +1,106 @@
+﻿<project version="2.9" name="stadiumTracker" ID="BEF7BDCA-EF61-4F86-823C-46CBB719D828">
+  <params>
+    <pageParam version="5.3" minAllowVersion="5.3"/>
+    <projectParam version="2.9" minAllowVersion="2.9" platform="MtMobile" orientation="MoPortrait" mobileScreenScale="1.77777779102325" mobileType="mmtAndroid" pageSize="(360,640)" backgroundColor="4294967295" fontSize="0" fontFamily="" projectType="ptPersonalProject" isShowTitleIndex="False"/>
+    <previewParam version="1.0"/>
+    <colorParam version="1.0"/>
+  </params>
+  <pages>
+    <page name="Login" ID="1BA916A3-FF5D-408B-B769-446037910DFB" expanded="True" code="hJZCX6CSr8" thumbCode="hJZCX6CSr8" isLastOpen="True" status="psWhite" isfolder="False" isshownode="True"/>
+    <page name="Register" ID="9C5F37D8-429A-453A-93CA-7ABBB95C03FA" expanded="True" code="X6XhjexNsK" thumbCode="X6XhjexNsK" status="psWhite" isfolder="False" isshownode="True">
+      <images>
+        <image key="D95E480717200F895E41DB6E5B869596.svg"/>
+      </images>
+    </page>
+    <page name="Main Menu" ID="90E7A070-4092-47B7-8129-42F773C43D51" expanded="True" code="RH5mm2Sjkv" thumbCode="RH5mm2Sjkv" status="psWhite" isfolder="False" isshownode="True">
+      <images>
+        <image key="691E43A0CADD5AF1CA372E5138075E19.svg"/>
+      </images>
+      <page name="List of Visits" ID="250AD6C9-CE37-47D8-BDB5-F328045C677A" expanded="True" code="fumrZ6Derk" thumbCode="fumrZ6Derk" status="psWhite" isfolder="False" isshownode="True">
+        <images>
+          <image key="A6FBF34563F171D2F9FF132D1B656C64.svg"/>
+          <image key="5AB501C3EEE74A46E83A8CF3FF90CEED.svg"/>
+          <image key="E931D537FC6921BF4CC4EE668806CEFD.svg"/>
+          <image key="3A3CD3DB2FAE85FFEF2A8996E634645D.svg"/>
+          <image key="691E43A0CADD5AF1CA372E5138075E19.svg"/>
+          <image key="D95E480717200F895E41DB6E5B869596.svg"/>
+        </images>
+        <page name="Visit View" ID="A3536481-2E41-4FD8-86DA-EB80FFCC8B7E" expanded="True" code="1nxDxttQUR" thumbCode="1nxDxttQUR" status="psWhite" isfolder="False" isshownode="True">
+          <images>
+            <image key="D95E480717200F895E41DB6E5B869596.svg"/>
+            <image key="A6FBF34563F171D2F9FF132D1B656C64.svg"/>
+            <image key="8BE3C7AC8FBB1747163ECAB9AB46AD44.svg"/>
+            <image key="D196EC09D5CCE784E40D2105080FCB3E.svg"/>
+            <image key="69A4D1E5CE13432C6A4F579026917C6A.svg"/>
+            <image key="691E43A0CADD5AF1CA372E5138075E19.svg"/>
+          </images>
+        </page>
+      </page>
+      <page name="List of Stadiums" ID="B48B22B8-E2AE-4181-8875-B07E344358B2" expanded="True" code="qWjkkTEwzM" thumbCode="qWjkkTEwzM" status="psWhite" isfolder="False" isshownode="True">
+        <images>
+          <image key="A6FBF34563F171D2F9FF132D1B656C64.svg"/>
+          <image key="5AB501C3EEE74A46E83A8CF3FF90CEED.svg"/>
+          <image key="E931D537FC6921BF4CC4EE668806CEFD.svg"/>
+          <image key="3A3CD3DB2FAE85FFEF2A8996E634645D.svg"/>
+          <image key="691E43A0CADD5AF1CA372E5138075E19.svg"/>
+          <image key="D95E480717200F895E41DB6E5B869596.svg"/>
+        </images>
+        <page name="Stadium View" ID="67752727-59C2-48E5-9BC5-650CC0E5F49F" expanded="True" code="WDR27gqYwL" thumbCode="WDR27gqYwL" status="psWhite" isfolder="False" isshownode="True">
+          <images>
+            <image key="A6FBF34563F171D2F9FF132D1B656C64.svg"/>
+            <image key="D95E480717200F895E41DB6E5B869596.svg"/>
+            <image key="691E43A0CADD5AF1CA372E5138075E19.svg"/>
+          </images>
+        </page>
+      </page>
+      <page name="Record Visit" ID="616C9153-9B30-4EA4-A2B1-79E2EAC8853C" expanded="True" code="89jzQyBz4E" thumbCode="89jzQyBz4E" status="psWhite" isfolder="False" isshownode="True">
+        <images>
+          <image key="47282D982909D7D7E4C67582403649C2.svg"/>
+          <image key="691E43A0CADD5AF1CA372E5138075E19.svg"/>
+          <image key="D95E480717200F895E41DB6E5B869596.svg"/>
+        </images>
+      </page>
+      <page name="Friends List" ID="8B8DA184-919E-440C-A20B-C2A886426AAB" expanded="True" code="satv8DzLcx" thumbCode="satv8DzLcx" status="psWhite" isfolder="False" isshownode="True">
+        <images>
+          <image key="3A3CD3DB2FAE85FFEF2A8996E634645D.svg"/>
+          <image key="8C68413269FD91978C300BB43A9F7584.svg"/>
+          <image key="8BE3C7AC8FBB1747163ECAB9AB46AD44.svg"/>
+          <image key="D08755C22A9B40B6BF65036DEC8B44B4.svg"/>
+          <image key="691E43A0CADD5AF1CA372E5138075E19.svg"/>
+          <image key="D95E480717200F895E41DB6E5B869596.svg"/>
+        </images>
+        <page name="Friend View" ID="59980B6D-C28B-4F25-9254-4C5FF343289C" expanded="True" code="f59qRCKWTA" thumbCode="f59qRCKWTA" status="psWhite" isfolder="False" isshownode="True">
+          <images>
+            <image key="D95E480717200F895E41DB6E5B869596.svg"/>
+            <image key="691E43A0CADD5AF1CA372E5138075E19.svg"/>
+          </images>
+          <page name="Compare View" ID="E8EDE966-99D7-4E75-99FE-997471CF4087" expanded="True" code="Lki4EFsk9g" thumbCode="Lki4EFsk9g" status="psWhite" isfolder="False" isshownode="True">
+            <images>
+              <image key="691E43A0CADD5AF1CA372E5138075E19.svg"/>
+              <image key="D95E480717200F895E41DB6E5B869596.svg"/>
+            </images>
+          </page>
+        </page>
+      </page>
+    </page>
+  </pages>
+  <trash>
+    <page name="Page" ID="B8202440-AEBA-4909-AE70-FE9D03D7F503" expanded="False" code="r1uRYUjDvT" thumbCode="cdVnATeQpy" isLastOpen="True" status="psWhite" isfolder="False" isshownode="True"/>
+  </trash>
+  <deletes/>
+  <masters/>
+  <images>
+    <image key="A6FBF34563F171D2F9FF132D1B656C64.svg"/>
+    <image key="691E43A0CADD5AF1CA372E5138075E19.svg"/>
+    <image key="8BE3C7AC8FBB1747163ECAB9AB46AD44.svg"/>
+    <image key="E931D537FC6921BF4CC4EE668806CEFD.svg"/>
+    <image key="69A4D1E5CE13432C6A4F579026917C6A.svg"/>
+    <image key="D196EC09D5CCE784E40D2105080FCB3E.svg"/>
+    <image key="47282D982909D7D7E4C67582403649C2.svg"/>
+    <image key="5AB501C3EEE74A46E83A8CF3FF90CEED.svg"/>
+    <image key="8C68413269FD91978C300BB43A9F7584.svg"/>
+    <image key="3A3CD3DB2FAE85FFEF2A8996E634645D.svg"/>
+    <image key="D95E480717200F895E41DB6E5B869596.svg"/>
+    <image key="D08755C22A9B40B6BF65036DEC8B44B4.svg"/>
+  </images>
+</project>

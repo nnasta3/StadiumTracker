@@ -1,0 +1,120 @@
+﻿<mockup version="5.3" minAllowVersion="5.3" ID="59980B6D-C28B-4F25-9254-4C5FF343289C" platform="MtMobile" defaultW="360" defaultH="640" measureW="360" measureH="640" screenOrientation="MoPortrait" mobileScreenScale="1.77777779102325">
+  <controls controlCount="11">
+    <control controlID="A2DA8F81-FCAE-4CC4-8C41-9CD484E82BA7" controlTypeID="Icon" x="0" y="0" w="24" h="24" zOrder="0">
+      <links eventType="AtClick" animate="AmNone" animateAutoDelay="0" animateDuration="500">
+        <link targetPageID="8B8DA184-919E-440C-A20B-C2A886426AAB" linkType="ltPageLink" isApplyIncludePage="False" title="Friends+List">
+          <area shape="0" alt="" ID="{984834C5-A429-4968-9D5A-2501CC4E270C}" coords="(0,0,24,24)"/>
+        </link>
+      </links>
+      <icon>
+        <ID/>
+        <iconFontName>jdIonicons</iconFontName>
+        <iconCode>62154</iconCode>
+      </icon>
+      <URL>D95E480717200F895E41DB6E5B869596.svg</URL>
+    </control>
+    <control controlID="801216E9-1F32-48A0-89A8-93B7D0BE3CD3" controlTypeID="Icon" x="336" y="0" w="24" h="24" zOrder="1">
+      <links eventType="AtClick" animate="AmNone" animateAutoDelay="0" animateDuration="500">
+        <link targetPageID="1BA916A3-FF5D-408B-B769-446037910DFB" linkType="ltPageLink" isApplyIncludePage="False" title="Login">
+          <area shape="0" alt="" ID="{0D5B4374-B58A-40D5-AB05-17CED9C518D5}" coords="(0,0,24,24)"/>
+        </link>
+      </links>
+      <icon>
+        <ID/>
+        <iconFontName>jdIonicons</iconFontName>
+        <iconCode>62341</iconCode>
+      </icon>
+      <URL>691E43A0CADD5AF1CA372E5138075E19.svg</URL>
+    </control>
+    <control controlID="D095CFAB-B862-47BD-AE9C-5AEBC4A3E38F" controlTypeID="TextArea" x="0" y="31" w="360" h="33" zOrder="2">
+      <font family="Segoe+UI" displayName="Segoe+UI+Bold" postScript="" weightStyle="Bold" weight="700" isBold="True" isItalic="False"/>
+      <text>Friend+Name</text>
+      <textColor>4278229248</textColor>
+      <textSize>20</textSize>
+      <textAlign>HaCenter</textAlign>
+      <textStyles>[fsBold]</textStyles>
+      <useDefaultTextSize>False</useDefaultTextSize>
+      <selectedIndex>-1</selectedIndex>
+    </control>
+    <control controlID="7D8C3328-A82F-4629-ADCF-099DB0B10394" controlTypeID="TextArea" x="20" y="110" w="95" h="27" zOrder="3">
+      <font family="Segoe+UI" displayName="Segoe+UI" postScript="" weightStyle="Regular" weight="400" isBold="False" isItalic="False"/>
+      <text>Total+Visits%3A</text>
+      <textSize>16</textSize>
+      <useDefaultTextSize>False</useDefaultTextSize>
+      <selectedIndex>-1</selectedIndex>
+    </control>
+    <control controlID="329E64F9-FED4-4C08-AD19-1CC5AF5CD8B7" controlTypeID="TextArea" x="20" y="75" w="153" h="27" zOrder="4">
+      <font family="Segoe+UI" displayName="Segoe+UI" postScript="" weightStyle="Regular" weight="400" isBold="False" isItalic="False"/>
+      <text>Friends+Since%3A+</text>
+      <textSize>16</textSize>
+      <useDefaultTextSize>False</useDefaultTextSize>
+      <selectedIndex>-1</selectedIndex>
+    </control>
+    <control controlID="F9645273-84E0-4781-A284-88F93317FE4D" controlTypeID="TextArea" x="20" y="180" w="153" h="27" zOrder="5">
+      <font family="Segoe+UI" displayName="Segoe+UI" postScript="" weightStyle="Regular" weight="400" isBold="False" isItalic="False"/>
+      <text>Unique+Stadiums%3A</text>
+      <textSize>16</textSize>
+      <useDefaultTextSize>False</useDefaultTextSize>
+      <selectedIndex>-1</selectedIndex>
+    </control>
+    <control controlID="D5FD6F0E-1FC5-451B-9DD0-63F14EFD07E8" controlTypeID="TextArea" x="20" y="145" w="153" h="25" zOrder="6">
+      <font family="Segoe+UI" displayName="Segoe+UI" postScript="" weightStyle="Regular" weight="400" isBold="False" isItalic="False"/>
+      <text>Overlapping+Visits%3A</text>
+      <textSize>16</textSize>
+      <useDefaultTextSize>False</useDefaultTextSize>
+      <selectedIndex>-1</selectedIndex>
+    </control>
+    <control controlID="8DC2B5D1-B2CE-494E-A37B-A2CCE2AF9F8F" controlTypeID="TextArea" x="20" y="215" w="220" h="27" zOrder="7">
+      <font family="Segoe+UI" displayName="Segoe+UI" postScript="" weightStyle="Regular" weight="400" isBold="False" isItalic="False"/>
+      <text>Overlapping+Stadiums%3A</text>
+      <textSize>16</textSize>
+      <useDefaultTextSize>False</useDefaultTextSize>
+      <selectedIndex>-1</selectedIndex>
+    </control>
+    <control controlID="C54A713E-4796-4C14-B87C-4731976A3005" controlTypeID="TextArea" x="20" y="274" w="220" h="27" zOrder="8">
+      <font family="Segoe+UI" displayName="Segoe+UI" postScript="" weightStyle="Regular" weight="400" isBold="False" isItalic="False"/>
+      <text>Their+Friends+List%3A</text>
+      <textSize>16</textSize>
+      <useDefaultTextSize>False</useDefaultTextSize>
+      <selectedIndex>-1</selectedIndex>
+    </control>
+    <control controlID="DE1A76DD-7306-43CA-9945-CF19A5FBD0B8" controlTypeID="Button" x="110" y="582" w="120" h="48" zOrder="9">
+      <links eventType="AtClick" animate="AmNone" animateAutoDelay="0" animateDuration="500">
+        <link targetPageID="E8EDE966-99D7-4E75-99FE-997471CF4087" linkType="ltPageLink" isApplyIncludePage="False" title="Compare+View">
+          <area shape="0" alt="" ID="{967E0EF6-4389-4DAD-8296-896B71EFBF60}" coords="(0,0,120,48)"/>
+        </link>
+      </links>
+      <font family="Segoe+UI" displayName="Segoe+UI" postScript="" weightStyle="Regular" weight="400" isBold="False" isItalic="False"/>
+      <text>Compare</text>
+      <lineSpacing>0</lineSpacing>
+      <selectedIndex>-1</selectedIndex>
+    </control>
+    <control controlID="4742C3E8-1F8B-42DD-A52A-01D335F9B9E4" controlTypeID="List" x="20" y="311" w="316" h="251" zOrder="10">
+      <links eventType="AtClick" animate="AmNone" animateAutoDelay="0" animateDuration="500">
+        <link targetPageID="59980B6D-C28B-4F25-9254-4C5FF343289C" linkType="ltPageLink" isApplyIncludePage="False" title="Friend+1">
+          <area shape="0" alt="" ID="{D02E4A71-D15A-440B-B1F3-39696A7E4FC9}" coords="(1,1,315,49)"/>
+        </link>
+        <link targetPageID="59980B6D-C28B-4F25-9254-4C5FF343289C" linkType="ltPageLink" isApplyIncludePage="False" title="Friend+2">
+          <area shape="0" alt="" ID="{0B940CDC-877A-49F1-9954-0D344D05317F}" coords="(1,49,315,97)"/>
+        </link>
+        <link targetPageID="59980B6D-C28B-4F25-9254-4C5FF343289C" linkType="ltPageLink" isApplyIncludePage="False" title="Friend+3">
+          <area shape="0" alt="" ID="{B9D233CB-C64A-4D8B-9CAE-D00588E10395}" coords="(1,97,315,145)"/>
+        </link>
+        <link targetPageID="59980B6D-C28B-4F25-9254-4C5FF343289C" linkType="ltPageLink" isApplyIncludePage="False" title="Friend+4">
+          <area shape="0" alt="" ID="{5E74D6F8-01BD-4562-B64F-643A8CD67E31}" coords="(1,145,315,193)"/>
+        </link>
+      </links>
+      <font family="Segoe+UI" displayName="Segoe+UI" postScript="" weightStyle="Regular" weight="400" isBold="False" isItalic="False"/>
+      <text>Friend+1%0D%0AFriend+2%0D%0AFriend+3%0D%0AFriend+4</text>
+      <textSize>14</textSize>
+      <lineSpacing>0</lineSpacing>
+      <itemHeight>48</itemHeight>
+    </control>
+  </controls>
+  <param>
+    <backgroundColor>4294967295</backgroundColor>
+    <fontSize>0</fontSize>
+    <fontFamily/>
+    <guideLines/>
+  </param>
+</mockup>

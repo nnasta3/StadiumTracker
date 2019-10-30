@@ -1,0 +1,92 @@
+﻿<mockup version="5.3" minAllowVersion="5.3" ID="67752727-59C2-48E5-9BC5-650CC0E5F49F" platform="MtMobile" defaultW="360" defaultH="640" measureW="360" measureH="640" screenOrientation="MoPortrait" mobileScreenScale="1.77777779102325" clipArea="(0,0,0,0)">
+  <controls controlCount="8">
+    <control controlID="485C29C2-6B5C-4B76-8813-762A909EB609" controlTypeID="Icon" x="0" y="0" w="24" h="24" zOrder="0">
+      <links eventType="AtClick" animate="AmNone" animateAutoDelay="0" animateDuration="500">
+        <link targetPageID="B48B22B8-E2AE-4181-8875-B07E344358B2" linkType="ltPageLink" isApplyIncludePage="False" title="List+of+Stadiums">
+          <area shape="0" alt="" ID="{C33FB5A3-6FE9-4A7E-8097-B0389CA1C992}" coords="(0,0,24,24)"/>
+        </link>
+      </links>
+      <icon>
+        <ID/>
+        <iconFontName>jdIonicons</iconFontName>
+        <iconCode>62154</iconCode>
+      </icon>
+      <URL>D95E480717200F895E41DB6E5B869596.svg</URL>
+    </control>
+    <control controlID="E8772E49-F86F-46DF-ACE9-EA10C8B6FB6E" controlTypeID="Icon" x="336" y="0" w="24" h="24" zOrder="1">
+      <links eventType="AtClick" animate="AmNone" animateAutoDelay="0" animateDuration="500">
+        <link targetPageID="1BA916A3-FF5D-408B-B769-446037910DFB" linkType="ltPageLink" isApplyIncludePage="False" title="Login">
+          <area shape="0" alt="" ID="{B6BC8EDC-5645-48B2-B5B0-6F2F80E272B8}" coords="(0,0,24,24)"/>
+        </link>
+      </links>
+      <icon>
+        <ID/>
+        <iconFontName>jdIonicons</iconFontName>
+        <iconCode>62341</iconCode>
+      </icon>
+      <URL>691E43A0CADD5AF1CA372E5138075E19.svg</URL>
+    </control>
+    <control controlID="E5710BB7-FC27-45DD-9071-11569279BE40" controlTypeID="Image" x="20" y="49" w="150" h="150" zOrder="2"/>
+    <control controlID="F149772C-689B-4C65-9BB6-309DFE15F3BA" controlTypeID="TextArea" x="180" y="54" w="155" h="50" zOrder="3">
+      <font family="Segoe+UI" displayName="Segoe+UI" postScript="" weightStyle="Regular" weight="400" isBold="False" isItalic="False"/>
+      <text>Stadium+Name</text>
+      <textSize>20</textSize>
+      <textAlign>HaCenter</textAlign>
+      <useDefaultTextSize>False</useDefaultTextSize>
+      <selectedIndex>-1</selectedIndex>
+    </control>
+    <control controlID="D9FB4EBC-D40B-4BFF-A072-781480B07094" controlTypeID="TextArea" x="180" y="107" w="155" h="50" zOrder="4">
+      <borderColor>4291611852</borderColor>
+      <font family="Segoe+UI" displayName="Segoe+UI" postScript="" weightStyle="Regular" weight="400" isBold="False" isItalic="False"/>
+      <text>City%2C+Country</text>
+      <textColor>4281545523</textColor>
+      <textAlign>HaCenter</textAlign>
+      <useDefaultTextSize>False</useDefaultTextSize>
+      <selectedIndex>-1</selectedIndex>
+    </control>
+    <control controlID="939F49B1-14B9-4E09-A5DD-BC34CE215774" controlTypeID="TextArea" x="180" y="149" w="155" h="50" zOrder="5">
+      <font family="Segoe+UI" displayName="Segoe+UI" postScript="" weightStyle="Regular" weight="400" isBold="False" isItalic="False"/>
+      <text>%23+Visits</text>
+      <textSize>20</textSize>
+      <textAlign>HaCenter</textAlign>
+      <textVAlign>VaMiddle</textVAlign>
+      <useDefaultTextSize>False</useDefaultTextSize>
+      <selectedIndex>-1</selectedIndex>
+    </control>
+    <control controlID="029F7CB9-C921-42A5-B9E3-8FDFD53154E8" controlTypeID="List" x="20" y="219" w="315" h="411" zOrder="6">
+      <links eventType="AtClick" animate="AmNone" animateAutoDelay="0" animateDuration="500">
+        <link targetPageID="A3536481-2E41-4FD8-86DA-EB80FFCC8B7E" linkType="ltPageLink" isApplyIncludePage="False" title="Date%2C+Teams+Involved%2C+Result">
+          <area shape="0" alt="" ID="{1D322DB2-4C03-446D-80A6-3735510901DC}" coords="(1,1,314,49)"/>
+        </link>
+        <link targetPageID="A3536481-2E41-4FD8-86DA-EB80FFCC8B7E" linkType="ltPageLink" isApplyIncludePage="False" title="Date%2C+Teams+Involved%2C+Result">
+          <area shape="0" alt="" ID="{4811ED1A-5726-48AE-A1F2-EEE467B2500B}" coords="(1,49,314,97)"/>
+        </link>
+        <link targetPageID="A3536481-2E41-4FD8-86DA-EB80FFCC8B7E" linkType="ltPageLink" isApplyIncludePage="False" title="Date%2C+Teams+Involved%2C+Result">
+          <area shape="0" alt="" ID="{B9D5B304-4CBD-44B0-AE15-083BA5C22ACE}" coords="(1,97,314,145)"/>
+        </link>
+        <link targetPageID="A3536481-2E41-4FD8-86DA-EB80FFCC8B7E" linkType="ltPageLink" isApplyIncludePage="False" title="Date%2C+Teams+Involved%2C+Result">
+          <area shape="0" alt="" ID="{9DBDD829-52FB-43DE-81F5-6A0231DE636C}" coords="(1,145,314,193)"/>
+        </link>
+      </links>
+      <font family="Segoe+UI" displayName="Segoe+UI" postScript="" weightStyle="Regular" weight="400" isBold="False" isItalic="False"/>
+      <text>Date%2C+Teams+Involved%2C+Result%0D%0ADate%2C+Teams+Involved%2C+Result%0D%0ADate%2C+Teams+Involved%2C+Result%0D%0ADate%2C+Teams+Involved%2C+Result</text>
+      <textSize>14</textSize>
+      <lineSpacing>0</lineSpacing>
+      <itemHeight>48</itemHeight>
+    </control>
+    <control controlID="243B9EC5-D21A-4994-97C8-581EFD522DB5" controlTypeID="Icon" x="287" y="0" w="24" h="24" zOrder="7">
+      <icon>
+        <ID/>
+        <iconFontName>jdIonicons</iconFontName>
+        <iconCode>62380</iconCode>
+      </icon>
+      <URL>A6FBF34563F171D2F9FF132D1B656C64.svg</URL>
+    </control>
+  </controls>
+  <param>
+    <backgroundColor>4294967295</backgroundColor>
+    <fontSize>14</fontSize>
+    <fontFamily>Segoe+UI</fontFamily>
+    <guideLines/>
+  </param>
+</mockup>

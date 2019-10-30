@@ -1,0 +1,55 @@
+﻿<mockup version="5.3" minAllowVersion="5.3" ID="1BA916A3-FF5D-408B-B769-446037910DFB" platform="MtMobile" defaultW="360" defaultH="640" measureW="360" measureH="640" screenOrientation="MoPortrait" mobileScreenScale="1.77777779102325" clipArea="(0,0,0,0)">
+  <controls controlCount="5">
+    <control controlID="A872136B-EF43-4C76-BD2A-67D7E81F495C" controlTypeID="TextInput" x="20" y="187" w="320" h="39" zOrder="0">
+      <font family="Segoe+UI" displayName="Segoe+UI" postScript="" weightStyle="Regular" weight="400" isBold="False" isItalic="False"/>
+      <lineSpacing>0</lineSpacing>
+      <selectedIndex>-1</selectedIndex>
+      <placeHolder>Passowrd</placeHolder>
+    </control>
+    <control controlID="0F66F2D0-385F-4D16-8AC5-89DDF1E075C8" controlTypeID="TextInput" x="20" y="98" w="320" h="39" zOrder="1">
+      <font family="Segoe+UI" displayName="Segoe+UI" postScript="" weightStyle="Regular" weight="400" isBold="False" isItalic="False"/>
+      <lineSpacing>0</lineSpacing>
+      <selectedIndex>-1</selectedIndex>
+      <placeHolder>Username+or+Email</placeHolder>
+    </control>
+    <control controlID="CB77A89D-8772-470A-8F86-3CD3B4CE8172" controlTypeID="Button" x="120" y="276" w="120" h="48" zOrder="2">
+      <links eventType="AtClick" animate="AmNone" animateAutoDelay="0" animateDuration="500">
+        <link targetPageID="90E7A070-4092-47B7-8129-42F773C43D51" linkType="ltPageLink" isApplyIncludePage="False" title="Main+Menu">
+          <area shape="0" alt="" ID="{3BFCD921-A911-48A1-BBFA-2131DFCBE065}" coords="(0,0,120,48)"/>
+        </link>
+      </links>
+      <font family="Segoe+UI" displayName="Segoe+UI" postScript="" weightStyle="Regular" weight="400" isBold="False" isItalic="False"/>
+      <text>SIGN+IN</text>
+      <lineSpacing>0</lineSpacing>
+      <selectedIndex>-1</selectedIndex>
+    </control>
+    <control controlID="32E9F94C-50BD-4401-A4B1-BC5E7C2F3317" controlTypeID="Button" x="120" y="349" w="120" h="48" zOrder="3">
+      <links eventType="AtClick" animate="AmNone" animateAutoDelay="0" animateDuration="500">
+        <link targetPageID="9C5F37D8-429A-453A-93CA-7ABBB95C03FA" linkType="ltPageLink" isApplyIncludePage="False" title="Register">
+          <area shape="0" alt="" ID="{8BE01CC1-AD49-4BDC-850F-EBD59852FF8D}" coords="(0,0,120,48)"/>
+        </link>
+      </links>
+      <font family="Segoe+UI" displayName="Segoe+UI" postScript="" weightStyle="Regular" weight="400" isBold="False" isItalic="False"/>
+      <text>REGISTER</text>
+      <lineSpacing>0</lineSpacing>
+      <selectedIndex>-1</selectedIndex>
+    </control>
+    <control controlID="B7E4E1AC-82DE-42A3-9D2C-86253EEEF671" controlTypeID="TextArea" x="0" y="0" w="360" h="60" zOrder="4">
+      <font family="Segoe+UI" displayName="Segoe+UI+Bold" postScript="" weightStyle="Bold" weight="700" isBold="True" isItalic="False"/>
+      <text>Stadium+Tracker</text>
+      <textColor>4278229248</textColor>
+      <textSize>28</textSize>
+      <textAlign>HaCenter</textAlign>
+      <textVAlign>VaMiddle</textVAlign>
+      <textStyles>[fsBold]</textStyles>
+      <useDefaultTextSize>False</useDefaultTextSize>
+      <selectedIndex>-1</selectedIndex>
+    </control>
+  </controls>
+  <param>
+    <backgroundColor>4294967295</backgroundColor>
+    <fontSize>0</fontSize>
+    <fontFamily/>
+    <guideLines/>
+  </param>
+</mockup>

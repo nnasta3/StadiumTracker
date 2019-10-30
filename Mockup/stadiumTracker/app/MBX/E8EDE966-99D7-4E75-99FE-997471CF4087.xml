@@ -1,0 +1,120 @@
+﻿<mockup version="5.3" minAllowVersion="5.3" ID="E8EDE966-99D7-4E75-99FE-997471CF4087" platform="MtMobile" defaultW="360" defaultH="640" measureW="360" measureH="640" screenOrientation="MoPortrait" mobileScreenScale="1.77777779102325">
+  <controls controlCount="9">
+    <control controlID="5DD49D03-C591-48E8-9EF7-16E9409B32DB" controlTypeID="Icon" x="336" y="0" w="24" h="24" zOrder="0">
+      <links eventType="AtClick" animate="AmNone" animateAutoDelay="0" animateDuration="500">
+        <link targetPageID="1BA916A3-FF5D-408B-B769-446037910DFB" linkType="ltPageLink" isApplyIncludePage="False" title="Login">
+          <area shape="0" alt="" ID="{D516C710-FF03-45F8-9AAA-BF7A53D820EF}" coords="(0,0,24,24)"/>
+        </link>
+      </links>
+      <icon>
+        <ID/>
+        <iconFontName>jdIonicons</iconFontName>
+        <iconCode>62341</iconCode>
+      </icon>
+      <URL>691E43A0CADD5AF1CA372E5138075E19.svg</URL>
+    </control>
+    <control controlID="39140E42-D565-4DA8-BE3B-0E8059D010C1" controlTypeID="Icon" x="0" y="0" w="24" h="24" zOrder="1">
+      <links eventType="AtClick" animate="AmNone" animateAutoDelay="0" animateDuration="500">
+        <link targetPageID="59980B6D-C28B-4F25-9254-4C5FF343289C" linkType="ltPageLink" isApplyIncludePage="False" title="Friend+View">
+          <area shape="0" alt="" ID="{0ACE971F-6E45-43DF-9AEF-7BE386163595}" coords="(0,0,24,24)"/>
+        </link>
+      </links>
+      <icon>
+        <ID/>
+        <iconFontName>jdIonicons</iconFontName>
+        <iconCode>62154</iconCode>
+      </icon>
+      <URL>D95E480717200F895E41DB6E5B869596.svg</URL>
+    </control>
+    <control controlID="2C2FD209-23A1-49E9-8DFF-E0840E39C195" controlTypeID="TextArea" x="0" y="23" w="360" h="33" zOrder="2">
+      <font family="Segoe+UI" displayName="Segoe+UI+Bold" postScript="" weightStyle="Bold" weight="700" isBold="True" isItalic="False"/>
+      <text>Friend+Name</text>
+      <textColor>4278229248</textColor>
+      <textSize>20</textSize>
+      <textAlign>HaCenter</textAlign>
+      <textStyles>[fsBold]</textStyles>
+      <useDefaultTextSize>False</useDefaultTextSize>
+      <selectedIndex>-1</selectedIndex>
+    </control>
+    <control controlID="1495373E-9144-4574-A3A3-C1B538F75B49" controlTypeID="Tab" x="24" y="88" w="312" h="250" zOrder="3">
+      <font family="Segoe+UI" displayName="Segoe+UI" postScript="" weightStyle="Regular" weight="400" isBold="False" isItalic="False"/>
+      <text>Friend%2C+User</text>
+      <textSize>14</textSize>
+      <lineSpacing>0</lineSpacing>
+    </control>
+    <control controlID="7F9026F5-856E-4C92-BBB5-04CF97B7DA25" controlTypeID="Tab" x="24" y="370" w="312" h="250" zOrder="4">
+      <font family="Segoe+UI" displayName="Segoe+UI" postScript="" weightStyle="Regular" weight="400" isBold="False" isItalic="False"/>
+      <text>Friend%2C+User</text>
+      <textSize>14</textSize>
+      <lineSpacing>0</lineSpacing>
+    </control>
+    <control controlID="A10FCE32-59D0-44C3-9C3E-0A8E35C486D4" controlTypeID="List" x="34" y="116" w="292" h="212" zOrder="5">
+      <links eventType="AtClick" animate="AmNone" animateAutoDelay="0" animateDuration="500">
+        <link targetPageID="67752727-59C2-48E5-9BC5-650CC0E5F49F" linkType="ltPageLink" isApplyIncludePage="False" title="Stadium%2C+City%2C+%23+of+Visits">
+          <area shape="0" alt="" ID="{0A68D458-D1C9-470E-A66C-18D3C85DDE69}" coords="(1,1,291,49)"/>
+        </link>
+        <link targetPageID="67752727-59C2-48E5-9BC5-650CC0E5F49F" linkType="ltPageLink" isApplyIncludePage="False" title="Stadium%2C+City%2C+%23+of+Visits">
+          <area shape="0" alt="" ID="{C6B885EB-A639-4A6B-9CF5-AB4B976E9260}" coords="(1,49,291,97)"/>
+        </link>
+        <link targetPageID="67752727-59C2-48E5-9BC5-650CC0E5F49F" linkType="ltPageLink" isApplyIncludePage="False" title="Stadium%2C+City%2C+%23+of+Visits">
+          <area shape="0" alt="" ID="{95F79405-FAE0-495E-8A18-611EC4144A3B}" coords="(1,97,291,145)"/>
+        </link>
+        <link targetPageID="67752727-59C2-48E5-9BC5-650CC0E5F49F" linkType="ltPageLink" isApplyIncludePage="False" title="Stadium%2C+City%2C+%23+of+Visits">
+          <area shape="0" alt="" ID="{5AD7C033-E196-4614-81E2-963CACC133E5}" coords="(1,145,291,193)"/>
+        </link>
+      </links>
+      <font family="Segoe+UI" displayName="Segoe+UI" postScript="" weightStyle="Regular" weight="400" isBold="False" isItalic="False"/>
+      <text>Stadium%2C+City%2C+%23+of+Visits%0D%0AStadium%2C+City%2C+%23+of+Visits%0D%0AStadium%2C+City%2C+%23+of+Visits%0D%0AStadium%2C+City%2C+%23+of+Visits</text>
+      <textSize>14</textSize>
+      <lineSpacing>0</lineSpacing>
+      <itemHeight>48</itemHeight>
+    </control>
+    <control controlID="23E1B234-B25A-43A5-8FF6-80267DB72F7F" controlTypeID="List" x="34" y="398" w="292" h="212" zOrder="6">
+      <links eventType="AtClick" animate="AmNone" animateAutoDelay="0" animateDuration="500">
+        <link targetPageID="A3536481-2E41-4FD8-86DA-EB80FFCC8B7E" linkType="ltPageLink" isApplyIncludePage="False" title="Date%2C+Stadium%2C+City%2C+Teams+Involved">
+          <area shape="0" alt="" ID="{0A68D458-D1C9-470E-A66C-18D3C85DDE69}" coords="(1,1,291,49)"/>
+        </link>
+        <link targetPageID="A3536481-2E41-4FD8-86DA-EB80FFCC8B7E" linkType="ltPageLink" isApplyIncludePage="False" title="Date%2C+Stadium%2C+City%2C+Teams+Involved">
+          <area shape="0" alt="" ID="{C6B885EB-A639-4A6B-9CF5-AB4B976E9260}" coords="(1,49,291,97)"/>
+        </link>
+        <link targetPageID="A3536481-2E41-4FD8-86DA-EB80FFCC8B7E" linkType="ltPageLink" isApplyIncludePage="False" title="Date%2C+Stadium%2C+City%2C+Teams+Involved">
+          <area shape="0" alt="" ID="{95F79405-FAE0-495E-8A18-611EC4144A3B}" coords="(1,97,291,145)"/>
+        </link>
+        <link targetPageID="A3536481-2E41-4FD8-86DA-EB80FFCC8B7E" linkType="ltPageLink" isApplyIncludePage="False" title="Date%2C+Stadium%2C+City%2C+Teams+Involved">
+          <area shape="0" alt="" ID="{5AD7C033-E196-4614-81E2-963CACC133E5}" coords="(1,145,291,193)"/>
+        </link>
+      </links>
+      <font family="Segoe+UI" displayName="Segoe+UI" postScript="" weightStyle="Regular" weight="400" isBold="False" isItalic="False"/>
+      <text>Date%2C+Stadium%2C+City%2C+Teams+Involved%0D%0ADate%2C+Stadium%2C+City%2C+Teams+Involved%0D%0ADate%2C+Stadium%2C+City%2C+Teams+Involved%0D%0ADate%2C+Stadium%2C+City%2C+Teams+Involved</text>
+      <textSize>14</textSize>
+      <lineSpacing>0</lineSpacing>
+      <itemHeight>48</itemHeight>
+    </control>
+    <control controlID="A9FCF1F7-922A-44FF-8DFE-E0D602C7E45A" controlTypeID="TextArea" x="60" y="338" w="240" h="32" zOrder="7">
+      <font family="Segoe+UI" displayName="Segoe+UI+Bold" postScript="" weightStyle="Bold" weight="700" isBold="True" isItalic="False"/>
+      <text>List+of+Visits</text>
+      <textSize>16</textSize>
+      <textAlign>HaCenter</textAlign>
+      <textVAlign>VaMiddle</textVAlign>
+      <textStyles>[fsBold]</textStyles>
+      <useDefaultTextSize>False</useDefaultTextSize>
+      <selectedIndex>-1</selectedIndex>
+    </control>
+    <control controlID="BAEF0D6F-206B-4825-BDF0-7C4E4DB3CBD6" controlTypeID="TextArea" x="55" y="56" w="240" h="32" zOrder="8">
+      <font family="Segoe+UI" displayName="Segoe+UI+Bold" postScript="" weightStyle="Bold" weight="700" isBold="True" isItalic="False"/>
+      <text>List+of+Stadiums</text>
+      <textSize>16</textSize>
+      <textAlign>HaCenter</textAlign>
+      <textVAlign>VaMiddle</textVAlign>
+      <textStyles>[fsBold]</textStyles>
+      <useDefaultTextSize>False</useDefaultTextSize>
+      <selectedIndex>-1</selectedIndex>
+    </control>
+  </controls>
+  <param>
+    <backgroundColor>4294967295</backgroundColor>
+    <fontSize>0</fontSize>
+    <fontFamily/>
+    <guideLines/>
+  </param>
+</mockup>

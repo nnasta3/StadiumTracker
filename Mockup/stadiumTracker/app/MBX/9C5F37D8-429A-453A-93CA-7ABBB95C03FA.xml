@@ -1,0 +1,69 @@
+﻿<mockup version="5.3" minAllowVersion="5.3" ID="9C5F37D8-429A-453A-93CA-7ABBB95C03FA" platform="MtMobile" defaultW="360" defaultH="640" measureW="360" measureH="640" screenOrientation="MoPortrait" mobileScreenScale="1.77777779102325">
+  <controls controlCount="7">
+    <control controlID="5555E0A1-A239-4466-A16B-9EDE287C3E76" controlTypeID="TextInput" x="20" y="64" w="320" h="39" zOrder="0">
+      <font family="Segoe+UI" displayName="Segoe+UI" postScript="" weightStyle="Regular" weight="400" isBold="False" isItalic="False"/>
+      <lineSpacing>0</lineSpacing>
+      <selectedIndex>-1</selectedIndex>
+      <placeHolder>Username</placeHolder>
+    </control>
+    <control controlID="8CC69FE6-D335-4A56-9350-7EFA33FB90DE" controlTypeID="TextInput" x="20" y="128" w="320" h="39" zOrder="1">
+      <font family="Segoe+UI" displayName="Segoe+UI" postScript="" weightStyle="Regular" weight="400" isBold="False" isItalic="False"/>
+      <lineSpacing>0</lineSpacing>
+      <selectedIndex>-1</selectedIndex>
+      <placeHolder>Email</placeHolder>
+    </control>
+    <control controlID="F1DDFA77-52D9-4FE4-B0B9-204795D8F665" controlTypeID="TextInput" x="20" y="192" w="320" h="39" zOrder="2">
+      <font family="Segoe+UI" displayName="Segoe+UI" postScript="" weightStyle="Regular" weight="400" isBold="False" isItalic="False"/>
+      <lineSpacing>0</lineSpacing>
+      <selectedIndex>-1</selectedIndex>
+      <placeHolder>Password</placeHolder>
+    </control>
+    <control controlID="56B6BB64-4702-4E1B-B195-D943C1D94B81" controlTypeID="TextInput" x="20" y="256" w="320" h="39" zOrder="3">
+      <font family="Segoe+UI" displayName="Segoe+UI" postScript="" weightStyle="Regular" weight="400" isBold="False" isItalic="False"/>
+      <lineSpacing>0</lineSpacing>
+      <selectedIndex>-1</selectedIndex>
+      <placeHolder>Confirm+Password</placeHolder>
+    </control>
+    <control controlID="75A1B282-DE04-44EA-96F0-B1DAF954011C" controlTypeID="Button" x="120" y="320" w="120" h="48" zOrder="4">
+      <links eventType="AtClick" animate="AmNone" animateAutoDelay="0" animateDuration="500">
+        <link targetPageID="1BA916A3-FF5D-408B-B769-446037910DFB" linkType="ltPageLink" isApplyIncludePage="False" title="Login">
+          <area shape="0" alt="" ID="{596F635B-87D0-4EC7-A689-BA50E4F85E8C}" coords="(0,0,120,48)"/>
+        </link>
+      </links>
+      <font family="Segoe+UI" displayName="Segoe+UI" postScript="" weightStyle="Regular" weight="400" isBold="False" isItalic="False"/>
+      <text>REGISTER</text>
+      <lineSpacing>0</lineSpacing>
+      <selectedIndex>-1</selectedIndex>
+    </control>
+    <control controlID="B851EFC1-22F6-43C7-A7F2-47339DA23B02" controlTypeID="TextArea" x="0" y="0" w="360" h="60" zOrder="5">
+      <font family="Segoe+UI" displayName="Segoe+UI+Bold" postScript="" weightStyle="Bold" weight="700" isBold="True" isItalic="False"/>
+      <text>Stadium+Tracker</text>
+      <textColor>4278229248</textColor>
+      <textSize>28</textSize>
+      <textAlign>HaCenter</textAlign>
+      <textVAlign>VaMiddle</textVAlign>
+      <textStyles>[fsBold]</textStyles>
+      <useDefaultTextSize>False</useDefaultTextSize>
+      <selectedIndex>-1</selectedIndex>
+    </control>
+    <control controlID="28C1969E-D8A2-40B8-A3B9-2EAC1873EE4D" controlTypeID="Icon" x="0" y="0" w="24" h="24" zOrder="6">
+      <links eventType="AtClick" animate="AmNone" animateAutoDelay="0" animateDuration="500">
+        <link targetPageID="1BA916A3-FF5D-408B-B769-446037910DFB" linkType="ltPageLink" isApplyIncludePage="False" title="Login">
+          <area shape="0" alt="" ID="{BC81B99F-D670-4306-BB20-9825D6FF99DA}" coords="(0,0,24,24)"/>
+        </link>
+      </links>
+      <icon>
+        <ID/>
+        <iconFontName>jdIonicons</iconFontName>
+        <iconCode>62154</iconCode>
+      </icon>
+      <URL>D95E480717200F895E41DB6E5B869596.svg</URL>
+    </control>
+  </controls>
+  <param>
+    <backgroundColor>4294967295</backgroundColor>
+    <fontSize>0</fontSize>
+    <fontFamily/>
+    <guideLines/>
+  </param>
+</mockup>
