@@ -1,6 +1,7 @@
 package com.example.stadiumtracker;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,8 +9,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -40,22 +44,15 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        try{
-            ResultSet set = new dbConnect().execute("select username from users").get();
-            int valid = 0;
-            while(set.next()){
-                if(set.getString(1).equals(username)){
-                    Toast.makeText(getApplicationContext(),"valid login",Toast.LENGTH_SHORT).show();
-                    //TODO: Replace the valid thing with an intent switch
-                    return;
-                }
+        try {
+            int userID = new loginQuery().execute(username,password).get();
+            if(userID != -1){
+                //TODO: Intent switch to main menu
+                Toast.makeText(getApplicationContext(),"Valid Login",Toast.LENGTH_SHORT).show();
+                //TODO: include userID in intent
+            }else{
+                Toast.makeText(getApplicationContext(),"Invalid Login",Toast.LENGTH_SHORT).show();
             }
-            if(valid == 0){
-                Toast.makeText(getApplicationContext(),"This would be an invalid login",Toast.LENGTH_SHORT).show();
-            }
-        }catch (SQLException e){
-            Log.w("Error","" + e);
-            Toast.makeText(getApplicationContext(),"This would be an invalid login error",Toast.LENGTH_SHORT).show();
         }catch (Exception e){
             Log.w("Error","" + e);
         }
@@ -65,5 +62,35 @@ public class LoginActivity extends AppCompatActivity {
     public void registerHandler(View v){
         Intent intent = new Intent(this,SignUpActivity.class);
         startActivity(intent);
+    }
+    class  loginQuery extends AsyncTask<String, Void, Integer> {
+        String ip = "database-2.ctqwj4cnvuoo.us-east-2.rds.amazonaws.com" ;
+        String port = "1433";
+        String dbName = "test";
+        String masterUser = "admin";
+        String masterPass = "password";
+        @Override
+        protected Integer doInBackground(String... strings) {
+            //Strings[0] = username/email
+            //Strings[1] = password
+            try {
+                // SET CONNECTIONSTRING
+                Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
+                Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + masterUser + ";password=" + masterPass);
+                Statement stmt = DbConn.createStatement();
+                ResultSet rs = stmt.executeQuery("Select username,password,userID from users where password='"+strings[1]+"'");
+                while(rs.next()){
+                    String user = rs.getString(1);
+                    String email = rs.getString(2);
+                    if(strings[0].equals(user) || strings[0].equals(email)){
+                        return rs.getInt(3);
+                    }
+                }
+                DbConn.close();
+            } catch (Exception e) {
+                Log.w("Error connection", "" + e);
+            }
+            return -1;
+        }
     }
 }
