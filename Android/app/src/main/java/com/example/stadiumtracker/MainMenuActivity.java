@@ -5,16 +5,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.stadiumtracker.data.User;
+
 public class MainMenuActivity extends AppCompatActivity {
-    int userID;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        userID = savedInstanceState.getInt("userID");
-        Toast.makeText(getApplicationContext(),"id: "+userID,Toast.LENGTH_SHORT).show();
+        user = (User) savedInstanceState.getSerializable("user");
+        Toast.makeText(getApplicationContext(),"id: "+user.getUserID(),Toast.LENGTH_SHORT).show();
     }
 
     public void recordHandler(View v){

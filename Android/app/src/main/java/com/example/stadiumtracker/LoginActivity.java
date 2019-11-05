@@ -9,10 +9,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.stadiumtracker.data.User;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 
 public class LoginActivity extends AppCompatActivity {
@@ -47,8 +48,9 @@ public class LoginActivity extends AppCompatActivity {
         try {
             int userID = new loginQuery().execute(username,password).get();
             if(userID != -1){
+                User user = new User(userID,username);
                 Intent intent = new Intent(this,MainMenuActivity.class);
-                intent.putExtra("UserID",userID);
+                intent.putExtra("user",user);
                 startActivity(intent);
             }else{
                 Toast.makeText(getApplicationContext(),"Invalid Login",Toast.LENGTH_SHORT).show();
