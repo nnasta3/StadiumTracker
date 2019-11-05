@@ -47,9 +47,9 @@ public class LoginActivity extends AppCompatActivity {
         try {
             int userID = new loginQuery().execute(username,password).get();
             if(userID != -1){
-                //TODO: Intent switch to main menu
-                Toast.makeText(getApplicationContext(),"Valid Login",Toast.LENGTH_SHORT).show();
-                //TODO: include userID in intent
+                Intent intent = new Intent(this,MainMenuActivity.class);
+                intent.putExtra("UserID",userID);
+                startActivity(intent);
             }else{
                 Toast.makeText(getApplicationContext(),"Invalid Login",Toast.LENGTH_SHORT).show();
             }
@@ -64,11 +64,11 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
     class  loginQuery extends AsyncTask<String, Void, Integer> {
-        String ip = "database-2.ctqwj4cnvuoo.us-east-2.rds.amazonaws.com" ;
-        String port = "1433";
-        String dbName = "test";
-        String masterUser = "admin";
-        String masterPass = "password";
+        String ip = getResources().getString(R.string.ip);
+        String port = getResources().getString(R.string.port);
+        String dbName = getResources().getString(R.string.db_name);
+        String user = getResources().getString(R.string.masterUser);
+        String pass = getResources().getString(R.string.masterPass);
         @Override
         protected Integer doInBackground(String... strings) {
             //Strings[0] = username/email
@@ -76,9 +76,9 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 // SET CONNECTIONSTRING
                 Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
-                Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + masterUser + ";password=" + masterPass);
+                Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
                 Statement stmt = DbConn.createStatement();
-                ResultSet rs = stmt.executeQuery("Select username,password,userID from users where password='"+strings[1]+"'");
+                ResultSet rs = stmt.executeQuery("Select Username,Password,UserID from [User] where Password='"+strings[1]+"'");
                 while(rs.next()){
                     String user = rs.getString(1);
                     String email = rs.getString(2);
