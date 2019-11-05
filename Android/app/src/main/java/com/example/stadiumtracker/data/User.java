@@ -1,10 +1,9 @@
 package com.example.stadiumtracker.data;
 
-import java.io.Serializable;
 
-public class User implements Serializable {
-    int userID;
-    String name;
+public class User implements java.io.Serializable {
+    private int userID;
+    private String name;
 
     public User(int userID, String name) {
         this.userID = userID;

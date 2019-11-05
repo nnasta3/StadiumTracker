@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
             if(userID != -1){
                 User user = new User(userID,username);
                 Intent intent = new Intent(this,MainMenuActivity.class);
-                intent.putExtra("user",user);
+                intent.putExtra("user", user);
                 startActivity(intent);
             }else{
                 Toast.makeText(getApplicationContext(),"Invalid Login",Toast.LENGTH_SHORT).show();
