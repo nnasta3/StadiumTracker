@@ -9,12 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".RecordActivity"></activity>
         <activity
             android:name=".MainMenuActivity"
             android:parentActivityName=".LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.stadiumtracker.LoginActivity"/>
+                android:value="com.example.stadiumtracker.LoginActivity" />
         </activity>
         <activity android:name=".SignUpActivity" />
         <activity android:name=".LoginActivity">

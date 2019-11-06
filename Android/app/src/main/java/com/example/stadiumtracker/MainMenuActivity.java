@@ -31,8 +31,6 @@ public class MainMenuActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // R.menu.mymenu is a reference to an xml file named mymenu.xml which should be inside your res/menu directory.
-        // If you don't have res/menu, just create a directory named "menu" inside res
         getMenuInflater().inflate(R.menu.main_menu_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
@@ -51,7 +49,9 @@ public class MainMenuActivity extends AppCompatActivity {
         }
     }
     public void recordHandler(View v){
-        //TODO: Send to record page
+        Intent intent = new Intent(this,RecordActivity.class);
+        //TODO: Pass user in intent
+        startActivity(intent);
     }
     public void stadiumHandler(View v){
         //TODO: Send to stadium page
