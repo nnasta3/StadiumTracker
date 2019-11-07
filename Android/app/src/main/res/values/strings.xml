@@ -13,6 +13,7 @@
     <string name="action_main_menu_stadiums">View List of Stadiums</string>
     <string name="action_main_menu_visit">View All Visits</string>
     <string name="action_logout">Logout</string>
+    <string name="action_gps">Fill W/ GPS</string>
     <string name="action_settings">Settings</string>
     <string name="action_main_menu_friends">Friends List</string>
     <string name="record_stadium_hint">Select A Stadium</string>
