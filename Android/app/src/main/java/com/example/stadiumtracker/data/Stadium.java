@@ -14,8 +14,9 @@ public class Stadium implements java.io.Serializable{
         name = "Stadium";
         city = "";
         country = "";
-        gpsLat = 0;
-        gpsLong = 0;
+        //This latitude and longitude is literally the south pole. If they are closer to here than any stadium in our database they probably don't fit our use cases
+        gpsLat = 90.0000;
+        gpsLong = 45.0000;
     }
 
     public Stadium(int stadiumID, String name, String city, String country){

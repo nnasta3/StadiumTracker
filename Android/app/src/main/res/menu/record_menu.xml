@@ -5,7 +5,7 @@
     <item
         android:id="@+id/action_gps"
         android:icon="@drawable/baseline_gps_fixed_black_18dp"
-        android:title="@string/action_logout"
+        android:title="@string/action_gps"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_logout"

@@ -1,13 +1,22 @@
 package com.example.stadiumtracker;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.AsyncTask;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +32,11 @@ import android.widget.Toast;
 import com.example.stadiumtracker.data.Stadium;
 import com.example.stadiumtracker.data.User;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -36,9 +50,16 @@ public class RecordActivity extends AppCompatActivity {
     List<String> leagueList;
     List<Stadium> stadiumList;
     Stadium selectedStadium;
+    String selectedLeague;
 
     Calendar calendar;
     String dateString;
+
+    private static final String[] LOCATION_PERMS={
+            Manifest.permission.ACCESS_FINE_LOCATION
+    };
+    private static final int INITIAL_REQUEST=1337;
+    private static final int LOCATION_REQUEST=INITIAL_REQUEST+3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +90,7 @@ public class RecordActivity extends AppCompatActivity {
         stadiumList.add(new Stadium());
         addStadiums();
 
-        stadiumList.add(new Stadium(0,"example","example","example"));
-        //TODO: Stadium spinner setup
-        ArrayAdapter<Stadium> stadiumArrayAdapter = new ArrayAdapter<Stadium>(this, R.layout.spinner_item,stadiumList){
+        ArrayAdapter stadiumArrayAdapter = new ArrayAdapter(this, R.layout.spinner_item,stadiumList){
           @Override
           public boolean isEnabled(int position){
               if(position == 0){
@@ -98,14 +117,7 @@ public class RecordActivity extends AppCompatActivity {
         stadiumSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedItemText = (String) parent.getItemAtPosition(position);
-                // If user change the default selection
-                // First item is disable and it is used for hint
                 if(position > 0){
-                    // Notify the selected item text
-                    Toast.makeText
-                            (getApplicationContext(), "Selected : " + selectedItemText, Toast.LENGTH_SHORT)
-                            .show();
                     selectedStadium = stadiumList.get(position);
                 }
             }
@@ -120,6 +132,44 @@ public class RecordActivity extends AppCompatActivity {
         leagueList = new ArrayList<>();
         leagueList.add("League");
         addLeagues();
+
+        ArrayAdapter leagueArrayAdapter = new ArrayAdapter(this, R.layout.spinner_item,leagueList){
+            @Override
+            public boolean isEnabled(int position){
+                if(position == 0){
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+            @Override
+            public  View getDropDownView(int position, View convertView, ViewGroup parent){
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView textView = (TextView) view;
+                if(position == 0){
+                    textView.setTextColor(Color.GRAY);
+                }else{
+                    textView.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+        leagueArrayAdapter.setDropDownViewResource(R.layout.spinner_item);
+        leagueSpinner.setAdapter(leagueArrayAdapter);
+
+        leagueSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position > 0){
+                    selectedLeague = leagueList.get(position);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override
@@ -137,22 +187,61 @@ public class RecordActivity extends AppCompatActivity {
                 return true;
             case R.id.action_gps:
                 //TODO: perform gps search for closest stadium
+                //Get gps coords of device
+                if(!(PackageManager.PERMISSION_GRANTED==checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION))){
+                    requestPermissions(LOCATION_PERMS,LOCATION_REQUEST);
+                }
+                LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                try{
+                    Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    //Calculate distance from each stadium in stadiumList
+                    List<Double> dists = new ArrayList<>();
+                    for(int i=0; i<stadiumList.size(); i++){
+                        double x = location.getLatitude() - stadiumList.get(i).getGpsLat();
+                        double y = location.getLongitude() - stadiumList.get(i).getGpsLong();
+                        double dist = Math.sqrt((x*x)+(y*y));
+                        dists.add(dist);
+                    }
+                    //Pick smallest one and set selection to that one
+                    int smallestIndex = getSmallest(dists);
+                    stadiumSpinner.setSelection(smallestIndex);
+                    selectedStadium = stadiumList.get(smallestIndex);
+                }catch (SecurityException e){
+                    Log.w("Error location","" + e);
+                }catch (Exception e){
+                    Log.w("Error location","" + e);
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
 
         }
     }
+    private int getSmallest(List<Double> list){
+        int out = 0;
+        for(int i=1; i<list.size(); i++){
+            if(list.get(out) > list.get(i)){
+                out = i;
+            }
+        }
+        return out;
+    }
     private void addStadiums(){
-        //TODO: query database for all stadiums
-
-        //TODO: add all stadiums to stadiumList
+        try{
+            List<Stadium> all = new allStadiums().execute().get();
+            stadiumList.addAll(all);
+        }catch (Exception e){
+            Log.w("Error","" + e);
+        }
     }
 
     private void addLeagues(){
-        //TODO: query database for all Leagues
-
-        //TODO: add all stadiums to leagueList
+        try{
+            List<String> all = new allLeagues().execute().get();
+            leagueList.addAll(all);
+        }catch (Exception e){
+            Log.w("Error","" + e);
+        }
     }
 
     public void recordHandler(View v){
@@ -183,4 +272,65 @@ public class RecordActivity extends AppCompatActivity {
             dateBox.setText(dateString);
         }
     };
+
+    class  allStadiums extends AsyncTask<String, Void, List<Stadium>> {
+        String ip = getResources().getString(R.string.ip);
+        String port = getResources().getString(R.string.port);
+        String dbName = getResources().getString(R.string.db_name);
+        String user = getResources().getString(R.string.masterUser);
+        String pass = getResources().getString(R.string.masterPass);
+        @Override
+        protected List<Stadium> doInBackground(String... strings) {
+            List<Stadium> out = new ArrayList<>();
+            try {
+                // SET CONNECTIONSTRING
+                Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
+                Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
+                Statement stmt = DbConn.createStatement();
+                ResultSet rs = stmt.executeQuery("Select StadiumID,Name,City,Country,Gps_Lat,Gps_Long from [Stadium]");
+                while(rs.next()){
+                    int id = rs.getInt(1);
+                    String name = rs.getString(2);
+                    String city = rs.getString(3);
+                    String country = rs.getString(4);
+                    double gpsLat = rs.getDouble(5);
+                    double gpsLong = rs.getDouble(6);
+                    out.add(new Stadium(id,name,city,country,gpsLat,gpsLong));
+                }
+                DbConn.close();
+            } catch (Exception e) {
+                Log.w("Error connection", "" + e);
+                return out;
+            }
+            return out;
+        }
+    }
+
+    class  allLeagues extends AsyncTask<String, Void, List<String>> {
+        String ip = getResources().getString(R.string.ip);
+        String port = getResources().getString(R.string.port);
+        String dbName = getResources().getString(R.string.db_name);
+        String user = getResources().getString(R.string.masterUser);
+        String pass = getResources().getString(R.string.masterPass);
+        @Override
+        protected List<String> doInBackground(String... strings) {
+            List<String> out = new ArrayList<>();
+            try {
+                // SET CONNECTIONSTRING
+                Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
+                Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
+                Statement stmt = DbConn.createStatement();
+                ResultSet rs = stmt.executeQuery("Select League from [League]");
+                while(rs.next()){
+                    String name = rs.getString(1);
+                    out.add(name);
+                }
+                DbConn.close();
+            } catch (Exception e) {
+                Log.w("Error connection", "" + e);
+                return out;
+            }
+            return out;
+        }
+    }
 }
