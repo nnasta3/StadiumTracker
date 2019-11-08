@@ -43,7 +43,8 @@
             android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="date"/>
+            android:inputType="date"
+            android:clickable="false"/>
 
         <ImageButton
             android:id="@+id/date_button"

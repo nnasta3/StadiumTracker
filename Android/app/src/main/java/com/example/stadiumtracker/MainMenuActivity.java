@@ -50,7 +50,7 @@ public class MainMenuActivity extends AppCompatActivity {
     }
     public void recordHandler(View v){
         Intent intent = new Intent(this,RecordActivity.class);
-        //TODO: Pass user in intent
+        intent.putExtra("user", user);
         startActivity(intent);
     }
     public void stadiumHandler(View v){
