@@ -124,6 +124,12 @@ public class RecordActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position > 0){
                     selectedStadium = stadiumList.get(position);
+                    //add city and country to city field
+                    String temp = selectedStadium.getCity()+", "+selectedStadium.getCountry();
+                    city.setText(temp);
+                    //TODO: Reorder home team spinner so that teams with this stadium as home stadium appear at the top
+
+                    //TODO: Look to query API here
                 }
             }
 
@@ -167,6 +173,7 @@ public class RecordActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position > 0){
                     selectedLeague = leagueList.get(position);
+                    //TODO: Look to filter team spinners
                 }
             }
 
@@ -175,6 +182,10 @@ public class RecordActivity extends AppCompatActivity {
 
             }
         });
+        //TODO: home team spinner
+
+
+        //TODO: road team spinner
     }
 
     @Override
@@ -356,6 +367,7 @@ public class RecordActivity extends AppCompatActivity {
             dateString = dayOfMonth+"/"+(month+1)+"/"+year;
             dateBox.setText(dateString);
             calendar.set(year,month,dayOfMonth);
+            //TODO: Look to query api here if selected stadium is not null
         }
     };
 

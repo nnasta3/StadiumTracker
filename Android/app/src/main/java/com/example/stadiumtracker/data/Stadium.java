@@ -86,10 +86,6 @@ public class Stadium implements java.io.Serializable{
     }
 
     public String toString(){
-        if(stadiumID != -1){
-            return name+", "+city+", "+country;
-        }else{
-            return name;
-        }
+        return name;
     }
 }
