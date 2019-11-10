@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.example.stadiumtracker.data.Event;
 import com.example.stadiumtracker.data.Stadium;
+import com.example.stadiumtracker.data.Team;
 import com.example.stadiumtracker.data.User;
 
 import java.sql.Connection;
@@ -46,13 +47,15 @@ import java.util.List;
 public class RecordActivity extends AppCompatActivity {
     User user;
     Toolbar toolbar;
-    EditText dateBox, city, homeTeam, roadTeam, homeScore, roadScore;
-    Spinner stadiumSpinner, leagueSpinner;
+    EditText dateBox, city, homeScore, roadScore;
+    Spinner stadiumSpinner, leagueSpinner, homeTeamSpinner, roadTeamSpinner;
 
     List<String> leagueList;
     List<Stadium> stadiumList;
+    List<Team> homeTeamList, roadTeamList, fullTeamList;
     Stadium selectedStadium;
     String selectedLeague;
+    Team selectedHomeTeam, selectedRoadTeam;
 
     Calendar calendar;
     String dateString;
@@ -71,14 +74,16 @@ public class RecordActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.record_toolbar);
         dateBox = findViewById(R.id.date_box);
         city = findViewById(R.id.record_city);
-        homeTeam = findViewById(R.id.record_home_team);
+        homeTeamSpinner = findViewById(R.id.record_home_team_spinner);
         homeScore = findViewById(R.id.record_home_score);
-        roadTeam = findViewById(R.id.record_road_team);
+        roadTeamSpinner = findViewById(R.id.record_road_team_spinner);
         roadScore = findViewById(R.id.record_road_score);
         stadiumSpinner = findViewById(R.id.record_stadium_spinner);
         leagueSpinner = findViewById(R.id.record_league_spinner);
         selectedStadium = null;
         selectedLeague = null;
+        selectedHomeTeam = null;
+        selectedRoadTeam = null;
 
         user = (User) getIntent().getSerializableExtra("user");
 
@@ -139,7 +144,7 @@ public class RecordActivity extends AppCompatActivity {
             }
         });
 
-        //TODO: League Spinner list, start with hint "league"
+        //League Spinner list, start with hint "league"
         leagueList = new ArrayList<>();
         leagueList.add("League");
         addLeagues();
@@ -182,10 +187,99 @@ public class RecordActivity extends AppCompatActivity {
 
             }
         });
-        //TODO: home team spinner
 
+        //try and catch statement for getting teams
+        try{
+            fullTeamList = new getTeams().execute().get();
+        }catch (Exception e){
+            Log.w("Error getTeams","" + e);
+        }
 
-        //TODO: road team spinner
+        //home team spinner
+        homeTeamList = new ArrayList<>();
+        homeTeamList.add(new Team(true));
+        homeTeamList.addAll(fullTeamList);
+
+        ArrayAdapter homeTeamArrayAdapter = new ArrayAdapter(this, R.layout.spinner_item,homeTeamList){
+            @Override
+            public boolean isEnabled(int position){
+                if(position == 0){
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+            @Override
+            public  View getDropDownView(int position, View convertView, ViewGroup parent){
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView textView = (TextView) view;
+                if(position == 0){
+                    textView.setTextColor(Color.GRAY);
+                }else{
+                    textView.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+        homeTeamArrayAdapter.setDropDownViewResource(R.layout.spinner_item);
+        homeTeamSpinner.setAdapter(homeTeamArrayAdapter);
+
+        homeTeamSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position > 0){
+                    selectedHomeTeam = homeTeamList.get(position);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //road team spinner
+        roadTeamList = new ArrayList<>();
+        roadTeamList.add(new Team(false));
+        roadTeamList.addAll(fullTeamList);
+
+        ArrayAdapter roadTeamArrayAdapter = new ArrayAdapter(this, R.layout.spinner_item,roadTeamList){
+            @Override
+            public boolean isEnabled(int position){
+                if(position == 0){
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+            @Override
+            public  View getDropDownView(int position, View convertView, ViewGroup parent){
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView textView = (TextView) view;
+                if(position == 0){
+                    textView.setTextColor(Color.GRAY);
+                }else{
+                    textView.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+        roadTeamArrayAdapter.setDropDownViewResource(R.layout.spinner_item);
+        roadTeamSpinner.setAdapter(roadTeamArrayAdapter);
+
+        roadTeamSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position > 0){
+                    selectedRoadTeam = roadTeamList.get(position);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override
@@ -202,7 +296,6 @@ public class RecordActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.action_gps:
-                //TODO: perform gps search for closest stadium
                 //Get gps coords of device
                 if(!(PackageManager.PERMISSION_GRANTED==checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION))){
                     requestPermissions(LOCATION_PERMS,LOCATION_REQUEST);
@@ -268,16 +361,16 @@ public class RecordActivity extends AppCompatActivity {
         String dateString = calendar.get(Calendar.YEAR)+"-"+calendar.get(Calendar.MONTH)+"-"+calendar.get(Calendar.DAY_OF_MONTH);
         Event event;
         try{
-            event = new eventsQuery().execute(String.valueOf(selectedStadium.getStadiumID()),dateString,homeTeam.getText().toString(),roadTeam.getText().toString(),homeScore.getText().toString(),roadScore.getText().toString(),selectedLeague).get();
+            event = new eventsQuery().execute(String.valueOf(selectedStadium.getStadiumID()),dateString,String.valueOf(selectedHomeTeam.getTeamID()),String.valueOf(selectedRoadTeam.getTeamID()),homeScore.getText().toString(),roadScore.getText().toString(),selectedLeague).get();
         }catch (Exception e){
             event = null;
             Log.w("Error","" + e);
         }
         int eventID = -1;
         if(event == null){
-            //TODO: create event
+            //create event
             try{
-                eventID = new eventCreate().execute(String.valueOf(selectedStadium.getStadiumID()),dateString,homeTeam.getText().toString(),roadTeam.getText().toString(),homeScore.getText().toString(),roadScore.getText().toString(),selectedLeague).get();
+                eventID = new eventCreate().execute(String.valueOf(selectedStadium.getStadiumID()),dateString,String.valueOf(selectedHomeTeam.getTeamID()),String.valueOf(selectedRoadTeam.getTeamID()),homeScore.getText().toString(),roadScore.getText().toString(),selectedLeague).get();
             }catch (Exception e){
                 Log.w("Error","" + e);
                 return;
@@ -286,7 +379,7 @@ public class RecordActivity extends AppCompatActivity {
         }else{
             eventID = event.getEventID();
         }
-        //TODO: add visit to database
+        //add visit to database
         try{
             if(!new visitCreate().execute(String.valueOf(eventID),String.valueOf(user.getUserID())).get()){
                 Log.w("Error","visit create failed");
@@ -302,23 +395,26 @@ public class RecordActivity extends AppCompatActivity {
     public boolean validateFields(){
         //No validation needed for date field, user is not allowed to enter text into that field and the datepicker validates otherwise
         //Only need to check that the selected stadium is not null or not the hint field
-        if(selectedStadium == null || selectedStadium.toString().equals("Stadium")){
+        if(selectedStadium == null || stadiumSpinner.getSelectedItemPosition()==0){
             //TODO: toast for invalid stadium selection
             return false;
         }
-        //Validate home team
-        String homeTeamString = homeTeam.getText().toString();
-        if(homeTeamString.isEmpty()){
-            //TODO: toast for invalid home team
+        //validate home team
+        if(selectedHomeTeam == null || homeTeamSpinner.getSelectedItemPosition()==0){
+            //TODO: toast for invalid home team selection
             return false;
         }
-        //TODO: Validate road team
-        String roadTeamString = roadTeam.getText().toString();
-        if(roadTeamString.isEmpty()){
-            //TODO: toast for invalid home team
+        //validate road team
+        if(selectedRoadTeam == null || roadTeamSpinner.getSelectedItemPosition()==0){
+            //TODO: toast for invalid road selection
             return false;
         }
-        //TODO: Validate home score
+        //Make sure home team and road team are different
+        if(selectedHomeTeam.getTeamID() == selectedRoadTeam.getTeamID()){
+            //TODO: toast for duplicate team selections
+            return false;
+        }
+        //Validate home score
         String homescoreString = homeScore.getText().toString();
         try{
             int homeScoreInt = Integer.parseInt(homescoreString);
@@ -330,7 +426,7 @@ public class RecordActivity extends AppCompatActivity {
             //TODO: toast for invalid score format
             return false;
         }
-        //TODO: Validate road score
+        //Validate road score
         String roadscoreString = roadScore.getText().toString();
         try{
             int roadScoreInt = Integer.parseInt(roadscoreString);
@@ -342,7 +438,7 @@ public class RecordActivity extends AppCompatActivity {
             //TODO: toast for invalid score format
             return false;
         }
-        //TODO: Validate league
+        //Validate league
         if(selectedLeague == null){
             return false;
         }
@@ -418,7 +514,7 @@ public class RecordActivity extends AppCompatActivity {
                 Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
                 Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
                 Statement stmt = DbConn.createStatement();
-                ResultSet rs = stmt.executeQuery("Select League from [League]");
+                ResultSet rs = stmt.executeQuery("Select Abbrev from [League]");
                 while(rs.next()){
                     String name = rs.getString(1);
                     out.add(name);
@@ -453,7 +549,7 @@ public class RecordActivity extends AppCompatActivity {
                 Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
                 Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
                 Statement stmt = DbConn.createStatement();
-                ResultSet rs = stmt.executeQuery("Select * from [Event] where StadiumID="+strings[0]+" AND Date='"+strings[1]+"' AND Home_Team='"+strings[2]+"' AND Away_Team='"+strings[3]+"' AND Home_Score="+strings[4]+" AND Away_Score="+strings[5]+" AND League='"+strings[6]+"'");
+                ResultSet rs = stmt.executeQuery("Select * from [Event] where StadiumID="+strings[0]+" AND Date='"+strings[1]+"' AND Home_TeamID="+strings[2]+" AND Road_TeamID="+strings[3]+" AND Home_Score="+strings[4]+" AND Away_Score="+strings[5]+" AND League='"+strings[6]+"'");
                 if(rs.next()){
                     int eventID = rs.getInt(1);
                     int stadiumID = rs.getInt(2);
@@ -498,7 +594,7 @@ public class RecordActivity extends AppCompatActivity {
                 // SET CONNECTIONSTRING
                 Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
                 Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
-                PreparedStatement ps = DbConn.prepareStatement("INSERT INTO [Event](StadiumID,Date,Home_Team,Away_Team,Home_Score,Away_Score,League) VALUES (convert(int,?),convert(date,?),?,?,convert(int,?),convert(int,?),?);");
+                PreparedStatement ps = DbConn.prepareStatement("INSERT INTO [Event](StadiumID,Date,Home_TeamID,Road_TeamID,Home_Score,Away_Score,League) VALUES (convert(int,?),convert(date,?),convert(int,?),convert(int,?),convert(int,?),convert(int,?),?);");
                 ps.setString(1,strings[0]);
                 ps.setString(2,strings[1]);
                 ps.setString(3,strings[2]);
@@ -508,9 +604,9 @@ public class RecordActivity extends AppCompatActivity {
                 ps.setString(7,strings[6]);
                 ps.executeUpdate();
 
-                //TODO: Query the database for the eventID to return
+                //Query the database for the eventID to return
                 Statement stmt = DbConn.createStatement();
-                ResultSet rs = stmt.executeQuery("Select EventID from [Event] where StadiumID="+strings[0]+" AND Date='"+strings[1]+"' AND Home_Team='"+strings[2]+"' AND Away_Team='"+strings[3]+"' AND Home_Score="+strings[4]+" AND Away_Score="+strings[5]+" AND League='"+strings[6]+"'");
+                ResultSet rs = stmt.executeQuery("Select EventID from [Event] where StadiumID="+strings[0]+" AND Date='"+strings[1]+"' AND Home_TeamID="+strings[2]+" AND Road_TeamID="+strings[3]+" AND Home_Score="+strings[4]+" AND Away_Score="+strings[5]+" AND League='"+strings[6]+"'");
                 rs.next();
                 out = rs.getInt(1);
                 DbConn.close();
@@ -548,5 +644,48 @@ public class RecordActivity extends AppCompatActivity {
             }
             return true;
         }
+    }
+
+    class  getTeams extends AsyncTask<String, Void, List<Team>> {
+        String ip = getResources().getString(R.string.ip);
+        String port = getResources().getString(R.string.port);
+        String dbName = getResources().getString(R.string.db_name);
+        String user = getResources().getString(R.string.masterUser);
+        String pass = getResources().getString(R.string.masterPass);
+        @Override
+        protected List<Team> doInBackground(String... strings) {
+            List<Team> out = new ArrayList<>();
+            try {
+                // SET CONNECTIONSTRING
+                Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
+                Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
+                Statement stmt = DbConn.createStatement();
+                ResultSet rs = stmt.executeQuery("Select * from [Team]");
+                while(rs.next()){
+                    int id = rs.getInt(1);
+                    String city = rs.getString(2);
+                    String nickname = rs.getString(3);
+                    String abbrev = rs.getString(4);
+                    int stadiumID = rs.getInt(5);
+                    Stadium stadium = getStadiumById(stadiumID);
+                    //TODO: add league to this when i add to database
+                    out.add(new Team(id,city,nickname,abbrev,stadium));
+                }
+                DbConn.close();
+            } catch (Exception e) {
+                Log.w("Error visit create", "" + e);
+                return out;
+            }
+            return out;
+        }
+    }
+
+    public Stadium getStadiumById(int id){
+        for(int i=0; i<stadiumList.size(); i++){
+            if (stadiumList.get(i).getStadiumID() == id){
+                return stadiumList.get(i);
+            }
+        }
+        return null;
     }
 }

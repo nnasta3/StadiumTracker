@@ -96,13 +96,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <EditText
-            android:id="@+id/record_home_team"
+        <Spinner
+            android:id="@+id/record_home_team_spinner"
             android:layout_toStartOf="@+id/record_team_vs"
             android:layout_toLeftOf="@+id/record_team_vs"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/home_team"/>
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/record_team_vs"
@@ -112,13 +111,12 @@
             android:layout_centerHorizontal="true"
             android:text="@string/vs"/>
 
-        <EditText
-            android:id="@+id/record_road_team"
+        <Spinner
+            android:id="@+id/record_road_team_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/record_team_vs"
             android:layout_toRightOf="@+id/record_team_vs"
-            android:hint="@string/road_team"
             />
 
     </RelativeLayout>
