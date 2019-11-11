@@ -393,7 +393,6 @@ public class RecordActivity extends AppCompatActivity {
             event = new eventsQuery().execute(String.valueOf(selectedStadium.getStadiumID()),dateString,String.valueOf(selectedHomeTeam.getTeamID()),String.valueOf(selectedRoadTeam.getTeamID()),homeScore.getText().toString(),roadScore.getText().toString(),selectedLeague).get();
         }catch (Exception e){
             event = null;
-            Log.w("Error","" + e);
         }
         int eventID = -1;
         if(event == null){
@@ -402,6 +401,7 @@ public class RecordActivity extends AppCompatActivity {
                 eventID = new eventCreate().execute(String.valueOf(selectedStadium.getStadiumID()),dateString,String.valueOf(selectedHomeTeam.getTeamID()),String.valueOf(selectedRoadTeam.getTeamID()),homeScore.getText().toString(),roadScore.getText().toString(),selectedLeague).get();
             }catch (Exception e){
                 Log.w("Error","" + e);
+                Toast.makeText(getApplicationContext(),"Failed to record event",Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -412,11 +412,13 @@ public class RecordActivity extends AppCompatActivity {
         try{
             if(!new visitCreate().execute(String.valueOf(eventID),String.valueOf(user.getUserID())).get()){
                 Log.w("Error","visit create failed");
-                //TODO: toast for failure
+                Toast.makeText(getApplicationContext(),"Failed to record event",Toast.LENGTH_SHORT).show();
                 return;
             }
         }catch (Exception e){
             Log.w("Error","" + e);
+            Toast.makeText(getApplicationContext(),"Failed to record event",Toast.LENGTH_SHORT).show();
+            return;
         }
 
         //TODO: share popup and intent to main menu
@@ -426,27 +428,27 @@ public class RecordActivity extends AppCompatActivity {
         //No validation needed for date field, user is not allowed to enter text into that field and the datepicker validates otherwise
         //Only need to check that the selected stadium is not null or not the hint field
         if(selectedStadium == null || stadiumSpinner.getSelectedItemPosition()==0){
-            //TODO: toast for invalid stadium selection
+            Toast.makeText(getApplicationContext(),"Please select a stadium",Toast.LENGTH_SHORT).show();
             return false;
         }
         //validate home team
         if(selectedHomeTeam == null || homeTeamSpinner.getSelectedItemPosition()==0){
-            //TODO: toast for invalid home team selection
+            Toast.makeText(getApplicationContext(),"Please select a home team",Toast.LENGTH_SHORT).show();
             return false;
         }
         //validate road team
         if(selectedRoadTeam == null || roadTeamSpinner.getSelectedItemPosition()==0){
-            //TODO: toast for invalid road selection
+            Toast.makeText(getApplicationContext(),"Please select a road team",Toast.LENGTH_SHORT).show();
             return false;
         }
         //Make sure home team and road team are different
         if(selectedHomeTeam.getTeamID() == selectedRoadTeam.getTeamID()){
-            //TODO: toast for duplicate team selections
+            Toast.makeText(getApplicationContext(),"Selected teams cannot be the same",Toast.LENGTH_SHORT).show();
             return false;
         }
         //Make sure home team and road team are from same league
         if(!selectedHomeTeam.getLeague().equals(selectedRoadTeam.getLeague())){
-            //TODO: toast for mismatched leagues on teams
+            Toast.makeText(getApplicationContext(),"Selected teams must be in the same league",Toast.LENGTH_SHORT).show();
             return false;
         }
         //Validate home score
@@ -454,11 +456,11 @@ public class RecordActivity extends AppCompatActivity {
         try{
             int homeScoreInt = Integer.parseInt(homescoreString);
             if(homeScoreInt < 0){
-                //TODO: toast for invalid score due to negative
+                Toast.makeText(getApplicationContext(),"Home score must be a positive integer",Toast.LENGTH_SHORT).show();
                 return false;
             }
         }catch(Exception e){
-            //TODO: toast for invalid score format
+            Toast.makeText(getApplicationContext(),"Home score must be a number format",Toast.LENGTH_SHORT).show();
             return false;
         }
         //Validate road score
@@ -466,15 +468,16 @@ public class RecordActivity extends AppCompatActivity {
         try{
             int roadScoreInt = Integer.parseInt(roadscoreString);
             if(roadScoreInt < 0){
-                //TODO: toast for invalid score due to negative
+                Toast.makeText(getApplicationContext(),"Road score must be a positive integer",Toast.LENGTH_SHORT).show();
                 return false;
             }
         }catch(Exception e){
-            //TODO: toast for invalid score format
+            Toast.makeText(getApplicationContext(),"Road score must be a number format",Toast.LENGTH_SHORT).show();
             return false;
         }
         //Validate league
         if(selectedLeague == null){
+            Toast.makeText(getApplicationContext(),"Please select a league",Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
