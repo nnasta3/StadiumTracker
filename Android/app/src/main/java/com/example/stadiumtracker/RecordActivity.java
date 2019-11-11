@@ -41,6 +41,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -132,8 +133,14 @@ public class RecordActivity extends AppCompatActivity {
                     //add city and country to city field
                     String temp = selectedStadium.getCity()+", "+selectedStadium.getCountry();
                     city.setText(temp);
-                    //TODO: Reorder home team spinner so that teams with this stadium as home stadium appear at the top
-
+                    //Reorder home team spinner so that teams with this stadium as home stadium appear at the top
+                    int j=1;
+                    for(int i=1; i<homeTeamList.size(); i++){
+                        if(selectedStadium.getStadiumID() == homeTeamList.get(i).getStadium().getStadiumID()){
+                            Collections.swap(homeTeamList,i,j);
+                            j++;
+                        }
+                    }
                     //TODO: Look to query API here
                 }
             }
@@ -178,7 +185,18 @@ public class RecordActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position > 0){
                     selectedLeague = leagueList.get(position);
-                    //TODO: Look to filter team spinners
+                    //filter team spinners
+                    List<Team> filteredTeams = filterTeams();
+
+                    homeTeamSpinner.setSelection(0);
+                    homeTeamList.clear();
+                    homeTeamList.add(new Team(true));
+                    homeTeamList.addAll(filteredTeams);
+
+                    roadTeamSpinner.setSelection(0);
+                    roadTeamList.clear();
+                    roadTeamList.add(new Team(false));
+                    roadTeamList.addAll(filteredTeams);
                 }
             }
 
@@ -326,6 +344,17 @@ public class RecordActivity extends AppCompatActivity {
 
         }
     }
+
+    public List<Team> filterTeams(){
+        List<Team> out = new ArrayList<>();
+        for(int i=0; i<fullTeamList.size(); i++){
+            if (fullTeamList.get(i).getLeague().equals(selectedLeague)){
+                out.add(fullTeamList.get(i));
+            }
+        }
+        return out;
+    }
+
     private int getSmallest(List<Double> list){
         int out = 0;
         for(int i=1; i<list.size(); i++){
@@ -384,6 +413,7 @@ public class RecordActivity extends AppCompatActivity {
             if(!new visitCreate().execute(String.valueOf(eventID),String.valueOf(user.getUserID())).get()){
                 Log.w("Error","visit create failed");
                 //TODO: toast for failure
+                return;
             }
         }catch (Exception e){
             Log.w("Error","" + e);
@@ -412,6 +442,11 @@ public class RecordActivity extends AppCompatActivity {
         //Make sure home team and road team are different
         if(selectedHomeTeam.getTeamID() == selectedRoadTeam.getTeamID()){
             //TODO: toast for duplicate team selections
+            return false;
+        }
+        //Make sure home team and road team are from same league
+        if(!selectedHomeTeam.getLeague().equals(selectedRoadTeam.getLeague())){
+            //TODO: toast for mismatched leagues on teams
             return false;
         }
         //Validate home score
@@ -481,7 +516,7 @@ public class RecordActivity extends AppCompatActivity {
                 Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
                 Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
                 Statement stmt = DbConn.createStatement();
-                ResultSet rs = stmt.executeQuery("Select StadiumID,Name,City,Country,Gps_Lat,Gps_Long from [Stadium]");
+                ResultSet rs = stmt.executeQuery("Select StadiumID,Name,City,Country,Gps_Lat,Gps_Long from [Stadium] Order By Name");
                 while(rs.next()){
                     int id = rs.getInt(1);
                     String name = rs.getString(2);
@@ -514,7 +549,7 @@ public class RecordActivity extends AppCompatActivity {
                 Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
                 Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
                 Statement stmt = DbConn.createStatement();
-                ResultSet rs = stmt.executeQuery("Select Abbrev from [League]");
+                ResultSet rs = stmt.executeQuery("Select Abbrev from [League] Order By Abbrev");
                 while(rs.next()){
                     String name = rs.getString(1);
                     out.add(name);
@@ -660,7 +695,7 @@ public class RecordActivity extends AppCompatActivity {
                 Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
                 Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
                 Statement stmt = DbConn.createStatement();
-                ResultSet rs = stmt.executeQuery("Select * from [Team]");
+                ResultSet rs = stmt.executeQuery("Select * from [Team] Order By City,Nickname");
                 while(rs.next()){
                     int id = rs.getInt(1);
                     String city = rs.getString(2);
@@ -668,8 +703,8 @@ public class RecordActivity extends AppCompatActivity {
                     String abbrev = rs.getString(4);
                     int stadiumID = rs.getInt(5);
                     Stadium stadium = getStadiumById(stadiumID);
-                    //TODO: add league to this when i add to database
-                    out.add(new Team(id,city,nickname,abbrev,stadium));
+                    String league = rs.getString(6);
+                    out.add(new Team(id,city,nickname,abbrev,stadium,league));
                 }
                 DbConn.close();
             } catch (Exception e) {

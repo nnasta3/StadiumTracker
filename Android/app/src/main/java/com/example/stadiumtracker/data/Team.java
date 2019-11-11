@@ -6,13 +6,15 @@ public class Team {
     private String nickname;
     private String abbrev;
     private Stadium stadium;
+    private String league;
 
-    public Team(int teamID, String city, String nickname, String abbrev, Stadium stadium) {
+    public Team(int teamID, String city, String nickname, String abbrev, Stadium stadium, String league) {
         this.teamID = teamID;
         this.city = city;
         this.nickname = nickname;
         this.abbrev = abbrev;
         this.stadium = stadium;
+        this.league = league;
     }
 
     public Team(boolean home){
@@ -26,6 +28,7 @@ public class Team {
         }
         nickname = "Team";
         stadium = null;
+        league = "";
     }
 
     public int getTeamID() {
@@ -66,6 +69,14 @@ public class Team {
 
     public void setStadium(Stadium stadium) {
         this.stadium = stadium;
+    }
+
+    public String getLeague() {
+        return league;
+    }
+
+    public void setLeague(String league) {
+        this.league = league;
     }
 
     public String toString(){
