@@ -4,12 +4,12 @@
 
     <item
         android:id="@+id/action_gps"
-        android:icon="@drawable/baseline_gps_fixed_black_18dp"
+        android:icon="@drawable/gps_icon"
         android:title="@string/action_gps"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_logout"
-        android:icon="@drawable/baseline_exit_to_app_black_18dp"
+        android:icon="@drawable/logout_icon"
         android:title="@string/action_logout"
         app:showAsAction="ifRoom"/>
 

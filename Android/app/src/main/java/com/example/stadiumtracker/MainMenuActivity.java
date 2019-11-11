@@ -54,7 +54,9 @@ public class MainMenuActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void stadiumHandler(View v){
-        //TODO: Send to stadium page
+        Intent intent = new Intent(this,StadiumsListActivity.class);
+        intent.putExtra("user", user);
+        startActivity(intent);
     }
     public void visitHandler(View v){
         //TODO: Send to visit page

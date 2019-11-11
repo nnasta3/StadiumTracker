@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/date_box"
             android:layout_toRightOf="@+id/date_box"
-            android:src="@drawable/baseline_calendar_today_black_18dp"
+            android:src="@drawable/calendar_icon"
             android:onClick="datePickerHandler"/>
 
     </RelativeLayout>
@@ -75,8 +75,7 @@
         app:layout_constraintTop_toBottomOf="@id/record_stadium_spinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:hint="@string/city"
-        android:clickable="false"/>
+        android:hint="@string/city"/>
 
     <Spinner
         android:id="@+id/record_league_spinner"

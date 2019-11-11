@@ -87,6 +87,7 @@ public class RecordActivity extends AppCompatActivity {
         selectedRoadTeam = null;
 
         user = (User) getIntent().getSerializableExtra("user");
+        city.setFocusable(false);
 
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();

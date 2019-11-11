@@ -10,11 +10,16 @@
     <string name="action_sign_in">Sign In</string>
     <string name="action_register">Register</string>
     <string name="action_main_menu_record">Record A Visit</string>
+    <string name="stadiums_list_title">List of Stadiums</string>
     <string name="action_main_menu_stadiums">View List of Stadiums</string>
     <string name="action_main_menu_visit">View All Visits</string>
     <string name="action_logout">Logout</string>
     <string name="action_gps">Fill W/ GPS</string>
     <string name="action_settings">Settings</string>
+    <string name="action_share">Share</string>
+    <string name="action_sort">Sort</string>
+    <string name="action_search">Search</string>
+    <string name="action_filter">Filter</string>
     <string name="action_main_menu_friends">Friends List</string>
     <string name="record_stadium_hint">Select A Stadium</string>
     <string name="vs">Vs.</string>
