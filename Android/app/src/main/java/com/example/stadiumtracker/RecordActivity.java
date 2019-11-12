@@ -35,6 +35,11 @@ import com.example.stadiumtracker.data.Event;
 import com.example.stadiumtracker.data.Stadium;
 import com.example.stadiumtracker.data.Team;
 import com.example.stadiumtracker.data.User;
+import com.example.stadiumtracker.database.allLeagues;
+import com.example.stadiumtracker.database.allStadiums;
+import com.example.stadiumtracker.database.eventCreate;
+import com.example.stadiumtracker.database.eventsQuery;
+import com.example.stadiumtracker.database.visitCreate;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -373,7 +378,7 @@ public class RecordActivity extends AppCompatActivity {
     }
     private void addStadiums(){
         try{
-            List<Stadium> all = new allStadiums().execute().get();
+            List<Stadium> all = new allStadiums(this).execute().get();
             stadiumList.addAll(all);
         }catch (Exception e){
             Log.w("Error","" + e);
@@ -382,7 +387,7 @@ public class RecordActivity extends AppCompatActivity {
 
     private void addLeagues(){
         try{
-            List<String> all = new allLeagues().execute().get();
+            List<String> all = new allLeagues(this).execute().get();
             leagueList.addAll(all);
         }catch (Exception e){
             Log.w("Error","" + e);
@@ -397,7 +402,7 @@ public class RecordActivity extends AppCompatActivity {
         String dateString = calendar.get(Calendar.YEAR)+"-"+calendar.get(Calendar.MONTH)+"-"+calendar.get(Calendar.DAY_OF_MONTH);
         Event event;
         try{
-            event = new eventsQuery().execute(String.valueOf(selectedStadium.getStadiumID()),dateString,String.valueOf(selectedHomeTeam.getTeamID()),String.valueOf(selectedRoadTeam.getTeamID()),homeScore.getText().toString(),roadScore.getText().toString(),selectedLeague).get();
+            event = new eventsQuery(this).execute(String.valueOf(selectedStadium.getStadiumID()),dateString,String.valueOf(selectedHomeTeam.getTeamID()),String.valueOf(selectedRoadTeam.getTeamID()),homeScore.getText().toString(),roadScore.getText().toString(),selectedLeague).get();
         }catch (Exception e){
             event = null;
         }
@@ -405,7 +410,7 @@ public class RecordActivity extends AppCompatActivity {
         if(event == null){
             //create event
             try{
-                eventID = new eventCreate().execute(String.valueOf(selectedStadium.getStadiumID()),dateString,String.valueOf(selectedHomeTeam.getTeamID()),String.valueOf(selectedRoadTeam.getTeamID()),homeScore.getText().toString(),roadScore.getText().toString(),selectedLeague).get();
+                eventID = new eventCreate(this).execute(String.valueOf(selectedStadium.getStadiumID()),dateString,String.valueOf(selectedHomeTeam.getTeamID()),String.valueOf(selectedRoadTeam.getTeamID()),homeScore.getText().toString(),roadScore.getText().toString(),selectedLeague).get();
             }catch (Exception e){
                 Log.w("Error","" + e);
                 Toast.makeText(getApplicationContext(),"Failed to record event",Toast.LENGTH_SHORT).show();
@@ -417,7 +422,7 @@ public class RecordActivity extends AppCompatActivity {
         }
         //add visit to database
         try{
-            if(!new visitCreate().execute(String.valueOf(eventID),String.valueOf(user.getUserID())).get()){
+            if(!new visitCreate(this).execute(String.valueOf(eventID),String.valueOf(user.getUserID())).get()){
                 Log.w("Error","visit create failed");
                 Toast.makeText(getApplicationContext(),"Failed to record event",Toast.LENGTH_SHORT).show();
                 return;
@@ -534,185 +539,6 @@ public class RecordActivity extends AppCompatActivity {
             //TODO: Look to query api here if selected stadium is not null
         }
     };
-
-    class  allStadiums extends AsyncTask<String, Void, List<Stadium>> {
-        String ip = getResources().getString(R.string.ip);
-        String port = getResources().getString(R.string.port);
-        String dbName = getResources().getString(R.string.db_name);
-        String user = getResources().getString(R.string.masterUser);
-        String pass = getResources().getString(R.string.masterPass);
-        @Override
-        protected List<Stadium> doInBackground(String... strings) {
-            List<Stadium> out = new ArrayList<>();
-            try {
-                // SET CONNECTIONSTRING
-                Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
-                Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
-                Statement stmt = DbConn.createStatement();
-                ResultSet rs = stmt.executeQuery("Select StadiumID,Name,City,Country,Gps_Lat,Gps_Long from [Stadium] Order By Name");
-                while(rs.next()){
-                    int id = rs.getInt(1);
-                    String name = rs.getString(2);
-                    String city = rs.getString(3);
-                    String country = rs.getString(4);
-                    double gpsLat = rs.getDouble(5);
-                    double gpsLong = rs.getDouble(6);
-                    out.add(new Stadium(id,name,city,country,gpsLat,gpsLong));
-                }
-                DbConn.close();
-            } catch (Exception e) {
-                Log.w("Error all stadiums", "" + e);
-                return out;
-            }
-            return out;
-        }
-    }
-
-    class  allLeagues extends AsyncTask<String, Void, List<String>> {
-        String ip = getResources().getString(R.string.ip);
-        String port = getResources().getString(R.string.port);
-        String dbName = getResources().getString(R.string.db_name);
-        String user = getResources().getString(R.string.masterUser);
-        String pass = getResources().getString(R.string.masterPass);
-        @Override
-        protected List<String> doInBackground(String... strings) {
-            List<String> out = new ArrayList<>();
-            try {
-                // SET CONNECTIONSTRING
-                Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
-                Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
-                Statement stmt = DbConn.createStatement();
-                ResultSet rs = stmt.executeQuery("Select Abbrev from [League] Order By Abbrev");
-                while(rs.next()){
-                    String name = rs.getString(1);
-                    out.add(name);
-                }
-                DbConn.close();
-            } catch (Exception e) {
-                Log.w("Error all leagues", "" + e);
-                return out;
-            }
-            return out;
-        }
-    }
-
-    class  eventsQuery extends AsyncTask<String, Void, Event> {
-        String ip = getResources().getString(R.string.ip);
-        String port = getResources().getString(R.string.port);
-        String dbName = getResources().getString(R.string.db_name);
-        String user = getResources().getString(R.string.masterUser);
-        String pass = getResources().getString(R.string.masterPass);
-        @Override
-        protected Event doInBackground(String... strings) {
-            //Strings[0] = stadiumID
-            //Strings[1] = date
-            //Strings[2] = home team
-            //Strings[3] = road team
-            //Strings[4] = home score
-            //Strings[5] = road score
-            //Strings[6] = league
-            Event out;
-            try {
-                // SET CONNECTIONSTRING
-                Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
-                Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
-                Statement stmt = DbConn.createStatement();
-                ResultSet rs = stmt.executeQuery("Select * from [Event] where StadiumID="+strings[0]+" AND Date='"+strings[1]+"' AND Home_TeamID="+strings[2]+" AND Road_TeamID="+strings[3]+" AND Home_Score="+strings[4]+" AND Away_Score="+strings[5]+" AND League='"+strings[6]+"'");
-                if(rs.next()){
-                    int eventID = rs.getInt(1);
-                    int stadiumID = rs.getInt(2);
-                    Date date = rs.getDate(3);
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTime(date);
-                    String homeTeam = rs.getString(4);
-                    String roadTeam = rs.getString(5);
-                    int homeScore = rs.getInt(6);
-                    int roadScore = rs.getInt(7);
-                    String league = rs.getString(8);
-                    out = new Event(eventID,stadiumID, cal, homeTeam,roadTeam,homeScore,roadScore,league);
-                }else{
-                    return null;
-                }
-                DbConn.close();
-            } catch (Exception e) {
-                Log.w("Error events query", "" + e);
-                return null;
-            }
-            return out;
-        }
-    }
-
-    class  eventCreate extends AsyncTask<String, Void, Integer> {
-        String ip = getResources().getString(R.string.ip);
-        String port = getResources().getString(R.string.port);
-        String dbName = getResources().getString(R.string.db_name);
-        String user = getResources().getString(R.string.masterUser);
-        String pass = getResources().getString(R.string.masterPass);
-        @Override
-        protected Integer doInBackground(String... strings) {
-            //Strings[0] = stadiumID
-            //Strings[1] = date
-            //Strings[2] = home team
-            //Strings[3] = road team
-            //Strings[4] = home score
-            //Strings[5] = road score
-            //Strings[6] = league
-            int out = -1;
-            try {
-                // SET CONNECTIONSTRING
-                Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
-                Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
-                PreparedStatement ps = DbConn.prepareStatement("INSERT INTO [Event](StadiumID,Date,Home_TeamID,Road_TeamID,Home_Score,Away_Score,League) VALUES (convert(int,?),convert(date,?),convert(int,?),convert(int,?),convert(int,?),convert(int,?),?);");
-                ps.setString(1,strings[0]);
-                ps.setString(2,strings[1]);
-                ps.setString(3,strings[2]);
-                ps.setString(4,strings[3]);
-                ps.setString(5,strings[4]);
-                ps.setString(6,strings[5]);
-                ps.setString(7,strings[6]);
-                ps.executeUpdate();
-
-                //Query the database for the eventID to return
-                Statement stmt = DbConn.createStatement();
-                ResultSet rs = stmt.executeQuery("Select EventID from [Event] where StadiumID="+strings[0]+" AND Date='"+strings[1]+"' AND Home_TeamID="+strings[2]+" AND Road_TeamID="+strings[3]+" AND Home_Score="+strings[4]+" AND Away_Score="+strings[5]+" AND League='"+strings[6]+"'");
-                rs.next();
-                out = rs.getInt(1);
-                DbConn.close();
-            } catch (Exception e) {
-                Log.w("Error event create", "" + e);
-                return out;
-            }
-            return out;
-        }
-    }
-
-    class  visitCreate extends AsyncTask<String, Void, Boolean> {
-        String ip = getResources().getString(R.string.ip);
-        String port = getResources().getString(R.string.port);
-        String dbName = getResources().getString(R.string.db_name);
-        String user = getResources().getString(R.string.masterUser);
-        String pass = getResources().getString(R.string.masterPass);
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            //Strings[0] = eventID
-            //Strings[1] = visitID
-            int out = -1;
-            try {
-                // SET CONNECTIONSTRING
-                Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
-                Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
-                PreparedStatement ps = DbConn.prepareStatement("INSERT INTO [Visit](EventID,UserID) VALUES (convert(int,?),convert(int,?));");
-                ps.setString(1,strings[0]);
-                ps.setString(2,strings[1]);
-                ps.executeUpdate();
-                DbConn.close();
-            } catch (Exception e) {
-                Log.w("Error visit create", "" + e);
-                return false;
-            }
-            return true;
-        }
-    }
 
     class  getTeams extends AsyncTask<String, Void, List<Team>> {
         String ip = getResources().getString(R.string.ip);

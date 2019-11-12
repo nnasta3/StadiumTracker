@@ -37,5 +37,5 @@
         app:layout_constraintTop_toBottomOf="@id/stadiums_list_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
-
+    
 </android.support.constraint.ConstraintLayout>
