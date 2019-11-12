@@ -1,9 +1,11 @@
 package com.example.stadiumtracker;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -88,6 +90,7 @@ public class RecordActivity extends AppCompatActivity {
 
         user = (User) getIntent().getSerializableExtra("user");
         city.setFocusable(false);
+        dateBox.setFocusable(false);
 
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
@@ -421,8 +424,35 @@ public class RecordActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Failed to record event",Toast.LENGTH_SHORT).show();
             return;
         }
-
+        final String shareString = user.getName() + " visited " + selectedStadium.getName() + " on " + dateBox.getText().toString()
+                + " for the game between the " + selectedHomeTeam + " and the " + selectedRoadTeam;
         //TODO: share popup and intent to main menu
+        new AlertDialog.Builder(this)
+                .setTitle("Share?")
+                .setMessage("Would you like to share this visit?")
+                .setIcon(R.drawable.share_icon)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //Android share screen
+                        Intent sendIntent = new Intent();
+                        sendIntent.setAction(Intent.ACTION_SEND);
+                        sendIntent.putExtra(Intent.EXTRA_TEXT, shareString);
+                        sendIntent.setType("text/plain");
+                        Intent shareIntent = Intent.createChooser(sendIntent, null);
+                        startActivity(shareIntent);
+
+                        //TODO: intent to main menu
+
+                    }})
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Intent intent = new Intent(RecordActivity.this,MainMenuActivity.class);
+                        intent.putExtra("user", user);
+                        startActivity(intent);
+                    }})
+                .show();
     }
 
     public boolean validateFields(){

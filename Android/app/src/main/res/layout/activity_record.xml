@@ -134,7 +134,8 @@
             android:layout_toLeftOf="@+id/record_score_vs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/home_score"/>
+            android:hint="@string/home_score"
+            android:inputType="number"/>
 
         <TextView
             android:id="@+id/record_score_vs"
@@ -150,7 +151,8 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/record_score_vs"
             android:layout_toRightOf="@+id/record_score_vs"
-            android:hint="@string/road_score"/>
+            android:hint="@string/road_score"
+            android:inputType="number"/>
 
     </RelativeLayout>
 
