@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.example.stadiumtracker.data.User;
 public class MainMenuActivity extends AppCompatActivity {
     User user;
     Toolbar toolbar;
+    String shareString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,19 @@ public class MainMenuActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
 
         user = (User) getIntent().getSerializableExtra("user");
+        try{
+            shareString = getIntent().getStringExtra("shareString");
+            if (shareString != null){
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, shareString);
+                sendIntent.setType("text/plain");
+                Intent shareIntent = Intent.createChooser(sendIntent, null);
+                startActivity(shareIntent);
+            }
+        }catch (Exception e){
+            Log.w("error sharing",e.toString());
+        }
     }
 
     @Override

@@ -63,6 +63,8 @@ public class RecordActivity extends AppCompatActivity {
     Calendar calendar;
     String dateString;
 
+    private Object lock;
+
     private static final String[] LOCATION_PERMS={
             Manifest.permission.ACCESS_FINE_LOCATION
     };
@@ -73,6 +75,7 @@ public class RecordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
+        lock = new Object();
 
         toolbar = findViewById(R.id.record_toolbar);
         dateBox = findViewById(R.id.date_box);
@@ -424,9 +427,7 @@ public class RecordActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Failed to record event",Toast.LENGTH_SHORT).show();
             return;
         }
-        final String shareString = user.getName() + " visited " + selectedStadium.getName() + " on " + dateBox.getText().toString()
-                + " for the game between the " + selectedHomeTeam + " and the " + selectedRoadTeam;
-        //TODO: share popup and intent to main menu
+        //share popup and intent to main menu
         new AlertDialog.Builder(this)
                 .setTitle("Share?")
                 .setMessage("Would you like to share this visit?")
@@ -434,16 +435,13 @@ public class RecordActivity extends AppCompatActivity {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        //Android share screen
-                        Intent sendIntent = new Intent();
-                        sendIntent.setAction(Intent.ACTION_SEND);
-                        sendIntent.putExtra(Intent.EXTRA_TEXT, shareString);
-                        sendIntent.setType("text/plain");
-                        Intent shareIntent = Intent.createChooser(sendIntent, null);
-                        startActivity(shareIntent);
-
-                        //TODO: intent to main menu
-
+                        final String shareString = user.getName() + " visited " + selectedStadium.getName() + " on " + dateBox.getText().toString()
+                                + " for the game between the " + selectedHomeTeam + " and the " + selectedRoadTeam;
+                        //intent to main menu
+                        Intent intent = new Intent(RecordActivity.this,MainMenuActivity.class);
+                        intent.putExtra("user", user);
+                        intent.putExtra("shareString",shareString);
+                        startActivity(intent);
                     }})
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
 
@@ -453,6 +451,7 @@ public class RecordActivity extends AppCompatActivity {
                         startActivity(intent);
                     }})
                 .show();
+
     }
 
     public boolean validateFields(){
