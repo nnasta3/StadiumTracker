@@ -20,11 +20,14 @@ import android.widget.Toast;
 import com.example.stadiumtracker.data.Stadium;
 import com.example.stadiumtracker.data.User;
 import com.example.stadiumtracker.database.allStadiums;
+import com.example.stadiumtracker.database.stadiumsCountForUser;
 import com.example.stadiumtracker.helpers.StadiumListAdapter;
 import com.example.stadiumtracker.helpers.StadiumListHelper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StadiumsListActivity extends AppCompatActivity {
     User user;
@@ -32,7 +35,6 @@ public class StadiumsListActivity extends AppCompatActivity {
     ListView listView;
     List<Stadium> stadiums;
     List<StadiumListHelper> stadiumListHelpers;
-    List<Integer> visitCounts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,37 +52,34 @@ public class StadiumsListActivity extends AppCompatActivity {
         ab.setDisplayShowHomeEnabled(false);
         ab.setDisplayHomeAsUpEnabled(true);
 
-        //TODO: initialize information in the listView
-
-        /*
-            TODO: info needed for list
-                1. all stadiums, sorted by name
-                2. number of visits to each stadium for this user
-                A helper class containing a stadium, user, and int would probably be best for the listView
-                Selecting an item on the list can bring up the stadiumView for that particular stadium
-         */
+        //initialize information in the listView
         try{
             stadiums = new allStadiums(this).execute().get();
         }catch (Exception e){
             Log.w("error allStadiums",e.toString());
         }
-        //TODO: number of visits to each stadium for this user (defaulting to zero for now)
-        //visitCounts = some new query class
-        //TODO: create list of helper class
+        //number of visits to each stadium for this user (defaulting to zero)
+        Map<Integer, Integer> counts = new HashMap<>();
+        try{
+            counts = new stadiumsCountForUser(this).execute(user.getUserID()).get();
+        }catch (Exception e){
+            Log.w("error stadiumsCount", e.toString());
+        }
+        //create list of helper class
         stadiumListHelpers = new ArrayList<>();
         for (int i=0; i<stadiums.size(); i++){
-            //TODO: replace this 0 with reference to visitCounts
-            stadiumListHelpers.add(new StadiumListHelper(stadiums.get(i),user,0));
+            //enter the counts
+            if (counts.containsKey(stadiums.get(i).getStadiumID())){
+                stadiumListHelpers.add(new StadiumListHelper(stadiums.get(i),user,counts.get(stadiums.get(i).getStadiumID())));
+            }else {
+                stadiumListHelpers.add(new StadiumListHelper(stadiums.get(i),user,0));
+            }
         }
-        //TODO: adapt list of helper class to listView
+        //adapt list of helper class to listView
         StadiumListAdapter stadiumListAdapter = new StadiumListAdapter(this,stadiumListHelpers);
         listView.setAdapter(stadiumListAdapter);
         listView.setOnItemClickListener((p,v,pos,id)-> stadiumHandler(pos));
-        listView.setScrollContainer(true);
-        //TODO: figure out why this doesnt add a divider
-        int[] dividerColor = {0,0xFF0000,0};
-        listView.setDivider(new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT,dividerColor));
-        listView.setDividerHeight(2);
+        //TODO: figure out how to add a dividers?
     }
 
     private void stadiumHandler(int pos){
@@ -116,7 +115,4 @@ public class StadiumsListActivity extends AppCompatActivity {
 
         }
     }
-    /*TODO:
-        figure out listview
-     */
 }
