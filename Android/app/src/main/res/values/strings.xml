@@ -35,4 +35,8 @@
     <string name="ip">database-2.ctqwj4cnvuoo.us-east-2.rds.amazonaws.com</string>
     <string name="port">1433</string>
     <string name="db_name">stadiumTrackerDB</string>
+    <string name="sort_popup_asc">Ascending</string>
+    <string name="sort_popup_dsc">Descending</string>
+    <string name="cancel">Cancel</string>
+    <string name="sort">Sort</string>
 </resources>

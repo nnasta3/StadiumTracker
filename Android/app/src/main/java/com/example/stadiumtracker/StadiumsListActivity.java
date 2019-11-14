@@ -1,12 +1,16 @@
 package com.example.stadiumtracker;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.DataSetObserver;
 import android.graphics.drawable.GradientDrawable;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,8 +18,17 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
 import com.example.stadiumtracker.data.Stadium;
@@ -26,6 +39,7 @@ import com.example.stadiumtracker.helpers.StadiumListAdapter;
 import com.example.stadiumtracker.helpers.StadiumListHelper;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +49,8 @@ public class StadiumsListActivity extends AppCompatActivity {
     Toolbar toolbar;
     ListView listView;
     List<Stadium> stadiums;
-    List<StadiumListHelper> stadiumListHelpers;
+    List<StadiumListHelper> stadiumListHelpers, partialStadiumListHelpers;
+    StadiumListAdapter stadiumListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +91,12 @@ public class StadiumsListActivity extends AppCompatActivity {
                 stadiumListHelpers.add(new StadiumListHelper(stadiums.get(i),user,0));
             }
         }
+        //copy full list to partial list
+        //full list is only used when there is a need to refresh the partial list for things like filtering or searching
+        partialStadiumListHelpers = new ArrayList<>();
+        partialStadiumListHelpers.addAll(stadiumListHelpers);
         //adapt list of helper class to listView
-        StadiumListAdapter stadiumListAdapter = new StadiumListAdapter(this,stadiumListHelpers,user);
+        stadiumListAdapter = new StadiumListAdapter(this,partialStadiumListHelpers,user);
         listView.setAdapter(stadiumListAdapter);
     }
 
@@ -96,19 +115,144 @@ public class StadiumsListActivity extends AppCompatActivity {
                 return true;
             case R.id.action_share:
                 //TODO: share popup
+                /*
+                    TODO: Possible information to share when this button is selected
+                        1. "user has visited:
+                            [stadium] ([city],[country]) - [visits] times
+                            ..."
+                        2. "user has visited x out of x (based on filter) stadiums"
+                 */
                 return true;
             case R.id.action_filter:
                 //TODO: filter popup
+                /*
+                    popup with dropdowns for filters
+                        -city
+                        -country
+                        -league
+
+                 */
                 return true;
             case R.id.action_search:
                 //TODO: search popup
+                /*
+                    popup with single text box, search button, and cancel button
+                    search should check the stadium name, city, and country for matches
+                 */
                 return true;
             case R.id.action_sort:
-                //TODO: sort popup
+                //sort popup
+                /*
+                    dropdown with sort options:
+                        -stadium name
+                        -city
+                        -league
+                        -number of visits
+                    ascending and descending button
+                    sort button
+                    cancel button
+                 */
+
+                String[] options = {
+                        "Stadium Name",
+                        "City",
+                        "Country",
+                        "League",
+                        "Number Of Visits"
+                };
+                Dialog dialog = new Dialog(this);
+                dialog.setContentView(R.layout.sort_popup);
+                dialog.setTitle("Sort");
+
+                //set the spinner options for sort
+                Spinner spinner = (Spinner) dialog.findViewById(R.id.sort_popup_spinner);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, options);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(adapter);
+                //get the radio group and confirm/cancel buttons
+                RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.sort_popup_radio_group);
+                Button confirm = (Button) dialog.findViewById(R.id.sort_popup_confirm);
+                Button cancel = (Button) dialog.findViewById(R.id.sot_popup_cancel);
+                //set the onClick for buttons
+                confirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //TODO: call handler, then dismiss
+                        RadioButton radioButton = (RadioButton) dialog.findViewById(radioGroup.getCheckedRadioButtonId());
+                        String sp = (String) spinner.getSelectedItem();
+                        String rg = radioButton.getText().toString();
+                        sortHandler(sp,rg);
+                        dialog.dismiss();
+                    }
+                });
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                //show the dialog
+                dialog.show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    public void sortHandler(String sp, String rg){
+        //TODO: implement sort
+        //sp = spinner selection in string form
+        //rg = radio group selection in string form (asc/dsc)
+        partialStadiumListHelpers.sort(new Comparator<StadiumListHelper>() {
+            @Override
+            public int compare(StadiumListHelper o1, StadiumListHelper o2) {
+                if (sp.equals("Stadium Name")){
+                    int comp = o1.getStadium().getName().compareTo(o2.getStadium().getName());
+                    if (rg.equals("Ascending")){
+                        return comp;
+                    }else{
+                        return comp*(-1);
+                    }
+                }else if (sp.equals("City")){
+                    int comp = o1.getStadium().getCity().compareTo(o2.getStadium().getCity());
+                    if (rg.equals("Ascending")){
+                        return comp;
+                    }else{
+                        return comp*(-1);
+                    }
+                }else if (sp.equals("Country")){
+                    int comp = o1.getStadium().getCountry().compareTo(o2.getStadium().getCountry());
+                    if (rg.equals("Ascending")){
+                        return comp;
+                    }else{
+                        return comp*(-1);
+                    }
+                }else if (sp.equals("League")){
+                    //TODO: database changes required for this
+                }else if (sp.equals("Number Of Visits")){
+                    if (rg.equals("Ascending")){
+                        if (o1.getVisits() == o2.getVisits()){
+                            return 0;
+                        }else if (o1.getVisits() > o2.getVisits()){
+                            return 1;
+                        }else{
+                            return -1;
+                        }
+                    }else{
+                        if (o1.getVisits() == o2.getVisits()){
+                            return 0;
+                        }else if (o1.getVisits() > o2.getVisits()){
+                            return -1;
+                        }else{
+                            return 1;
+                        }
+                    }
+                }
+                return 0;
+            }
+        });
+        stadiumListAdapter = new StadiumListAdapter(this,partialStadiumListHelpers,user);
+        listView.setAdapter(stadiumListAdapter);
     }
 }
