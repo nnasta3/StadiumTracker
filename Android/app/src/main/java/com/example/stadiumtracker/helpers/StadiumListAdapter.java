@@ -1,25 +1,32 @@
 package com.example.stadiumtracker.helpers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.stadiumtracker.R;
+import com.example.stadiumtracker.StadiumsListActivity;
+import com.example.stadiumtracker.data.User;
 
 import java.util.List;
 
 public class StadiumListAdapter implements ListAdapter {
     private List<StadiumListHelper> stadiumListHelpers;
     private Context context;
+    private User user;
 
-    public StadiumListAdapter(Context context, List<StadiumListHelper> stadiumListHelpers){
+    public StadiumListAdapter(Context context, List<StadiumListHelper> stadiumListHelpers, User user){
         this.context = context;
         this.stadiumListHelpers = stadiumListHelpers;
+        this.user = user;
     }
+
     @Override
     public boolean areAllItemsEnabled() {
         return false;
@@ -47,7 +54,7 @@ public class StadiumListAdapter implements ListAdapter {
 
     @Override
     public Object getItem(int position) {
-        return stadiumListHelpers.get(position);
+        return position;
     }
 
     @Override
@@ -74,6 +81,19 @@ public class StadiumListAdapter implements ListAdapter {
             city.setText(cityString);
             numVisits.setText(String.valueOf(stadiumListHelper.getVisits()));
         }
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context,"adapter pos = "+position,Toast.LENGTH_SHORT).show();
+                //TODO: intent switch to stadium view, might not be able to call from here
+                /*
+                Intent intent = new Intent(context, StadiumsViewActivity.class);
+                intent.putExtra("user", user);
+                intent.putExtra("stadium",stadiumListHelper.getStadium());
+                context.startActivity(intent);
+                */
+            }
+        });
         return convertView;
     }
 

@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -76,15 +77,10 @@ public class StadiumsListActivity extends AppCompatActivity {
             }
         }
         //adapt list of helper class to listView
-        StadiumListAdapter stadiumListAdapter = new StadiumListAdapter(this,stadiumListHelpers);
+        StadiumListAdapter stadiumListAdapter = new StadiumListAdapter(this,stadiumListHelpers,user);
         listView.setAdapter(stadiumListAdapter);
-        listView.setOnItemClickListener((p,v,pos,id)-> stadiumHandler(pos));
-        //TODO: figure out how to add a dividers?
     }
 
-    private void stadiumHandler(int pos){
-        Toast.makeText(this,"pos = "+pos,Toast.LENGTH_SHORT).show();
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.stadiums_list_menu, menu);
