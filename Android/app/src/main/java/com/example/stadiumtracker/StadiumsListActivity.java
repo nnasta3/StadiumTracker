@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -108,6 +109,9 @@ public class StadiumsListActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Dialog dialog = new Dialog(this);
+        Button confirm;
+        Button cancel;
         switch (item.getItemId()) {
             case R.id.action_logout:
                 Intent intent = new Intent(this,LoginActivity.class);
@@ -139,20 +143,31 @@ public class StadiumsListActivity extends AppCompatActivity {
                     popup with single text box, search button, and cancel button
                     search should check the stadium name, city, and country for matches
                  */
+                dialog.setContentView(R.layout.search_popup);
+                dialog.setTitle("Search");
+
+                EditText editText = (EditText) dialog.findViewById(R.id.search_popup_input);
+                confirm = (Button) dialog.findViewById(R.id.search_popup_confirm);
+                cancel = (Button) dialog.findViewById(R.id.search_popup_cancel);
+
+                confirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //TODO: call handler, then dismiss
+                        String searchParam = editText.getText().toString();
+                        searchHandler(searchParam);
+                        dialog.dismiss();
+                    }
+                });
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
                 return true;
             case R.id.action_sort:
-                //sort popup
-                /*
-                    dropdown with sort options:
-                        -stadium name
-                        -city
-                        -league
-                        -number of visits
-                    ascending and descending button
-                    sort button
-                    cancel button
-                 */
-
                 String[] options = {
                         "Stadium Name",
                         "City",
@@ -160,7 +175,7 @@ public class StadiumsListActivity extends AppCompatActivity {
                         "League",
                         "Number Of Visits"
                 };
-                Dialog dialog = new Dialog(this);
+
                 dialog.setContentView(R.layout.sort_popup);
                 dialog.setTitle("Sort");
 
@@ -171,14 +186,19 @@ public class StadiumsListActivity extends AppCompatActivity {
                 spinner.setAdapter(adapter);
                 //get the radio group and confirm/cancel buttons
                 RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.sort_popup_radio_group);
-                Button confirm = (Button) dialog.findViewById(R.id.sort_popup_confirm);
-                Button cancel = (Button) dialog.findViewById(R.id.sot_popup_cancel);
+                confirm = (Button) dialog.findViewById(R.id.sort_popup_confirm);
+                cancel = (Button) dialog.findViewById(R.id.sort_popup_cancel);
                 //set the onClick for buttons
                 confirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //TODO: call handler, then dismiss
-                        RadioButton radioButton = (RadioButton) dialog.findViewById(radioGroup.getCheckedRadioButtonId());
+                        int id = radioGroup.getCheckedRadioButtonId();
+                        if (id == -1){
+                            Toast.makeText(getApplicationContext(),"Please select either Asc. or Dsc.",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        RadioButton radioButton = (RadioButton) dialog.findViewById(id);
                         String sp = (String) spinner.getSelectedItem();
                         String rg = radioButton.getText().toString();
                         sortHandler(sp,rg);
@@ -194,14 +214,43 @@ public class StadiumsListActivity extends AppCompatActivity {
                 //show the dialog
                 dialog.show();
                 return true;
+                //TODO: Add refresh list button
             default:
                 return super.onOptionsItemSelected(item);
 
         }
     }
 
+    public void populateList(){
+        
+    }
+    public void filterHandler(){
+        //TODO: implement filter
+    }
+
+    public void searchHandler(String param){
+        List<StadiumListHelper> temp = new ArrayList<>();
+        temp.addAll(partialStadiumListHelpers);
+        partialStadiumListHelpers.clear();
+        for(int i=0; i<stadiumListHelpers.size(); i++){
+            if (stadiumListHelpers.get(i).getStadium().getName().toLowerCase().contains(param.toLowerCase())){
+                partialStadiumListHelpers.add(stadiumListHelpers.get(i));
+            }else if (stadiumListHelpers.get(i).getStadium().getCity().toLowerCase().contains(param.toLowerCase())){
+                partialStadiumListHelpers.add(stadiumListHelpers.get(i));
+            }else if (stadiumListHelpers.get(i).getStadium().getCountry().toLowerCase().contains(param.toLowerCase())){
+                partialStadiumListHelpers.add(stadiumListHelpers.get(i));
+            }
+            //TODO: possibly add more search params
+        }
+        if (partialStadiumListHelpers.size() == 0){
+            partialStadiumListHelpers.addAll(temp);
+            Toast.makeText(this, "Search provided no results", Toast.LENGTH_SHORT).show();
+        }
+        stadiumListAdapter = new StadiumListAdapter(this,partialStadiumListHelpers,user);
+        listView.setAdapter(stadiumListAdapter);
+    }
+
     public void sortHandler(String sp, String rg){
-        //TODO: implement sort
         //sp = spinner selection in string form
         //rg = radio group selection in string form (asc/dsc)
         partialStadiumListHelpers.sort(new Comparator<StadiumListHelper>() {
