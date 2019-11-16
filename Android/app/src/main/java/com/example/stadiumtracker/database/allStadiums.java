@@ -44,7 +44,7 @@ public class  allStadiums extends AsyncTask<String, Void, List<Stadium>> {
             Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
             Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
             Statement stmt = DbConn.createStatement();
-            ResultSet rs = stmt.executeQuery("Select StadiumID,Name,City,Country,Gps_Lat,Gps_Long from [Stadium] Order By Name");
+            ResultSet rs = stmt.executeQuery("Select * from [Stadium] Order By Name");
             while(rs.next()){
                 int id = rs.getInt(1);
                 String name = rs.getString(2);
@@ -52,7 +52,8 @@ public class  allStadiums extends AsyncTask<String, Void, List<Stadium>> {
                 String country = rs.getString(4);
                 double gpsLat = rs.getDouble(5);
                 double gpsLong = rs.getDouble(6);
-                out.add(new Stadium(id,name,city,country,gpsLat,gpsLong));
+                String url = rs.getString(7);
+                out.add(new Stadium(id,name,city,country,gpsLat,gpsLong,url));
             }
             DbConn.close();
         } catch (Exception e) {

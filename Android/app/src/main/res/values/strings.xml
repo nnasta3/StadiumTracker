@@ -41,4 +41,7 @@
     <string name="sort">Sort</string>
     <string name="search">Search</string>
     <string name="filter">Filter</string>
+    <string name="no_image">No Image Found</string>
+    <string name="stadium_view_col_info">Game Info</string>
+    <string name="stadium_view_col_res">Result</string>
 </resources>

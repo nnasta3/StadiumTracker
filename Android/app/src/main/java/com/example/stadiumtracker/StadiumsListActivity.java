@@ -70,6 +70,7 @@ public class StadiumsListActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
 
         //initialize information in the listView
+        //TODO: possibly replace with a call to populateList to allow refresh button
         try{
             stadiums = new allStadiums(this).execute().get();
         }catch (Exception e){
@@ -97,8 +98,10 @@ public class StadiumsListActivity extends AppCompatActivity {
         partialStadiumListHelpers = new ArrayList<>();
         partialStadiumListHelpers.addAll(stadiumListHelpers);
         //adapt list of helper class to listView
-        stadiumListAdapter = new StadiumListAdapter(this,partialStadiumListHelpers,user);
-        listView.setAdapter(stadiumListAdapter);
+        if (partialStadiumListHelpers.size() > 0){
+            stadiumListAdapter = new StadiumListAdapter(this,partialStadiumListHelpers,user);
+            listView.setAdapter(stadiumListAdapter);
+        }
     }
 
     @Override

@@ -7,6 +7,7 @@ public class Stadium implements java.io.Serializable{
     private String country;
     private double gpsLat;
     private double gpsLong;
+    private String imageURL;
 
     //This constructor should only really be used for the first entry in a dropdown
     public Stadium(){
@@ -17,24 +18,17 @@ public class Stadium implements java.io.Serializable{
         //This latitude and longitude is literally the south pole. If they are closer to here than any stadium in our database they probably don't fit our use cases
         gpsLat = 90.0000;
         gpsLong = 45.0000;
+        imageURL = "";
     }
 
-    public Stadium(int stadiumID, String name, String city, String country){
-        this.stadiumID=stadiumID;
-        this.name=name;
-        this.city=city;
-        this.country=country;
-        this.gpsLat=0;
-        this.gpsLong=0;
-    }
-
-    public Stadium(int stadiumID, String name, String city, String country, double gpsLat, double gpsLong){
+    public Stadium(int stadiumID, String name, String city, String country, double gpsLat, double gpsLong, String imageURL){
         this.stadiumID=stadiumID;
         this.name=name;
         this.city=city;
         this.country=country;
         this.gpsLat=gpsLat;
         this.gpsLong=gpsLong;
+        this.imageURL=imageURL;
     }
 
     public int getStadiumID() {
@@ -83,6 +77,14 @@ public class Stadium implements java.io.Serializable{
 
     public void setGpsLong(double gpsLong) {
         this.gpsLong = gpsLong;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     public String toString(){

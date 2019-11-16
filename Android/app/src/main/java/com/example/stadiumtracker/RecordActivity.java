@@ -105,7 +105,7 @@ public class RecordActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
 
         calendar = Calendar.getInstance();
-        dateString = calendar.get(Calendar.DAY_OF_MONTH)+"/"+(calendar.get(Calendar.MONTH)+1)+"/"+calendar.get(Calendar.YEAR);
+        dateString = (calendar.get(Calendar.MONTH)+1)+"/"+calendar.get(Calendar.DAY_OF_MONTH)+"/"+calendar.get(Calendar.YEAR);
         dateBox.setText(dateString);
 
         // Stadium Spinner list, start with hint "stadium"
@@ -533,7 +533,7 @@ public class RecordActivity extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener dateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-            dateString = dayOfMonth+"/"+(month+1)+"/"+year;
+            dateString = (month+1)+"/"+dayOfMonth+"/"+year;
             dateBox.setText(dateString);
             calendar.set(year,month,dayOfMonth);
             //TODO: Look to query api here if selected stadium is not null

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.stadiumtracker.R;
+import com.example.stadiumtracker.StadiumViewActivity;
 import com.example.stadiumtracker.StadiumsListActivity;
 import com.example.stadiumtracker.data.User;
 
@@ -84,14 +85,12 @@ public class StadiumListAdapter implements ListAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,"adapter pos = "+position,Toast.LENGTH_SHORT).show();
-                //TODO: intent switch to stadium view, might not be able to call from here
-                /*
-                Intent intent = new Intent(context, StadiumsViewActivity.class);
+                //intent switch to stadium view
+                Intent intent = new Intent(context, StadiumViewActivity.class);
                 intent.putExtra("user", user);
                 intent.putExtra("stadium",stadiumListHelper.getStadium());
+                intent.putExtra("numVisits",stadiumListHelper.getVisits());
                 context.startActivity(intent);
-                */
             }
         });
         return convertView;

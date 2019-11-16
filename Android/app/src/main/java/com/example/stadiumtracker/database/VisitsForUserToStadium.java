@@ -11,10 +11,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class  eventsQuery extends AsyncTask<String, Void, Event> {
+public class VisitsForUserToStadium extends AsyncTask<Integer, Void, List<Event>> {
     private String ip;
     private String port;
     private String dbName;
@@ -23,7 +27,8 @@ public class  eventsQuery extends AsyncTask<String, Void, Event> {
 
     private Context context;
 
-    public eventsQuery(Context context){
+    public VisitsForUserToStadium
+            (Context context){
         super();
         this.context = context;
         setStrings();
@@ -36,23 +41,19 @@ public class  eventsQuery extends AsyncTask<String, Void, Event> {
         user = context.getResources().getString(R.string.masterUser);
         pass = context.getResources().getString(R.string.masterPass);
     }
+
     @Override
-    protected Event doInBackground(String... strings) {
-        //Strings[0] = stadiumID
-        //Strings[1] = date
-        //Strings[2] = home team
-        //Strings[3] = road team
-        //Strings[4] = home score
-        //Strings[5] = road score
-        //Strings[6] = league
-        Event out;
+    protected List<Event> doInBackground(Integer... integers) {
+        //integers[0] = userID
+        //integers[1] = stadiumID
+        List<Event> out = new ArrayList<>();
         try {
             // SET CONNECTIONSTRING
             Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
             Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
             Statement stmt = DbConn.createStatement();
-            ResultSet rs = stmt.executeQuery("Select * from [Event] where StadiumID="+strings[0]+" AND Date='"+strings[1]+"' AND Home_TeamID="+strings[2]+" AND Road_TeamID="+strings[3]+" AND Home_Score="+strings[4]+" AND Away_Score="+strings[5]+" AND League='"+strings[6]+"'");
-            if(rs.next()){
+            ResultSet rs = stmt.executeQuery("SELECT * FROM [dbo].[Event] WHERE EventID IN (SELECT EventID FROM [dbo].[Visit] WHERE UserID="+integers[0]+") AND StadiumID="+integers[1]+" ORDER BY Date");
+            while (rs.next()){
                 int eventID = rs.getInt(1);
                 int stadiumID = rs.getInt(2);
                 Date date = rs.getDate(3);
@@ -62,24 +63,23 @@ public class  eventsQuery extends AsyncTask<String, Void, Event> {
                 int roadID = rs.getInt(5);
                 Statement stmtHome = DbConn.createStatement();
                 Statement stmtRoad = DbConn.createStatement();
-                ResultSet rsHome = stmtHome.executeQuery("SELECT City,Nickname FROM [dbo].[Team] WHERE TeamID="+homeID);
-                ResultSet rsRoad = stmtRoad.executeQuery("SELECT City,Nickname FROM [dbo].[Team] WHERE TeamID="+roadID);
+                ResultSet rsHome = stmtHome.executeQuery("SELECT Nickname FROM [dbo].[Team] WHERE TeamID="+homeID);
+                ResultSet rsRoad = stmtRoad.executeQuery("SELECT Nickname FROM [dbo].[Team] WHERE TeamID="+roadID);
                 rsHome.next();
                 rsRoad.next();
-                String homeTeam = rsHome.getString(1)+" "+rsHome.getString(2);
-                String roadTeam = rsRoad.getString(1)+" "+rsRoad.getString(2);
+                String homeTeam = rsHome.getString(1);
+                String roadTeam = rsRoad.getString(1);
                 int homeScore = rs.getInt(6);
                 int roadScore = rs.getInt(7);
                 String league = rs.getString(8);
-                out = new Event(eventID,stadiumID, cal, homeTeam,roadTeam,homeScore,roadScore,league);
-            }else{
-                return null;
+                out.add(new Event(eventID,stadiumID,cal,homeTeam,roadTeam,homeScore,roadScore,league));
             }
             DbConn.close();
         } catch (Exception e) {
-            Log.w("Error events query", "" + e);
-            return null;
+            Log.w("Error visits query", "" + e);
+            return out;
         }
         return out;
+
     }
 }
