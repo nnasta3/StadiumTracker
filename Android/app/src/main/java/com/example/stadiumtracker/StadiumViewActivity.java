@@ -1,6 +1,5 @@
 package com.example.stadiumtracker;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -11,28 +10,26 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.stadiumtracker.data.Event;
 import com.example.stadiumtracker.data.Stadium;
 import com.example.stadiumtracker.data.User;
-import com.example.stadiumtracker.data.Visit;
 import com.example.stadiumtracker.database.VisitsForUserToStadium;
 import com.example.stadiumtracker.helpers.StadiumViewAdapter;
 
 import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
+
+/*
+    TODO List for this file:
+        1. Share button
+        2. In StadiumViewAdapter: Onclick visit list item to visit view
+ */
 
 public class StadiumViewActivity extends AppCompatActivity {
     User user;

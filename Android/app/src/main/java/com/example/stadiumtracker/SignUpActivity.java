@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -41,11 +40,11 @@ public class SignUpActivity extends AppCompatActivity {
             //INSERT INTO [User](Username,Password) VALUES (username,password);
             try{
                 if(new InsertUser().execute(username,password).get()){
-                    //TODO: insertion complete send user to login
+                    //insertion complete send user to login
                     Intent intent = new Intent(this,LoginActivity.class);
                     startActivity(intent);
                 }else{
-                    //TODO: insertion failed display message
+                    //insertion failed display message
                     Toast.makeText(getApplicationContext(),"Sign up failed.",Toast.LENGTH_SHORT).show();
                 }
             }catch(Exception e){

@@ -1,16 +1,7 @@
 package com.example.stadiumtracker;
 
-import android.Manifest;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.DataSetObserver;
-import android.graphics.drawable.GradientDrawable;
-import android.location.Location;
-import android.location.LocationManager;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,17 +10,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
 import com.example.stadiumtracker.data.Stadium;
@@ -44,6 +31,15 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+/*
+    TODO List for this file:
+        1. Add refresh button to toolbar
+        2. Move code for populating the listView into own method
+        3. Share button
+        4. Filter button
+        (optional) add more parameters for searching this list
+ */
 
 public class StadiumsListActivity extends AppCompatActivity {
     User user;
@@ -141,11 +137,7 @@ public class StadiumsListActivity extends AppCompatActivity {
                  */
                 return true;
             case R.id.action_search:
-                //TODO: search popup
-                /*
-                    popup with single text box, search button, and cancel button
-                    search should check the stadium name, city, and country for matches
-                 */
+                //search popup
                 dialog.setContentView(R.layout.search_popup);
                 dialog.setTitle("Search");
 
@@ -156,7 +148,7 @@ public class StadiumsListActivity extends AppCompatActivity {
                 confirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //TODO: call handler, then dismiss
+                        //call handler, then dismiss
                         String searchParam = editText.getText().toString();
                         searchHandler(searchParam);
                         dialog.dismiss();
@@ -195,7 +187,7 @@ public class StadiumsListActivity extends AppCompatActivity {
                 confirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //TODO: call handler, then dismiss
+                        //call handler, then dismiss
                         int id = radioGroup.getCheckedRadioButtonId();
                         if (id == -1){
                             Toast.makeText(getApplicationContext(),"Please select either Asc. or Dsc.",Toast.LENGTH_SHORT).show();

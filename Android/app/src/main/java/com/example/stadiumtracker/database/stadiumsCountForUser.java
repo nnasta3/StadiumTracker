@@ -2,25 +2,16 @@ package com.example.stadiumtracker.database;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.example.stadiumtracker.R;
-import com.example.stadiumtracker.data.Event;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class stadiumsCountForUser extends AsyncTask<Integer, Void, Map<Integer,Integer>> {
     private String ip;

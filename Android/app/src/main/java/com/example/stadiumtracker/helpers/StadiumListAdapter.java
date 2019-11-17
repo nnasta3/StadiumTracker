@@ -8,11 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.stadiumtracker.R;
 import com.example.stadiumtracker.StadiumViewActivity;
-import com.example.stadiumtracker.StadiumsListActivity;
 import com.example.stadiumtracker.data.User;
 
 import java.util.List;

@@ -1,6 +1,5 @@
 package com.example.stadiumtracker;
 
-import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -9,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+//TODO: check if this class is even used
 class  dbConnect extends AsyncTask<String, Void, ResultSet> {
     ResultSet set = null;
     String ip = "database-2.ctqwj4cnvuoo.us-east-2.rds.amazonaws.com" ;

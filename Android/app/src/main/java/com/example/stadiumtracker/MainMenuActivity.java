@@ -8,10 +8,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
 
 import com.example.stadiumtracker.data.User;
+
+/*
+    TODO for this file:
+        1. visit list page button
+        2. friends list button
+ */
 
 public class MainMenuActivity extends AppCompatActivity {
     User user;
