@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.stadiumtracker.database.insertUser;
+import com.example.stadiumtracker.database.usernameQuery;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -39,7 +42,7 @@ public class SignUpActivity extends AppCompatActivity {
         if(validateFields(username,password,confirmPassword)){
             //INSERT INTO [User](Username,Password) VALUES (username,password);
             try{
-                if(new InsertUser().execute(username,password).get()){
+                if(new insertUser(this).execute(username,password).get()){
                     //insertion complete send user to login
                     Intent intent = new Intent(this,LoginActivity.class);
                     startActivity(intent);
@@ -64,7 +67,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
         //username taken
         try{
-            if(new UsernameQuery().execute(username).get()){
+            if(new usernameQuery(this).execute(username).get()){
                 Toast.makeText(getApplicationContext(),"Username must be at least 3 characters long.",Toast.LENGTH_SHORT).show();
                 return false;
             }
@@ -84,56 +87,6 @@ public class SignUpActivity extends AppCompatActivity {
 
         return true;
     }
-    class  UsernameQuery extends AsyncTask<String, Void, Boolean> {
-        String ip = getResources().getString(R.string.ip);
-        String port = getResources().getString(R.string.port);
-        String dbName = getResources().getString(R.string.db_name);
-        String user = getResources().getString(R.string.masterUser);
-        String pass = getResources().getString(R.string.masterPass);
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            //Strings[0] = username
-            try {
-                // SET CONNECTIONSTRING
-                Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
-                Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
-                Statement stmt = DbConn.createStatement();
-                ResultSet rs = stmt.executeQuery("Select Username from [User] where Username='"+strings[0]+"'");
-                if(rs.next()){
-                    return true;
-                }
-                DbConn.close();
-            } catch (Exception e) {
-                Log.w("Error connection", "" + e);
-                return false;
-            }
-            return false;
-        }
-    }
-    class  InsertUser extends AsyncTask<String, Void, Boolean> {
-        String ip = getResources().getString(R.string.ip);
-        String port = getResources().getString(R.string.port);
-        String dbName = getResources().getString(R.string.db_name);
-        String user = getResources().getString(R.string.masterUser);
-        String pass = getResources().getString(R.string.masterPass);
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            //Strings[0] = username
-            //String[1] = password
-            try {
-                // SET CONNECTIONSTRING
-                Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
-                Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
-                PreparedStatement ps = DbConn.prepareStatement("INSERT INTO [User](Username,Password) VALUES (?,?);");
-                ps.setString(1,strings[0]);
-                ps.setString(2,strings[1]);
-                ps.executeUpdate();
-                DbConn.close();
-            } catch (Exception e) {
-                Log.w("Error connection", "" + e);
-                return false;
-            }
-            return true;
-        }
-    }
+
+
 }
