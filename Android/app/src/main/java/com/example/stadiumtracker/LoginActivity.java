@@ -15,6 +15,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.concurrent.ExecutionException;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -32,6 +33,18 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    public int dbLoginQuery(String username, String password) {
+        int userID = 0;
+        try {
+            userID = new loginQuery().execute(username,password).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return userID;
+    }
+
     public void loginHandler(View v){
         String username = usernameField.getText().toString();
         String password = passwordField.getText().toString();
@@ -46,7 +59,8 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         try {
-            int userID = new loginQuery().execute(username,password).get();
+            int userID = dbLoginQuery(username,password);
+            //int userID = new loginQuery().execute(username,password).get();
             if(userID != -1){
                 User user = new User(userID,username);
                 Intent intent = new Intent(this,MainMenuActivity.class);
