@@ -1,21 +1,15 @@
 package com.example.stadiumtracker;
 
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.stadiumtracker.data.User;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.concurrent.ExecutionException;
+import com.example.stadiumtracker.database.loginQuery;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -33,18 +27,6 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public int dbLoginQuery(String username, String password) {
-        int userID = 0;
-        try {
-            userID = new loginQuery().execute(username,password).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return userID;
-    }
-
     public void loginHandler(View v){
         String username = usernameField.getText().toString();
         String password = passwordField.getText().toString();
@@ -59,9 +41,8 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         try {
-            int userID = dbLoginQuery(username,password);
-            //int userID = new loginQuery().execute(username,password).get();
-            if(userID != -1){
+            int userID = new loginQuery(this).execute(username,password).get();
+            if(userID != -1) {
                 User user = new User(userID,username);
                 Intent intent = new Intent(this,MainMenuActivity.class);
                 intent.putExtra("user", user);
@@ -79,34 +60,5 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(this,SignUpActivity.class);
         startActivity(intent);
     }
-    class  loginQuery extends AsyncTask<String, Void, Integer> {
-        String ip = getResources().getString(R.string.ip);
-        String port = getResources().getString(R.string.port);
-        String dbName = getResources().getString(R.string.db_name);
-        String user = getResources().getString(R.string.masterUser);
-        String pass = getResources().getString(R.string.masterPass);
-        @Override
-        protected Integer doInBackground(String... strings) {
-            //Strings[0] = username/email
-            //Strings[1] = password
-            try {
-                // SET CONNECTIONSTRING
-                Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
-                Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
-                Statement stmt = DbConn.createStatement();
-                ResultSet rs = stmt.executeQuery("Select Username,Password,UserID from [User] where Password='"+strings[1]+"'");
-                while(rs.next()){
-                    String user = rs.getString(1);
-                    String email = rs.getString(2);
-                    if(strings[0].equals(user) || strings[0].equals(email)){
-                        return rs.getInt(3);
-                    }
-                }
-                DbConn.close();
-            } catch (Exception e) {
-                Log.w("Error connection", "" + e);
-            }
-            return -1;
-        }
-    }
+
 }
