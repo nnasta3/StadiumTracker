@@ -10,7 +10,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
-public class  visitCreate extends AsyncTask<String, Void, Boolean> {
+public class  visitCreate extends AsyncTask<Integer, Void, Boolean> {
     private String ip;
     private String port;
     private String dbName;
@@ -33,17 +33,17 @@ public class  visitCreate extends AsyncTask<String, Void, Boolean> {
         pass = context.getResources().getString(R.string.masterPass);
     }
     @Override
-    protected Boolean doInBackground(String... strings) {
-        //Strings[0] = eventID
-        //Strings[1] = visitID
+    protected Boolean doInBackground(Integer... ints) {
+        //ints[0] = eventID
+        //ints[1] = visitID
         int out = -1;
         try {
             // SET CONNECTIONSTRING
             Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
             Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
-            PreparedStatement ps = DbConn.prepareStatement("INSERT INTO [Visit](EventID,UserID) VALUES (convert(int,?),convert(int,?));");
-            ps.setString(1,strings[0]);
-            ps.setString(2,strings[1]);
+            PreparedStatement ps = DbConn.prepareStatement("INSERT INTO [Visit](EventID,UserID) VALUES (?,?);");
+            ps.setInt(1,ints[0]);
+            ps.setInt(2,ints[1]);
             ps.executeUpdate();
             DbConn.close();
         } catch (Exception e) {

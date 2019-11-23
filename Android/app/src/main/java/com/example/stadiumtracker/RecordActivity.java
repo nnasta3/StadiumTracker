@@ -423,7 +423,7 @@ public class RecordActivity extends AppCompatActivity {
         }
         //add visit to database
         try{
-            if(!new visitCreate(this).execute(String.valueOf(eventID),String.valueOf(user.getUserID())).get()){
+            if(!new visitCreate(this).execute(eventID,user.getUserID()).get()){
                 Log.w("Error","visit create failed");
                 Toast.makeText(getApplicationContext(),"Failed to record event",Toast.LENGTH_SHORT).show();
                 return;
