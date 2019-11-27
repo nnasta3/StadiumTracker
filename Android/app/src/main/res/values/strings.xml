@@ -44,4 +44,9 @@
     <string name="no_image">No Image Found</string>
     <string name="stadium_view_col_info">Game Info</string>
     <string name="stadium_view_col_res">Result</string>
+    <string name="friend_menu_title">Friends Menu</string>
+    <string name="friend_menu_add_friend">Add Friend</string>
+    <string name="friend_menu_friends_list" >Friends List</string>
+    <string name="friend_menu_compare_stadiums">Compare Stadiums</string>
+    <string name="friend_menu_compare_visits">Compare Visits</string>
 </resources>
