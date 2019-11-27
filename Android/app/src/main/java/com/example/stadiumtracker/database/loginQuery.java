@@ -8,6 +8,7 @@ import com.example.stadiumtracker.R;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -43,8 +44,9 @@ public class loginQuery extends AsyncTask<String, Void, Integer> {
             // SET CONNECTIONSTRING
             Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
             Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
-            Statement stmt = DbConn.createStatement();
-            ResultSet rs = stmt.executeQuery("Select Username,Password,UserID from [User] where Password='"+strings[1]+"'");
+            PreparedStatement stmt = DbConn.prepareStatement("Select Username,Password,UserID from [User] where Password=?");
+            stmt.setString(1,strings[1]);
+            ResultSet rs = stmt.executeQuery();
             while(rs.next()){
                 String user = rs.getString(1);
                 if(strings[0].equals(user)){

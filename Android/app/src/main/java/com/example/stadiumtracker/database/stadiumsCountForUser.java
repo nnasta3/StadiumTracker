@@ -8,6 +8,7 @@ import com.example.stadiumtracker.R;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.HashMap;
@@ -43,8 +44,9 @@ public class stadiumsCountForUser extends AsyncTask<Integer, Void, Map<Integer,I
             // SET CONNECTIONSTRING
             Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
             Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
-            Statement stmt = DbConn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT StadiumID, Count(*) AS 'count' FROM [stadiumTrackerDB].[dbo].[Event] WHERE EventID IN (SELECT EventID FROM [stadiumTrackerDB].[dbo].[Visit] WHERE UserID = "+integers[0]+") GROUP BY StadiumID");
+            PreparedStatement stmt = DbConn.prepareStatement("SELECT StadiumID, Count(*) AS 'count' FROM [stadiumTrackerDB].[dbo].[Event] WHERE EventID IN (SELECT EventID FROM [stadiumTrackerDB].[dbo].[Visit] WHERE UserID = ?) GROUP BY StadiumID");
+            stmt.setInt(1,integers[0]);
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()){
                 int stadiumID = rs.getInt(1);
                 int count = rs.getInt(2);

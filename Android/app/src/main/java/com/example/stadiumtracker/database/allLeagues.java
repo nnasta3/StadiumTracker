@@ -8,6 +8,7 @@ import com.example.stadiumtracker.R;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -42,8 +43,8 @@ public class  allLeagues extends AsyncTask<String, Void, List<String>> {
             // SET CONNECTIONSTRING
             Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
             Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
-            Statement stmt = DbConn.createStatement();
-            ResultSet rs = stmt.executeQuery("Select Abbrev from [League] Order By Abbrev");
+            PreparedStatement ps = DbConn.prepareStatement("Select Abbrev from [League] Order By Abbrev");
+            ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 String name = rs.getString(1);
                 out.add(name);

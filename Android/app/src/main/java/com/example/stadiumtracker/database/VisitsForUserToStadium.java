@@ -9,6 +9,7 @@ import com.example.stadiumtracker.data.Event;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -49,8 +50,10 @@ public class VisitsForUserToStadium extends AsyncTask<Integer, Void, List<Event>
             // SET CONNECTIONSTRING
             Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
             Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
-            Statement stmt = DbConn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM [dbo].[Event] WHERE EventID IN (SELECT EventID FROM [dbo].[Visit] WHERE UserID="+integers[0]+") AND StadiumID="+integers[1]+" ORDER BY Date");
+            PreparedStatement stmt = DbConn.prepareStatement("SELECT * FROM [dbo].[Event] WHERE EventID IN (SELECT EventID FROM [dbo].[Visit] WHERE UserID=?) AND StadiumID=? ORDER BY Date");
+            stmt.setInt(1,integers[0]);
+            stmt.setInt(2,integers[1]);
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()){
                 int eventID = rs.getInt(1);
                 int stadiumID = rs.getInt(2);
@@ -59,10 +62,12 @@ public class VisitsForUserToStadium extends AsyncTask<Integer, Void, List<Event>
                 cal.setTime(date);
                 int homeID = rs.getInt(4);
                 int roadID = rs.getInt(5);
-                Statement stmtHome = DbConn.createStatement();
-                Statement stmtRoad = DbConn.createStatement();
-                ResultSet rsHome = stmtHome.executeQuery("SELECT Nickname FROM [dbo].[Team] WHERE TeamID="+homeID);
-                ResultSet rsRoad = stmtRoad.executeQuery("SELECT Nickname FROM [dbo].[Team] WHERE TeamID="+roadID);
+                PreparedStatement stmtHome = DbConn.prepareStatement("SELECT Nickname FROM [dbo].[Team] WHERE TeamID=?");
+                PreparedStatement stmtRoad = DbConn.prepareStatement("SELECT Nickname FROM [dbo].[Team] WHERE TeamID=?");
+                stmtHome.setInt(1,homeID);
+                stmtRoad.setInt(1,roadID);
+                ResultSet rsHome = stmtHome.executeQuery();
+                ResultSet rsRoad = stmtRoad.executeQuery();
                 rsHome.next();
                 rsRoad.next();
                 String homeTeam = rsHome.getString(1);

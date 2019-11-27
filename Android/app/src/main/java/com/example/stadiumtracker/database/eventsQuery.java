@@ -9,6 +9,7 @@ import com.example.stadiumtracker.data.Event;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Calendar;
@@ -50,8 +51,15 @@ public class  eventsQuery extends AsyncTask<String, Void, Event> {
             // SET CONNECTIONSTRING
             Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
             Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
-            Statement stmt = DbConn.createStatement();
-            ResultSet rs = stmt.executeQuery("Select * from [Event] where StadiumID="+strings[0]+" AND Date='"+strings[1]+"' AND Home_TeamID="+strings[2]+" AND Road_TeamID="+strings[3]+" AND Home_Score="+strings[4]+" AND Away_Score="+strings[5]+" AND League='"+strings[6]+"'");
+            PreparedStatement ps = DbConn.prepareStatement("Select * from [Event] where StadiumID=convert(int,?) AND Date=convert(date,?) AND Home_TeamID=convert(int,?) AND Road_TeamID=convert(int,?) AND Home_Score=convert(int,?) AND Away_Score=convert(int,?) AND League=?");
+            ps.setString(1,strings[0]);
+            ps.setString(2,strings[1]);
+            ps.setString(3,strings[2]);
+            ps.setString(4,strings[3]);
+            ps.setString(5,strings[4]);
+            ps.setString(6,strings[5]);
+            ps.setString(7,strings[6]);
+            ResultSet rs = ps.executeQuery();
             if(rs.next()){
                 int eventID = rs.getInt(1);
                 int stadiumID = rs.getInt(2);
@@ -60,10 +68,12 @@ public class  eventsQuery extends AsyncTask<String, Void, Event> {
                 cal.setTime(date);
                 int homeID = rs.getInt(4);
                 int roadID = rs.getInt(5);
-                Statement stmtHome = DbConn.createStatement();
-                Statement stmtRoad = DbConn.createStatement();
-                ResultSet rsHome = stmtHome.executeQuery("SELECT City,Nickname FROM [dbo].[Team] WHERE TeamID="+homeID);
-                ResultSet rsRoad = stmtRoad.executeQuery("SELECT City,Nickname FROM [dbo].[Team] WHERE TeamID="+roadID);
+                PreparedStatement stmtHome = DbConn.prepareStatement("SELECT City,Nickname FROM [dbo].[Team] WHERE TeamID=?");
+                PreparedStatement stmtRoad = DbConn.prepareStatement("SELECT City,Nickname FROM [dbo].[Team] WHERE TeamID=?");
+                stmtHome.setInt(1,homeID);
+                stmtRoad.setInt(1,roadID);
+                ResultSet rsHome = stmtHome.executeQuery();
+                ResultSet rsRoad = stmtRoad.executeQuery();
                 rsHome.next();
                 rsRoad.next();
                 String homeTeam = rsHome.getString(1)+" "+rsHome.getString(2);

@@ -8,6 +8,7 @@ import com.example.stadiumtracker.R;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -40,8 +41,9 @@ public class  usernameQuery extends AsyncTask<String, Void, Boolean> {
             // SET CONNECTIONSTRING
             Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
             Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
-            Statement stmt = DbConn.createStatement();
-            ResultSet rs = stmt.executeQuery("Select Username from [User] where Username='"+strings[0]+"'");
+            PreparedStatement stmt = DbConn.prepareStatement("Select Username from [User] where Username=?");
+            stmt.setString(1,strings[0]);
+            ResultSet rs = stmt.executeQuery();
             if(rs.next()){
                 return true;
             }
