@@ -82,7 +82,7 @@ public class MainMenuActivity extends AppCompatActivity {
         //TODO: Send to visit page
     }
     public void friendsHandler(View v){
-        Intent intent = new Intent(this, FriendsMenuActivity.class);
+        Intent intent = new Intent(this, FriendsListActivity.class);
         intent.putExtra("user", user);
         startActivity(intent);
     }
