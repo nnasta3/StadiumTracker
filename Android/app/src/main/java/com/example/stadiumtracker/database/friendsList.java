@@ -17,9 +17,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class friendsList extends AsyncTask<Integer, Void, List<Friend>> {
+public class friendsList extends AsyncTask<Integer, Void, List<Map<String, Date>>> {
     private String ip;
     private String port;
     private String dbName;
@@ -43,8 +45,9 @@ public class friendsList extends AsyncTask<Integer, Void, List<Friend>> {
     }
 
     @Override
-    protected List<Friend> doInBackground(Integer... integers) {
-        List<Friend> retList = new ArrayList<>();
+    protected List<Map<String, Date>> doInBackground(Integer... integers) {
+        List<Map<String, Date>> retList = new ArrayList<>();
+
         try {
             // SET CONNECTIONSTRING
             Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
@@ -66,7 +69,9 @@ public class friendsList extends AsyncTask<Integer, Void, List<Friend>> {
                     ResultSet rs2 = ps2.executeQuery();
                     rs2.next();
                     String name = rs2.getString(1);
-                    retList.add(new Friend(name, date));
+                    Map<String,Date> temp = new HashMap<String,Date>();
+                    temp.put(name,date);
+                    retList.add(temp);
                 }
                 else{
                     PreparedStatement ps2 = DbConn.prepareStatement("SELECT Username FROM [stadiumTrackerDB].[dbo].[User] WHERE UserID = ?");
@@ -74,7 +79,9 @@ public class friendsList extends AsyncTask<Integer, Void, List<Friend>> {
                     ResultSet rs2 = ps2.executeQuery();
                     rs2.next();
                     String name = rs2.getString(1);
-                    retList.add(new Friend(name, date));
+                    Map<String,Date> temp = new HashMap<String,Date>();
+                    temp.put(name,date);
+                    retList.add(temp);
                 }
             }
             DbConn.close();

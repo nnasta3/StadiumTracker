@@ -34,13 +34,19 @@
         app:layout_constraintVertical_bias="0.0"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-    <ListView
-        android:id="@+id/friends_list_list_view"
-        android:layout_width="410dp"
-        android:layout_height="538dp"
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="408dp"
+        android:layout_height="506dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <ListView
+            android:id="@+id/friends_list_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

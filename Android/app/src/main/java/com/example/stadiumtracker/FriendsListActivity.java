@@ -8,23 +8,29 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.WrapperListAdapter;
 
 import com.example.stadiumtracker.data.Friend;
 import com.example.stadiumtracker.data.User;
 import com.example.stadiumtracker.database.friendsList;
 
+import java.lang.reflect.Array;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class FriendsListActivity extends AppCompatActivity {
 
     User user;
     Toolbar toolbar;
     ListView listView;
-    List<Friend> friends;
-
+    List<Map<String, Date>> friends;
+    //List<Map<String, Date>> convertedFriends;
 
 
     @Override
@@ -45,13 +51,33 @@ public class FriendsListActivity extends AppCompatActivity {
         //Build Friends List
         try{
             friends = new friendsList(this).execute(user.getUserID()).get();
-
         }catch (Exception e){
             Log.w("error friendsList",e.toString());
         }
 
+        //Convert friends list to String
+        ArrayList<String> convertedFriends = new ArrayList<String>();
+        for(int i =0;i<friends.size();i++){
+            convertedFriends.add(convertMapToString(friends.get(i)));
+        }
+
+        //Populate listView
+        ArrayAdapter<String>friendAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, convertedFriends);
+        listView.setAdapter(friendAdapter);
 
 
+    }
+
+
+    /*
+        Converts mapped (friendName, Date) to string for display purposes
+    */
+    public String convertMapToString(Map<String,Date> map){
+        StringBuilder retString = new StringBuilder();
+        for(String key: map.keySet()){
+            retString.append(key + "\nDate Added: "+ map.get(key));
+        }
+        return retString.toString();
     }
 
     @Override
@@ -74,8 +100,10 @@ public class FriendsListActivity extends AppCompatActivity {
                 //TODO: handle friend requests
                 return true;
             default:
-                return super.onOptionsItemSelected(item);
-
+                Intent intent2 = new Intent(this, MainMenuActivity.class);
+                intent2.putExtra("user", user);
+                startActivity(intent2);
+                return true;
         }
     }
 }
