@@ -8,17 +8,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.WrapperListAdapter;
-
-import com.example.stadiumtracker.data.Friend;
 import com.example.stadiumtracker.data.User;
 import com.example.stadiumtracker.database.friendsList;
-
-import java.lang.reflect.Array;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +23,6 @@ public class FriendsListActivity extends AppCompatActivity {
     Toolbar toolbar;
     ListView listView;
     List<Map<String, Date>> friends;
-    //List<Map<String, Date>> convertedFriends;
 
 
     @Override
