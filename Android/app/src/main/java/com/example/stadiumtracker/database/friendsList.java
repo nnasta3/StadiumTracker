@@ -54,9 +54,11 @@ public class friendsList extends AsyncTask<Integer, Void, List<Map<String, Date>
                 int userID1 = rs.getInt(1);
                 int userID2 = rs.getInt(2);
                 Date date = rs.getDate(3);
+                int user1Accept = rs.getInt(4);
+                int user2Accept = rs.getInt(5);
 
                 //Convert UserID to Username
-                if (userID1 == integers[0]) {
+                if (userID1 == integers[0] && user2Accept == 1 && user1Accept ==1) {
                     PreparedStatement ps2 = DbConn.prepareStatement("SELECT Username FROM [stadiumTrackerDB].[dbo].[User] WHERE UserID = ?");
                     ps2.setInt(1,userID2);
                     ResultSet rs2 = ps2.executeQuery();
@@ -66,15 +68,17 @@ public class friendsList extends AsyncTask<Integer, Void, List<Map<String, Date>
                     temp.put(name,date);
                     retList.add(temp);
                 }
-                else{
-                    PreparedStatement ps2 = DbConn.prepareStatement("SELECT Username FROM [stadiumTrackerDB].[dbo].[User] WHERE UserID = ?");
-                    ps2.setInt(1,userID1);
-                    ResultSet rs2 = ps2.executeQuery();
-                    rs2.next();
-                    String name = rs2.getString(1);
-                    Map<String,Date> temp = new HashMap<String,Date>();
-                    temp.put(name,date);
-                    retList.add(temp);
+                else {
+                    if(user1Accept == 1 && user2Accept ==1) {
+                        PreparedStatement ps2 = DbConn.prepareStatement("SELECT Username FROM [stadiumTrackerDB].[dbo].[User] WHERE UserID = ?");
+                        ps2.setInt(1, userID1);
+                        ResultSet rs2 = ps2.executeQuery();
+                        rs2.next();
+                        String name = rs2.getString(1);
+                        Map<String, Date> temp = new HashMap<String, Date>();
+                        temp.put(name, date);
+                        retList.add(temp);
+                    }
                 }
             }
             DbConn.close();

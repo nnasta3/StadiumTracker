@@ -1,5 +1,6 @@
 package com.example.stadiumtracker;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -8,10 +9,16 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import com.example.stadiumtracker.data.User;
 import com.example.stadiumtracker.database.friendsList;
+import com.example.stadiumtracker.database.addFriend;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +30,11 @@ public class FriendsListActivity extends AppCompatActivity {
     Toolbar toolbar;
     ListView listView;
     List<Map<String, Date>> friends;
-
+    int addFriend = -2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends_list);
 
@@ -57,9 +65,7 @@ public class FriendsListActivity extends AppCompatActivity {
         ArrayAdapter<String>friendAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, convertedFriends);
         listView.setAdapter(friendAdapter);
 
-
     }
-
 
     /*
         Converts mapped (friendName, Date) to string for display purposes
@@ -80,22 +86,71 @@ public class FriendsListActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Dialog dialog = new Dialog(this);
+        Button add;
+        Button cancel;
         switch (item.getItemId()) {
             case R.id.action_logout:
                 Intent intent = new Intent(this,LoginActivity.class);
                 startActivity(intent);
                 return true;
-            case R.id.action_add_friend://This needs to be add a friend
-                //TODO: handle add a friend
+
+            case R.id.action_add_friend://Enter into DB and then update userXAccept in DB when user X accepts
+                //search popup
+                dialog.setContentView(R.layout.add_friend_popup);
+                dialog.setTitle("Add Friend");
+
+                EditText editText = (EditText) dialog.findViewById(R.id.search_popup_input);
+                add = (Button) dialog.findViewById(R.id.search_popup_confirm);
+                cancel = (Button) dialog.findViewById(R.id.search_popup_cancel);
+
+                add.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //call handler, then dismiss
+                        String searchParam = editText.getText().toString();
+                        int check = searchHandler(searchParam);
+                        if (check ==-1){//User does not exist
+                            Toast.makeText(FriendsListActivity.this, "That User Does Not Exist", Toast.LENGTH_LONG).show();
+                        }
+                        else if(check == 0){//Successfully created a friend request and is pending other user acceptance
+                            Toast.makeText(FriendsListActivity.this, "A Friend Request Has Been Sent To " + searchParam, Toast.LENGTH_LONG).show();
+                        }
+                        else if(check == 1){//Friend request already exists
+                            Toast.makeText(FriendsListActivity.this, "That User Is Already Your Friend, Or A Request Has Already Been Sent", Toast.LENGTH_LONG).show();
+                        }
+                        else if(check ==-2){//Error in DB
+                            Toast.makeText(FriendsListActivity.this, "Error Connecting to Database, Please Try Again", Toast.LENGTH_LONG).show();
+                        }
+                        dialog.dismiss();
+                    }
+                });
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
                 return true;
-            case R.id.action_friend_requests:
+
+            case R.id.action_friend_requests://List of requests, when a user accepts save that in database
                 //TODO: handle friend requests
                 return true;
+
             default:
                 Intent intent2 = new Intent(this, MainMenuActivity.class);
                 intent2.putExtra("user", user);
                 startActivity(intent2);
                 return true;
         }
+    }
+    public int searchHandler(String param){
+        try{
+            addFriend = new addFriend(this).execute(param,Integer.toString(user.getUserID())).get();
+        }catch (Exception e){
+            Log.w("error addFriend",e.toString());
+        }
+        return addFriend;
     }
 }

@@ -47,4 +47,5 @@
     <string name="friend_menu_title">Friends List</string>
     <string name="action_add_friend">Add A Friend</string>
     <string name="action_friends_list_friend_requests">Friend Requests</string>
+    <string name="addFriend">Add Friend</string>
 </resources>
