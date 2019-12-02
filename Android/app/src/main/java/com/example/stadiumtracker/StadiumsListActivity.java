@@ -35,7 +35,7 @@ import java.util.Map;
 /*
     TODO List for this file:
         1. Add refresh button to toolbar
-        2. Move code for populating the listView into own method
+        2. Move code for populating the listView into own method (for refresh button)
         3. Share button
         4. Filter button
         (optional) add more parameters for searching this list
@@ -211,7 +211,11 @@ public class StadiumsListActivity extends AppCompatActivity {
                 return true;
                 //TODO: Add refresh list button
             default:
-                return super.onOptionsItemSelected(item);
+                //Back button pressed
+                Intent backIntent = new Intent(this,MainMenuActivity.class);
+                backIntent.putExtra("user", user);
+                startActivity(backIntent);
+                return true;
 
         }
     }

@@ -353,7 +353,11 @@ public class RecordActivity extends AppCompatActivity {
                 }
                 return true;
             default:
-                return super.onOptionsItemSelected(item);
+                //Back button pressed
+                Intent backIntent = new Intent(this,MainMenuActivity.class);
+                backIntent.putExtra("user", user);
+                startActivity(backIntent);
+                return true;
 
         }
     }

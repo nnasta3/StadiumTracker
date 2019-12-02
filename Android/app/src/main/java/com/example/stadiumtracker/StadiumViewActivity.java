@@ -115,7 +115,12 @@ public class StadiumViewActivity extends AppCompatActivity {
                 //TODO: handle sharing
                 return true;
             default:
-                return super.onOptionsItemSelected(item);
+                //TODO: Might need to be changed later
+                //Back button pressed
+                Intent backIntent = new Intent(this,StadiumsListActivity.class);
+                backIntent.putExtra("user", user);
+                startActivity(backIntent);
+                return true;
 
         }
     }
