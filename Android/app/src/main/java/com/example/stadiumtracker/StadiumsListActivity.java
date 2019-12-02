@@ -34,7 +34,7 @@ import java.util.Map;
 
 /*
     TODO List for this file:
-        1. Add refresh button to toolbar
+        1. Add refresh button to toolbar (Maybe)
         2. Move code for populating the listView into own method (for refresh button)
         3. Share button
         4. Filter button

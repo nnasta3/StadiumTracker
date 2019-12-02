@@ -115,7 +115,6 @@ public class StadiumViewActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.action_share:
-                //TODO: handle sharing
                 //Share a string containing username, stadium, number of visits, and most recent visit
                 String shareString = user.getName()+" has visited "+stadium.getName()+" "+numVisits;
                 if (numVisits == 1){
@@ -133,7 +132,6 @@ public class StadiumViewActivity extends AppCompatActivity {
                 startActivity(shareIntent);
                 return true;
             default:
-                //TODO: Might need to be changed later
                 //Back button pressed
                 Intent backIntent = new Intent(this,StadiumsListActivity.class);
                 backIntent.putExtra("user", user);

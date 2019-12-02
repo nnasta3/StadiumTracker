@@ -49,4 +49,7 @@
     <string name="action_friends_list_friend_requests">Friend Requests</string>
     <string name="addFriend">Add Friend</string>
     <string name="compare_menu_title">Compare With Friend</string>
+    <string name="visit_list_title">List of Visits</string>
+    <string name="visit_list_col1">Event</string>
+    <string name="visit_list_col2">Result</string>
 </resources>
