@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -65,6 +66,14 @@ public class FriendsListActivity extends AppCompatActivity {
         ArrayAdapter<String>friendAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, convertedFriends);
         listView.setAdapter(friendAdapter);
 
+        //Present User with more detailed info about their friend (compare pages) and option to remove friend
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
+
     }
 
     /*
@@ -95,7 +104,7 @@ public class FriendsListActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
 
-            case R.id.action_add_friend://Enter into DB and then update userXAccept in DB when user X accepts
+            case R.id.action_add_friend://Enter into DB and then update userXAccept in DB when user X accepts and update Date to current time
                 //search popup
                 dialog.setContentView(R.layout.add_friend_popup);
                 dialog.setTitle("Add Friend");
@@ -119,8 +128,11 @@ public class FriendsListActivity extends AppCompatActivity {
                         else if(check == 1){//Friend request already exists
                             Toast.makeText(FriendsListActivity.this, "That User Is Already Your Friend, Or A Request Has Already Been Sent", Toast.LENGTH_LONG).show();
                         }
-                        else if(check ==-2){//Error in DB
+                        else if(check == -2){//Error in DB
                             Toast.makeText(FriendsListActivity.this, "Error Connecting to Database, Please Try Again", Toast.LENGTH_LONG).show();
+                        }
+                        else if(check == -3){
+                            Toast.makeText(FriendsListActivity.this, "You Cannot Add Yourself As A Friend", Toast.LENGTH_LONG).show();
                         }
                         dialog.dismiss();
                     }
