@@ -50,7 +50,7 @@ public class VisitsForUserToStadium extends AsyncTask<Integer, Void, List<Event>
             // SET CONNECTIONSTRING
             Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
             Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
-            PreparedStatement stmt = DbConn.prepareStatement("SELECT * FROM [dbo].[Event] WHERE EventID IN (SELECT EventID FROM [dbo].[Visit] WHERE UserID=?) AND StadiumID=? ORDER BY Date");
+            PreparedStatement stmt = DbConn.prepareStatement("SELECT * FROM [dbo].[Event] WHERE EventID IN (SELECT EventID FROM [dbo].[Visit] WHERE UserID=?) AND StadiumID=? ORDER BY Date DESC");
             stmt.setInt(1,integers[0]);
             stmt.setInt(2,integers[1]);
             ResultSet rs = stmt.executeQuery();

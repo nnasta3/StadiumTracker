@@ -23,6 +23,9 @@ import com.example.stadiumtracker.helpers.StadiumViewAdapter;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 /*
@@ -113,6 +116,21 @@ public class StadiumViewActivity extends AppCompatActivity {
                 return true;
             case R.id.action_share:
                 //TODO: handle sharing
+                //Share a string containing username, stadium, number of visits, and most recent visit
+                String shareString = user.getName()+" has visited "+stadium.getName()+" "+numVisits;
+                if (numVisits == 1){
+                    shareString += " time ";
+                }else {
+                    shareString += " times ";
+                }
+                shareString += "with the most recent being on "+events.get(0).getDateFullString();
+                //Can say events[0] is most recent because of sql query
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, shareString);
+                sendIntent.setType("text/plain");
+                Intent shareIntent = Intent.createChooser(sendIntent, null);
+                startActivity(shareIntent);
                 return true;
             default:
                 //TODO: Might need to be changed later
