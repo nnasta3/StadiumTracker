@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +21,10 @@ import android.widget.Toast;
 
 import com.example.stadiumtracker.data.Event;
 import com.example.stadiumtracker.data.User;
+import com.example.stadiumtracker.database.allEventsForUser;
+import com.example.stadiumtracker.helpers.VisitListAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class VisitListActivity extends AppCompatActivity {
@@ -28,7 +32,7 @@ public class VisitListActivity extends AppCompatActivity {
     Toolbar toolbar;
     ListView listView;
     List<Event> events;
-    //TODO adapter
+    VisitListAdapter visitListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +50,17 @@ public class VisitListActivity extends AppCompatActivity {
         ab.setDisplayShowHomeEnabled(false);
         ab.setDisplayHomeAsUpEnabled(true);
 
-        //TODO: init info in listView
-
+        //Query for all events with this user
+        try{
+            events = new allEventsForUser(this).execute(user.getUserID()).get();
+        }catch (Exception e){
+            Log.e("query for events",e.toString());
+            events = new ArrayList<>();
+        }
+        //Create adapter
+        visitListAdapter = new VisitListAdapter(events,this,user);
+        //Set adapter for listview
+        listView.setAdapter(visitListAdapter);
     }
 
     @Override

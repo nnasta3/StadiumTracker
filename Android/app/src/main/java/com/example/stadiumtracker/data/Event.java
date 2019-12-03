@@ -2,7 +2,7 @@ package com.example.stadiumtracker.data;
 
 import java.util.Calendar;
 
-public class Event {
+public class Event implements java.io.Serializable{
     int eventID;
     int stadiumID;
     Calendar date;
