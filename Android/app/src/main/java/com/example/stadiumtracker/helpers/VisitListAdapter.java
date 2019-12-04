@@ -79,15 +79,9 @@ public class VisitListAdapter implements ListAdapter {
             TextView teamsText = convertView.findViewById(R.id.visit_list_row_teams);
             TextView stadiumText = convertView.findViewById(R.id.visit_list_row_stadium);
             TextView resultText = convertView.findViewById(R.id.visit_list_row_result);
-            String temp = event.getRoadTeam() + " @ " + event.getHomeTeam() + " ("+event.getLeague()+")";
+            String temp = event.getRoadTeam().getNickname() + " @ " + event.getHomeTeam().getNickname() + " ("+event.getLeague()+")";
             teamsText.setText(temp);
-            Stadium stadium = null;
-            try{
-                stadium = new getStadium(context).execute(event.getStadiumID()).get();
-            }catch (Exception e){
-                Log.e("visitlistadapter",e.toString());
-            }
-            temp = stadium+" - "+event.getDateFullString();
+            temp = event.getStadium()+" - "+event.getDateFullString();
             stadiumText.setText(temp);
             temp = event.getRoadScore()+" - "+event.getHomeScore();
             resultText.setText(temp);

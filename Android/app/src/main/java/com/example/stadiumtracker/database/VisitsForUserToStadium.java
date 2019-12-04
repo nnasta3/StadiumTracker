@@ -6,6 +6,8 @@ import android.util.Log;
 
 import com.example.stadiumtracker.R;
 import com.example.stadiumtracker.data.Event;
+import com.example.stadiumtracker.data.Stadium;
+import com.example.stadiumtracker.data.Team;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,7 +17,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class VisitsForUserToStadium extends AsyncTask<Integer, Void, List<Event>> {
     private String ip;
@@ -23,7 +28,8 @@ public class VisitsForUserToStadium extends AsyncTask<Integer, Void, List<Event>
     private String dbName;
     private String user;
     private String pass;
-
+    private Map<Integer, Stadium> stadiumMap;
+    private Map<Integer, Team> teamMap;
     private Context context;
 
     public VisitsForUserToStadium
@@ -40,7 +46,24 @@ public class VisitsForUserToStadium extends AsyncTask<Integer, Void, List<Event>
         user = context.getResources().getString(R.string.masterUser);
         pass = context.getResources().getString(R.string.masterPass);
     }
-
+    @Override
+    protected void onPreExecute(){
+        try{
+            List<Stadium> stadiums = new allStadiums(context).execute().get();
+            List<Team>  teams = new allTeams(context).execute().get();
+            //Create map for stadiums and teams
+            stadiumMap = new HashMap<>();
+            teamMap = new HashMap<>();
+            for (Stadium stadium : stadiums){
+                stadiumMap.put(stadium.getStadiumID(),stadium);
+            }
+            for (Team team : teams){
+                teamMap.put(team.getTeamID(),team);
+            }
+        }catch (Exception e){
+            Log.e("VFUTS",e.toString());
+        }
+    }
     @Override
     protected List<Event> doInBackground(Integer... integers) {
         //integers[0] = userID
@@ -56,26 +79,16 @@ public class VisitsForUserToStadium extends AsyncTask<Integer, Void, List<Event>
             ResultSet rs = stmt.executeQuery();
             while (rs.next()){
                 int eventID = rs.getInt(1);
-                int stadiumID = rs.getInt(2);
+                Stadium stadium = stadiumMap.get(rs.getInt(2));
                 Date date = rs.getDate(3);
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(date);
-                int homeID = rs.getInt(4);
-                int roadID = rs.getInt(5);
-                PreparedStatement stmtHome = DbConn.prepareStatement("SELECT Nickname FROM [dbo].[Team] WHERE TeamID=?");
-                PreparedStatement stmtRoad = DbConn.prepareStatement("SELECT Nickname FROM [dbo].[Team] WHERE TeamID=?");
-                stmtHome.setInt(1,homeID);
-                stmtRoad.setInt(1,roadID);
-                ResultSet rsHome = stmtHome.executeQuery();
-                ResultSet rsRoad = stmtRoad.executeQuery();
-                rsHome.next();
-                rsRoad.next();
-                String homeTeam = rsHome.getString(1);
-                String roadTeam = rsRoad.getString(1);
+                Team homeTeam = teamMap.get(rs.getInt(4));
+                Team roadTeam = teamMap.get(rs.getInt(5));
                 int homeScore = rs.getInt(6);
                 int roadScore = rs.getInt(7);
                 String league = rs.getString(8);
-                out.add(new Event(eventID,stadiumID,cal,homeTeam,roadTeam,homeScore,roadScore,league));
+                out.add(new Event(eventID,stadium,cal,homeTeam,roadTeam,homeScore,roadScore,league));
             }
             DbConn.close();
         } catch (Exception e) {

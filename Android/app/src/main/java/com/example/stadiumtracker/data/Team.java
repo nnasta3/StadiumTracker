@@ -1,6 +1,6 @@
 package com.example.stadiumtracker.data;
 
-public class Team {
+public class Team implements java.io.Serializable{
     private int teamID;
     private String city;
     private String nickname;

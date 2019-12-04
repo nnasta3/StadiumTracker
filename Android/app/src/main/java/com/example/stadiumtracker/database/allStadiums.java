@@ -25,9 +25,10 @@ public class  allStadiums extends AsyncTask<String, Void, List<Stadium>> {
     private Context context;
 
     public allStadiums(Context context){
-        super();
+        Log.e("allStadiums","constructor");
         this.context = context;
         setStrings();
+        Log.e("allStadiums","done");
     }
 
     private void setStrings(){
@@ -39,13 +40,16 @@ public class  allStadiums extends AsyncTask<String, Void, List<Stadium>> {
     }
     @Override
     protected List<Stadium> doInBackground(String... strings) {
+        Log.e("allStadiums","starting doinb");
         List<Stadium> out = new ArrayList<>();
         try {
             // SET CONNECTIONSTRING
             Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
             Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
             PreparedStatement ps = DbConn.prepareStatement("Select * from [Stadium] Order By Name");
+            Log.e("allStadiums","prepared");
             ResultSet rs = ps.executeQuery();
+            Log.e("allStadiums","executed. now looping");
             while(rs.next()){
                 int id = rs.getInt(1);
                 String name = rs.getString(2);
@@ -56,11 +60,13 @@ public class  allStadiums extends AsyncTask<String, Void, List<Stadium>> {
                 String url = rs.getString(7);
                 out.add(new Stadium(id,name,city,country,gpsLat,gpsLong,url));
             }
+            Log.e("allStadiums","loop complete");
             DbConn.close();
         } catch (Exception e) {
-            Log.w("Error all stadiums", "" + e);
+            Log.e("Error all stadiums", "" + e);
             return out;
         }
+        Log.e("allStadiums","returning");
         return out;
     }
 }

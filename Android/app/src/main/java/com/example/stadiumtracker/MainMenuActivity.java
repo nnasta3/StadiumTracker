@@ -81,6 +81,7 @@ public class MainMenuActivity extends AppCompatActivity {
     public void visitHandler(View v){
         Intent intent = new Intent(this,VisitListActivity.class);
         intent.putExtra("user", user);
+        Log.e("main menu","starting visit list");
         startActivity(intent);
     }
     public void friendsHandler(View v){

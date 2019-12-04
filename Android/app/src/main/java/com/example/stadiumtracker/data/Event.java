@@ -4,10 +4,10 @@ import java.util.Calendar;
 
 public class Event implements java.io.Serializable{
     int eventID;
-    int stadiumID;
+    Stadium stadium;
     Calendar date;
-    String homeTeam;
-    String roadTeam;
+    Team homeTeam;
+    Team roadTeam;
     int homeScore;
     int roadScore;
     String league;
@@ -16,9 +16,9 @@ public class Event implements java.io.Serializable{
 
     }
 
-    public Event(int eventID, int stadiumID, Calendar date, String homeTeam, String roadTeam, int homeScore, int roadScore, String league) {
+    public Event(int eventID, Stadium stadium, Calendar date, Team homeTeam, Team roadTeam, int homeScore, int roadScore, String league) {
         this.eventID = eventID;
-        this.stadiumID = stadiumID;
+        this.stadium = stadium;
         this.date = date;
         this.homeTeam = homeTeam;
         this.roadTeam = roadTeam;
@@ -35,12 +35,12 @@ public class Event implements java.io.Serializable{
         this.eventID = eventID;
     }
 
-    public int getStadiumID() {
-        return stadiumID;
+    public Stadium getStadium() {
+        return stadium;
     }
 
-    public void setStadiumID(int stadiumID) {
-        this.stadiumID = stadiumID;
+    public void setStadiumID(Stadium stadium) {
+        this.stadium = stadium;
     }
 
     public Calendar getDate() {
@@ -51,19 +51,19 @@ public class Event implements java.io.Serializable{
         this.date = date;
     }
 
-    public String getHomeTeam() {
+    public Team getHomeTeam() {
         return homeTeam;
     }
 
-    public void setHomeTeam(String homeTeam) {
+    public void setHomeTeam(Team homeTeam) {
         this.homeTeam = homeTeam;
     }
 
-    public String getRoadTeam() {
+    public Team getRoadTeam() {
         return roadTeam;
     }
 
-    public void setRoadTeam(String roadTeam) {
+    public void setRoadTeam(Team roadTeam) {
         this.roadTeam = roadTeam;
     }
 

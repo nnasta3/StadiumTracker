@@ -20,8 +20,12 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.stadiumtracker.data.Event;
+import com.example.stadiumtracker.data.Stadium;
+import com.example.stadiumtracker.data.Team;
 import com.example.stadiumtracker.data.User;
 import com.example.stadiumtracker.database.allEventsForUser;
+import com.example.stadiumtracker.database.allStadiums;
+import com.example.stadiumtracker.database.allTeams;
 import com.example.stadiumtracker.helpers.VisitListAdapter;
 
 import java.util.ArrayList;
@@ -38,7 +42,7 @@ public class VisitListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visit_list);
-
+        Log.e("visit list","oncreate started");
         toolbar = findViewById(R.id.visit_list_toolbar);
         listView = findViewById(R.id.visit_list_list_view);
 
@@ -49,10 +53,11 @@ public class VisitListActivity extends AppCompatActivity {
         ab.setDisplayShowTitleEnabled(false);
         ab.setDisplayShowHomeEnabled(false);
         ab.setDisplayHomeAsUpEnabled(true);
-
+        Log.e("visit list","init setup done");
         //Query for all events with this user
         try{
             events = new allEventsForUser(this).execute(user.getUserID()).get();
+            Log.e("visit list","query done. size of events="+events.size());
         }catch (Exception e){
             Log.e("query for events",e.toString());
             events = new ArrayList<>();
