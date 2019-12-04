@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.stadiumtracker.data.Event;
@@ -18,6 +19,7 @@ public class VisitViewActivity extends AppCompatActivity {
     Event event;
     Toolbar toolbar;
     TextView leagueText, teamsText, scoresText, stadiumText, cityText, dateText;
+    String from;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +36,13 @@ public class VisitViewActivity extends AppCompatActivity {
 
         user = (User) getIntent().getSerializableExtra("user");
         event = (Event) getIntent().getSerializableExtra("event");
+        from = getIntent().getStringExtra("from");
 
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
-        //TODO: init values for text fields
+        //init values for text fields
         leagueText.setText(event.getLeague());
         String teams = event.getHomeTeam()+" vs. "+event.getRoadTeam();
         teamsText.setText(teams);
@@ -70,11 +73,30 @@ public class VisitViewActivity extends AppCompatActivity {
                 return true;
             default:
                 //Back button pressed
-                Intent backIntent = new Intent(this,VisitListActivity.class);
-                backIntent.putExtra("user", user);
-                startActivity(backIntent);
+                if (from.equals("stadiumView")){
+                    Intent backIntent = new Intent(this,StadiumViewActivity.class);
+                    backIntent.putExtra("user", user);
+                    backIntent.putExtra("stadium",event.getStadium());
+                    backIntent.putExtra("numVisits",getIntent().getIntExtra("numVisits",0));
+                    backIntent.putExtra("from","stadiumList");
+                    startActivity(backIntent);
+                }else{
+                    Intent backIntent = new Intent(this,VisitListActivity.class);
+                    backIntent.putExtra("user", user);
+                    startActivity(backIntent);
+                }
                 return true;
 
         }
+    }
+
+    public void toStadium(View v){
+        Intent intent = new Intent(this,StadiumViewActivity.class);
+        intent.putExtra("user",user);
+        intent.putExtra("stadium",event.getStadium());
+        intent.putExtra("numVisits",-1);
+        intent.putExtra("event",event);
+        intent.putExtra("from","visitView");
+        startActivity(intent);
     }
 }

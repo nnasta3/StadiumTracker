@@ -44,6 +44,7 @@ public class StadiumViewActivity extends AppCompatActivity {
     ListView listView;
     List<Event> events;
     StadiumViewAdapter stadiumViewAdapter;
+    String from;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,7 @@ public class StadiumViewActivity extends AppCompatActivity {
         user = (User) getIntent().getSerializableExtra("user");
         stadium = (Stadium) getIntent().getSerializableExtra("stadium");
         numVisits = (int) getIntent().getIntExtra("numVisits",0);
+        from = getIntent().getStringExtra("from");
 
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
@@ -87,7 +89,7 @@ public class StadiumViewActivity extends AppCompatActivity {
 
         //init list view
         try{
-            events = new VisitsForUserToStadium(this).execute(user.getUserID(),stadium.getStadiumID()).get();
+            events = new VisitsForUserToStadium(this,stadium).execute(user.getUserID(),stadium.getStadiumID()).get();
         }catch (Exception e){
             Log.e("stadViewListInit",e.toString());
             events = null;
@@ -95,7 +97,7 @@ public class StadiumViewActivity extends AppCompatActivity {
 
         if (events != null){
             if (events.size() > 0){
-                stadiumViewAdapter = new StadiumViewAdapter(this,events);
+                stadiumViewAdapter = new StadiumViewAdapter(this,events,user,numVisits);
                 listView.setAdapter(stadiumViewAdapter);
             }
         }
@@ -133,9 +135,18 @@ public class StadiumViewActivity extends AppCompatActivity {
                 return true;
             default:
                 //Back button pressed
-                Intent backIntent = new Intent(this,StadiumsListActivity.class);
-                backIntent.putExtra("user", user);
-                startActivity(backIntent);
+                if (from.equals("visitView")){
+                    Intent backIntent = new Intent(this,VisitViewActivity.class);
+                    backIntent.putExtra("user", user);
+                    backIntent.putExtra("event",getIntent().getSerializableExtra("event"));
+                    backIntent.putExtra("from","visitList");
+                    startActivity(backIntent);
+                }else {
+                    Intent backIntent = new Intent(this,StadiumsListActivity.class);
+                    backIntent.putExtra("user", user);
+                    startActivity(backIntent);
+                }
+
                 return true;
 
         }

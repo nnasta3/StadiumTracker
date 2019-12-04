@@ -93,6 +93,7 @@ public class VisitListAdapter implements ListAdapter {
                 Intent intent = new Intent(context, VisitViewActivity.class);
                 intent.putExtra("user", user);
                 intent.putExtra("event",event);
+                intent.putExtra("from","visitList");
                 context.startActivity(intent);
             }
         });

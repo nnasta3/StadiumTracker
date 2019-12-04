@@ -28,14 +28,14 @@ public class VisitsForUserToStadium extends AsyncTask<Integer, Void, List<Event>
     private String dbName;
     private String user;
     private String pass;
-    private Map<Integer, Stadium> stadiumMap;
+    private Stadium stadium;
     private Map<Integer, Team> teamMap;
     private Context context;
 
-    public VisitsForUserToStadium
-            (Context context){
+    public VisitsForUserToStadium(Context context,Stadium stadium){
         super();
         this.context = context;
+        this.stadium=stadium;
         setStrings();
     }
 
@@ -49,14 +49,9 @@ public class VisitsForUserToStadium extends AsyncTask<Integer, Void, List<Event>
     @Override
     protected void onPreExecute(){
         try{
-            List<Stadium> stadiums = new allStadiums(context).execute().get();
             List<Team>  teams = new allTeams(context).execute().get();
-            //Create map for stadiums and teams
-            stadiumMap = new HashMap<>();
+            //Create map for and teams
             teamMap = new HashMap<>();
-            for (Stadium stadium : stadiums){
-                stadiumMap.put(stadium.getStadiumID(),stadium);
-            }
             for (Team team : teams){
                 teamMap.put(team.getTeamID(),team);
             }
@@ -79,7 +74,6 @@ public class VisitsForUserToStadium extends AsyncTask<Integer, Void, List<Event>
             ResultSet rs = stmt.executeQuery();
             while (rs.next()){
                 int eventID = rs.getInt(1);
-                Stadium stadium = stadiumMap.get(rs.getInt(2));
                 Date date = rs.getDate(3);
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(date);

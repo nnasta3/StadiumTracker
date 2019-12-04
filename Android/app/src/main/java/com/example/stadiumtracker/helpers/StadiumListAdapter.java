@@ -88,6 +88,7 @@ public class StadiumListAdapter implements ListAdapter {
                 intent.putExtra("user", user);
                 intent.putExtra("stadium",stadiumListHelper.getStadium());
                 intent.putExtra("numVisits",stadiumListHelper.getVisits());
+                intent.putExtra("from","stadiumList");
                 context.startActivity(intent);
             }
         });

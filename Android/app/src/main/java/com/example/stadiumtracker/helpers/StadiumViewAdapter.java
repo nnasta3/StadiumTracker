@@ -1,6 +1,7 @@
 package com.example.stadiumtracker.helpers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,10 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.example.stadiumtracker.R;
+import com.example.stadiumtracker.StadiumViewActivity;
+import com.example.stadiumtracker.VisitViewActivity;
 import com.example.stadiumtracker.data.Event;
+import com.example.stadiumtracker.data.User;
 
 import java.util.Calendar;
 import java.util.List;
@@ -17,10 +21,14 @@ import java.util.List;
 public class StadiumViewAdapter implements ListAdapter {
     private Context context;
     private List<Event> events;
+    private User user;
+    private int numVisits;
 
-    public StadiumViewAdapter(Context context, List<Event> events){
+    public StadiumViewAdapter(Context context, List<Event> events, User user, int numVisits){
         this.context=context;
         this.events=events;
+        this.user=user;
+        this.numVisits=numVisits;
     }
 
     @Override
@@ -72,7 +80,7 @@ public class StadiumViewAdapter implements ListAdapter {
             TextView teams = (TextView) convertView.findViewById(R.id.stadium_view_row_teams);
             TextView sub = (TextView) convertView.findViewById(R.id.stadium_view_row_sub);
             TextView res = (TextView) convertView.findViewById(R.id.stadium_view_row_res);
-            String temp = event.getRoadTeam()+" @ "+event.getHomeTeam();
+            String temp = event.getRoadTeam().getNickname()+" @ "+event.getHomeTeam().getNickname();
             teams.setText(temp);
             Calendar cal = event.getDate();
             temp = event.getLeague()+" - "+(cal.get(Calendar.MONTH)+1)+"/"+cal.get(Calendar.DAY_OF_MONTH)+"/"+cal.get(Calendar.YEAR);
@@ -80,7 +88,18 @@ public class StadiumViewAdapter implements ListAdapter {
             temp = event.getRoadScore()+" - "+event.getHomeScore();
             res.setText(temp);
         }
-        //TODO: on click possible here
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //intent switch to stadium view
+                Intent intent = new Intent(context, VisitViewActivity.class);
+                intent.putExtra("user", user);
+                intent.putExtra("event",event);
+                intent.putExtra("numVisits",numVisits);
+                intent.putExtra("from","stadiumView");
+                context.startActivity(intent);
+            }
+        });
         return convertView;
     }
 
