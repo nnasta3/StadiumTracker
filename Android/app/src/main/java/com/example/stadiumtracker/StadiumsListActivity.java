@@ -116,25 +116,65 @@ public class StadiumsListActivity extends AppCompatActivity {
                 Intent intent = new Intent(this,LoginActivity.class);
                 startActivity(intent);
                 return true;
-            case R.id.action_share:
-                //TODO: share popup
-                /*
-                    TODO: Possible information to share when this button is selected
-                        1. "user has visited:
-                            [stadium] ([city],[country]) - [visits] times
-                            ..."
-                        2. "user has visited x out of x (based on filter) stadiums"
-                 */
-                return true;
             case R.id.action_filter:
                 //TODO: filter popup
                 /*
                     popup with dropdowns for filters
                         -city
                         -country
-                        -league
-
                  */
+                dialog.setContentView(R.layout.stadium_filter_popup);
+                dialog.setTitle("Filter");
+
+                Spinner citySpinner = (Spinner) dialog.findViewById(R.id.stadium_filter_city_spinner);
+                Spinner countrySpinner = (Spinner) dialog.findViewById(R.id.stadium_filter_country_spinner);
+                confirm = (Button) dialog.findViewById(R.id.stadium_filter_confirm);
+                cancel = (Button) dialog.findViewById(R.id.stadium_filter_cancel);
+
+                //set spinners
+                List<String> cities = new ArrayList<>();
+                List<String> countries = new ArrayList<>();
+
+                cities.add("City");
+                countries.add("Country");
+
+                for (Stadium stadium : stadiums){
+                    if (!cities.contains(stadium.getCity())){
+                        cities.add(stadium.getCity());
+                    }
+                    if (!countries.contains(stadium.getCountry())){
+                        countries.add(stadium.getCountry());
+                    }
+                }
+                ArrayAdapter<String> cityAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,cities);
+                ArrayAdapter<String> countryAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,countries);
+
+                cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                citySpinner.setAdapter(cityAdapter);
+
+                countryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                countrySpinner.setAdapter(countryAdapter);
+
+                //TODO: set buttons
+                confirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //call handler, then dismiss
+                        String city =(String) citySpinner.getSelectedItem();
+                        String country = (String) countrySpinner.getSelectedItem();
+                        filterHandler(city,country);
+                        dialog.dismiss();
+                    }
+                });
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                //Show dialog
+                dialog.show();
                 return true;
             case R.id.action_search:
                 //search popup
@@ -167,7 +207,6 @@ public class StadiumsListActivity extends AppCompatActivity {
                         "Stadium Name",
                         "City",
                         "Country",
-                        "League",
                         "Number Of Visits"
                 };
 
@@ -209,7 +248,9 @@ public class StadiumsListActivity extends AppCompatActivity {
                 //show the dialog
                 dialog.show();
                 return true;
-                //TODO: Add refresh list button
+            case R.id.action_refresh:
+                refreshList();
+                return true;
             default:
                 //Back button pressed
                 Intent backIntent = new Intent(this,MainMenuActivity.class);
@@ -220,11 +261,31 @@ public class StadiumsListActivity extends AppCompatActivity {
         }
     }
 
-    public void populateList(){
-        
+    public void refreshList(){
+        partialStadiumListHelpers.clear();
+        partialStadiumListHelpers.addAll(stadiumListHelpers);
+        stadiumListAdapter = new StadiumListAdapter(this,partialStadiumListHelpers,user);
+        listView.setAdapter(stadiumListAdapter);
     }
-    public void filterHandler(){
-        //TODO: implement filter
+    public void filterHandler(String city, String country){
+        List<StadiumListHelper> temp = new ArrayList<>();
+        temp.addAll(partialStadiumListHelpers);
+        //filter
+        //this list needed
+        List<StadiumListHelper> toRemove = new ArrayList<>();
+        for (StadiumListHelper stadiumListHelper : partialStadiumListHelpers){
+            Stadium stadium = stadiumListHelper.getStadium();
+            if (!stadium.getCity().equals(city) && !stadium.getCountry().equals(country)){
+                toRemove.add(stadiumListHelper);
+            }
+        }
+        partialStadiumListHelpers.removeAll(toRemove);
+        if (partialStadiumListHelpers.size() == 0){
+            partialStadiumListHelpers.addAll(temp);
+            Toast.makeText(this, "Filter provided no results", Toast.LENGTH_SHORT).show();
+        }
+        stadiumListAdapter = new StadiumListAdapter(this,partialStadiumListHelpers,user);
+        listView.setAdapter(stadiumListAdapter);
     }
 
     public void searchHandler(String param){

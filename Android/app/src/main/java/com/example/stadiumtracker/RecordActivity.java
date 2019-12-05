@@ -438,11 +438,13 @@ public class RecordActivity extends AppCompatActivity {
             return;
         }
         //share popup and intent to main menu
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+
         new AlertDialog.Builder(this)
                 .setTitle("Share?")
                 .setMessage("Would you like to share this visit?")
                 .setIcon(R.drawable.share_icon)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
                         final String shareString = user.getName() + " visited " + selectedStadium.getName() + " on " + dateBox.getText().toString()
@@ -453,7 +455,7 @@ public class RecordActivity extends AppCompatActivity {
                         intent.putExtra("shareString",shareString);
                         startActivity(intent);
                     }})
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
                         Intent intent = new Intent(RecordActivity.this,MainMenuActivity.class);

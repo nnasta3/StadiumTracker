@@ -84,16 +84,6 @@ public class VisitListActivity extends AppCompatActivity {
                 Intent intent = new Intent(this,LoginActivity.class);
                 startActivity(intent);
                 return true;
-            case R.id.action_share:
-                //TODO: share popup
-                /*
-                    TODO: Possible information to share when this button is selected
-                        1. "user has visited:
-                            [stadium] ([city],[country]) - [visits] times
-                            ..."
-                        2. "user has visited x out of x (based on filter) stadiums"
-                 */
-                return true;
             case R.id.action_filter:
                 //TODO: filter popup
                 /*
@@ -103,6 +93,10 @@ public class VisitListActivity extends AppCompatActivity {
                         -league
 
                  */
+                dialog.setContentView(R.layout.visit_filter_popup);
+                dialog.setTitle("Filter");
+
+                
                 return true;
             case R.id.action_search:
                 //search popup

@@ -36,7 +36,6 @@
         app:layout_constraintTop_toBottomOf="@id/record_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
-        <!-- TODO: remove hint and setup code to pull current date onCreate -->
         <EditText
             android:id="@+id/date_box"
             android:layout_centerVertical="true"

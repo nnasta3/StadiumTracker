@@ -71,6 +71,9 @@ public class VisitViewActivity extends AppCompatActivity {
                 //Share a string containing username, stadium, number of visits, and most recent visit
                 //TODO
                 return true;
+            case R.id.action_delete:
+                //TODO
+                return true;
             default:
                 //Back button pressed
                 if (from.equals("stadiumView")){
