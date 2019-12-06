@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:spinnerMode="dropdown"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,6 +21,7 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:spinnerMode="dropdown"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/visit_filter_team_spinner"/>
@@ -30,14 +32,16 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:spinnerMode="dropdown"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/visit_filter_stadium_spinner" />
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:id="@+id/visit_filter_date_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,112 +51,69 @@
             android:id="@+id/visit_filter_start_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/start_date"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:layout_gravity="center_horizontal"
+            android:text="@string/start_date"/>
 
-        <EditText
-            android:id="@+id/visit_filter_start_date_box"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="date"
-            android:clickable="false"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/visit_filter_start_date_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/calendar_icon"
-            android:onClick="datePickerHandler"
-            app:layout_constraintTop_toBottomOf="@id/visit_filter_start_text"
-            app:layout_constraintStart_toEndOf="@id/visit_filter_start_date_box"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            <EditText
+                android:id="@+id/visit_filter_start_date_box"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="date"
+                android:clickable="false"/>
+
+            <ImageButton
+                android:id="@+id/visit_filter_start_date_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/calendar_icon"/>
+
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/visit_filter_end_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/end_date"
-            app:layout_constraintStart_toStartOf="@id/visit_filter_end_date_box"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:layout_gravity="center_horizontal"
+            android:text="@string/end_date"/>
 
-        <EditText
-            android:id="@+id/visit_filter_end_date_box"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="date"
-            android:clickable="false"
-            app:layout_constraintEnd_toStartOf="@id/visit_filter_end_date_button"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/visit_filter_end_date_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/calendar_icon"
-            android:onClick="datePickerHandler"
-            app:layout_constraintTop_toBottomOf="@id/visit_filter_end_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-
-
-    </android.support.constraint.ConstraintLayout>
-
-    <!-- score diff layout -->
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/visit_filter_diff_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/visit_filter_date_layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <EditText
-            android:id="@+id/visit_filter_diff_text"
-            android:inputType="number"
-            android:hint="@string/score_diff"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-        <RadioGroup
-            android:id="@+id/visit_filter_diff_radio_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toEndOf="@id/visit_filter_diff_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <RadioButton
-                android:id="@+id/visit_filter_diff_radio_above"
+            <EditText
+                android:id="@+id/visit_filter_end_date_box"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/above"/>
+                android:inputType="date"
+                android:clickable="false"/>
 
-            <RadioButton
-                android:id="@+id/visit_filter_diff_radio_below"
+            <ImageButton
+                android:id="@+id/visit_filter_end_date_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/below"/>
-        </RadioGroup>
+                android:src="@drawable/calendar_icon"/>
 
+        </LinearLayout>
 
-    </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
 
     <!-- score maximum layout -->
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:id="@+id/visit_filter_max_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/visit_filter_diff_layout"
+        android:orientation="vertical"
+        android:padding="10dp"
+        app:layout_constraintTop_toBottomOf="@id/visit_filter_date_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -162,19 +123,15 @@
             android:hint="@string/score_max"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:layout_gravity="center_horizontal"/>
 
         <RadioGroup
             android:id="@+id/visit_filter_max_radio_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toEndOf="@id/visit_filter_max_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal">
 
             <RadioButton
                 android:id="@+id/visit_filter_max_radio_ind"
@@ -190,51 +147,49 @@
         </RadioGroup>
 
 
-    </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
     <!-- score minimum layout -->
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:id="@+id/visit_filter_min_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/visit_filter_max_layout"
+        android:orientation="vertical"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/visit_filter_max_layout">
 
         <EditText
             android:id="@+id/visit_filter_min_text"
-            android:inputType="number"
-            android:hint="@string/score_min"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:hint="@string/score_min"
+            android:inputType="number"
+            android:layout_gravity="center_horizontal"/>
 
         <RadioGroup
             android:id="@+id/visit_filter_min_radio_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:padding="10dp"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toEndOf="@id/visit_filter_min_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_gravity="center_horizontal">
 
             <RadioButton
                 android:id="@+id/visit_filter_min_radio_ind"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/individual"/>
+                android:text="@string/individual" />
 
             <RadioButton
                 android:id="@+id/visit_filter_min_radio_com"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/combined"/>
+                android:text="@string/combined" />
         </RadioGroup>
 
 
-    </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
     <RelativeLayout
         android:id="@+id/visit_filter_button_layout"
         android:layout_width="match_parent"

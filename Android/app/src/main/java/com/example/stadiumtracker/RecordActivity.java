@@ -404,7 +404,7 @@ public class RecordActivity extends AppCompatActivity {
             //Fields are invalid in this condition, do nothing
             return;
         }
-        String dateString = calendar.get(Calendar.YEAR)+"-"+calendar.get(Calendar.MONTH)+"-"+calendar.get(Calendar.DAY_OF_MONTH);
+        String dateString = calendar.get(Calendar.YEAR)+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.DAY_OF_MONTH);
         Event event;
         try{
             event = new eventsQuery(this).execute(String.valueOf(selectedStadium.getStadiumID()),dateString,String.valueOf(selectedHomeTeam.getTeamID()),String.valueOf(selectedRoadTeam.getTeamID()),homeScore.getText().toString(),roadScore.getText().toString(),selectedLeague).get();

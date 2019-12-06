@@ -3,14 +3,14 @@ package com.example.stadiumtracker.data;
 import java.util.Calendar;
 
 public class Event implements java.io.Serializable{
-    int eventID;
-    Stadium stadium;
-    Calendar date;
-    Team homeTeam;
-    Team roadTeam;
-    int homeScore;
-    int roadScore;
-    String league;
+    private int eventID;
+    private Stadium stadium;
+    private Calendar date;
+    private Team homeTeam;
+    private Team roadTeam;
+    private int homeScore;
+    private int roadScore;
+    private String league;
 
     public Event(){
 

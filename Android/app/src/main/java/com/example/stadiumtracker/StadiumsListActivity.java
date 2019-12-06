@@ -249,7 +249,10 @@ public class StadiumsListActivity extends AppCompatActivity {
                 dialog.show();
                 return true;
             case R.id.action_refresh:
-                refreshList();
+                partialStadiumListHelpers.clear();
+                partialStadiumListHelpers.addAll(stadiumListHelpers);
+                stadiumListAdapter = new StadiumListAdapter(this,partialStadiumListHelpers,user);
+                listView.setAdapter(stadiumListAdapter);
                 return true;
             default:
                 //Back button pressed
@@ -261,12 +264,6 @@ public class StadiumsListActivity extends AppCompatActivity {
         }
     }
 
-    public void refreshList(){
-        partialStadiumListHelpers.clear();
-        partialStadiumListHelpers.addAll(stadiumListHelpers);
-        stadiumListAdapter = new StadiumListAdapter(this,partialStadiumListHelpers,user);
-        listView.setAdapter(stadiumListAdapter);
-    }
     public void filterHandler(String city, String country){
         List<StadiumListHelper> temp = new ArrayList<>();
         temp.addAll(partialStadiumListHelpers);
@@ -275,7 +272,9 @@ public class StadiumsListActivity extends AppCompatActivity {
         List<StadiumListHelper> toRemove = new ArrayList<>();
         for (StadiumListHelper stadiumListHelper : partialStadiumListHelpers){
             Stadium stadium = stadiumListHelper.getStadium();
-            if (!stadium.getCity().equals(city) && !stadium.getCountry().equals(country)){
+            if (!stadium.getCity().equals(city)){
+                toRemove.add(stadiumListHelper);
+            }else if (!stadium.getCountry().equals(country)){
                 toRemove.add(stadiumListHelper);
             }
         }
