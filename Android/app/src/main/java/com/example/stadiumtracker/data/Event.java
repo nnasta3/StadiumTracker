@@ -95,4 +95,7 @@ public class Event implements java.io.Serializable{
         String [] months = {"January","February","March","April","May","June","July","August","September","October","November","December"};
         return months[date.get(Calendar.MONTH)]+" "+date.get(Calendar.DAY_OF_MONTH)+", "+date.get(Calendar.YEAR);
     }
+    public String fileString(){
+        return roadTeam.getNickname()+"@"+homeTeam.getNickname()+"-"+(date.get(Calendar.MONTH)+1)+"-"+date.get(Calendar.DAY_OF_MONTH)+"-"+date.get(Calendar.YEAR);
+    }
 }

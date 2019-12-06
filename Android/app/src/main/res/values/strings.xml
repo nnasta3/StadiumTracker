@@ -71,4 +71,5 @@
     <string name="placeholderText">Placeholder</string>
     <string name="removeFriend">Remove Friend</string>
     <string name="compare_visits_title">Compare Visits</string>
+    <string name="action_stub">Virtual Ticket Stub</string>
 </resources>

@@ -69,8 +69,6 @@ public class RecordActivity extends AppCompatActivity {
     Calendar calendar;
     String dateString;
 
-    private Object lock;
-
     private static final String[] LOCATION_PERMS={
             Manifest.permission.ACCESS_FINE_LOCATION
     };
@@ -81,7 +79,6 @@ public class RecordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
-        lock = new Object();
 
         toolbar = findViewById(R.id.record_toolbar);
         dateBox = findViewById(R.id.date_box);
