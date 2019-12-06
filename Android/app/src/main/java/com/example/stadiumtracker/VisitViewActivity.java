@@ -13,12 +13,13 @@ import android.widget.TextView;
 import com.example.stadiumtracker.data.Event;
 import com.example.stadiumtracker.data.Stadium;
 import com.example.stadiumtracker.data.User;
+import com.example.stadiumtracker.database.deleteVisit;
 
 public class VisitViewActivity extends AppCompatActivity {
     User user;
     Event event;
     Toolbar toolbar;
-    TextView leagueText, teamsText, scoresText, stadiumText, cityText, dateText;
+    TextView leagueText, homeTeamText, roadTeamText, scoresText, stadiumText, cityText, dateText;
     String from;
 
     @Override
@@ -28,7 +29,8 @@ public class VisitViewActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.visit_view_toolbar);
         leagueText = findViewById(R.id.visit_view_league);
-        teamsText = findViewById(R.id.visit_view_teams);
+        homeTeamText = findViewById(R.id.visit_view_home_team);
+        roadTeamText = findViewById(R.id.visit_view_road_team);
         scoresText = findViewById(R.id.visit_view_scores);
         stadiumText = findViewById(R.id.visit_view_stadium);
         cityText = findViewById(R.id.visit_view_city);
@@ -44,8 +46,8 @@ public class VisitViewActivity extends AppCompatActivity {
 
         //init values for text fields
         leagueText.setText(event.getLeague());
-        String teams = event.getHomeTeam()+" vs. "+event.getRoadTeam();
-        teamsText.setText(teams);
+        homeTeamText.setText(event.getHomeTeam().toString());
+        roadTeamText.setText(event.getRoadTeam().toString());
         String scores = event.getHomeScore()+" - "+event.getRoadScore();
         scoresText.setText(scores);
         stadiumText.setText(event.getStadium().toString());
@@ -69,10 +71,38 @@ public class VisitViewActivity extends AppCompatActivity {
                 return true;
             case R.id.action_share:
                 //Share a string containing username, stadium, number of visits, and most recent visit
-                //TODO
+                String shareString = user.getName()+" attended the game between the "+event.getHomeTeam()+" and the "+event.getRoadTeam()+" at "+event.getStadium().getName()+" on "+event.getDateFullString()+". ";
+                if (event.getHomeScore() > event.getRoadScore()){
+                    shareString += "The "+event.getHomeTeam().getNickname()+" won the game by a score of "+event.getHomeScore()+" - "+event.getRoadScore();
+                }else if (event.getRoadScore() > event.getHomeScore()){
+                    shareString += "The "+event.getRoadTeam().getNickname()+" won the game by a score of "+event.getRoadScore()+" - "+event.getHomeScore();
+                }else{
+                    shareString += "The game resulted in a tie with a score of "+event.getHomeScore();
+                }
+                //Can say events[0] is most recent because of sql query
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, shareString);
+                sendIntent.setType("text/plain");
+                Intent shareIntent = Intent.createChooser(sendIntent, null);
+                startActivity(shareIntent);
                 return true;
             case R.id.action_delete:
-                //TODO
+                //Delete visit from database
+                new deleteVisit(this).execute(user.getUserID(),event.getEventID());
+                //Send user back from whence they came
+                if (from.equals("stadiumView")){
+                    Intent backIntent = new Intent(this,StadiumViewActivity.class);
+                    backIntent.putExtra("user", user);
+                    backIntent.putExtra("stadium",event.getStadium());
+                    backIntent.putExtra("numVisits",getIntent().getIntExtra("numVisits",0)-1);
+                    backIntent.putExtra("from","stadiumList");
+                    startActivity(backIntent);
+                }else{
+                    Intent backIntent = new Intent(this,VisitListActivity.class);
+                    backIntent.putExtra("user", user);
+                    startActivity(backIntent);
+                }
                 return true;
             default:
                 //Back button pressed
