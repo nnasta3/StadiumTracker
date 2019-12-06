@@ -19,6 +19,8 @@ public class FriendViewActivity extends AppCompatActivity {
     TextView friendNameTextView;
     String friendName;
     int friendID;
+    TextView stadiumsCount;
+    TextView visitsCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,9 @@ public class FriendViewActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
+
+        stadiumsCount = findViewById(R.id.stadiums_visited_count);
+        visitsCount = findViewById(R.id.visits_count);
 
         user = (User) getIntent().getSerializableExtra("user");
         friendName = (String) getIntent().getSerializableExtra("friendName");

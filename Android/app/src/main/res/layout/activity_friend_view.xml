@@ -33,27 +33,31 @@
         android:id="@+id/uniqueStadiumsVisited"
         android:layout_width="208dp"
         android:layout_height="85dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="40dp"
         android:text="@string/uniqueStadiumsVisited"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.078"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/FriendName"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/totalNumberOfVisits"
-        android:layout_width="211dp"
-        android:layout_height="55dp"
+        android:layout_width="208dp"
+        android:layout_height="85dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="50dp"
         android:text="@string/totalNumberOfVisits"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.082"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/uniqueStadiumsVisited"
-        app:layout_constraintVertical_bias="0.165" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/compareStadiumsVisited"
@@ -85,4 +89,32 @@
         app:layout_constraintStart_toEndOf="@+id/compareStadiumsVisited"
         app:layout_constraintTop_toBottomOf="@+id/totalNumberOfVisits"
         app:layout_constraintVertical_bias="0.534" />
+
+    <TextView
+        android:id="@+id/stadiums_visited_count"
+        android:layout_width="170dp"
+        android:layout_height="85dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/placeholderText"
+        android:textAlignment="center"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.542"
+        app:layout_constraintStart_toEndOf="@+id/uniqueStadiumsVisited"
+        app:layout_constraintTop_toBottomOf="@+id/FriendName" />
+
+    <TextView
+        android:id="@+id/visits_count"
+        android:layout_width="170dp"
+        android:layout_height="85dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="50dp"
+        android:text="@string/placeholderText"
+        android:textAlignment="center"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.588"
+        app:layout_constraintStart_toEndOf="@+id/totalNumberOfVisits"
+        app:layout_constraintTop_toBottomOf="@+id/stadiums_visited_count" />
 </android.support.constraint.ConstraintLayout>
