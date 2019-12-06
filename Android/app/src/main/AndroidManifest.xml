@@ -43,6 +43,13 @@
                 android:value="com.example.stadiumtracker.MainMenuActivity" />
         </activity>
         <activity
+            android:name=".FriendViewActivity"
+            android:parentActivityName=".FriendsListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.stadiumtracker.FriendsListActivity" />
+        </activity>
+        <activity
             android:name=".MainMenuActivity"
             android:parentActivityName=".LoginActivity">
             <meta-data

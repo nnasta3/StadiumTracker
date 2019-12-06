@@ -63,4 +63,8 @@
     <string name="score_min">Minimum Score</string>
     <string name="individual">Individual</string>
     <string name="combined">Combined</string>
+    <string name="uniqueStadiumsVisited">"Number of Stadiums Visited: "</string>
+    <string name="totalNumberOfVisits">"Total Number Of Events Attended: "</string>
+    <string name="compareStadiumsVisited">Compare Stadiums Visited</string>
+    <string name="compareVisits" >Compare Visits</string>
 </resources>

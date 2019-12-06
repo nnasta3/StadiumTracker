@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class friendsList extends AsyncTask<Integer, Void, List<Map<String, Date>>> {
+public class friendsList extends AsyncTask<Integer, Void, List<String>> {
     private String ip;
     private String port;
     private String dbName;
@@ -38,14 +38,14 @@ public class friendsList extends AsyncTask<Integer, Void, List<Map<String, Date>
     }
 
     @Override
-    protected List<Map<String, Date>> doInBackground(Integer... integers) {
-        List<Map<String, Date>> retList = new ArrayList<>();
+    protected List<String> doInBackground(Integer... integers) {
+        List<String> retList = new ArrayList<>();
 
         try {
             // SET CONNECTIONSTRING
             Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
             Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
-            PreparedStatement ps = DbConn.prepareStatement("SELECT * FROM [stadiumTrackerDB].[dbo].[Friends] WHERE (USERID1 = ?) OR (USERID2 = ?)");
+            PreparedStatement ps = DbConn.prepareStatement("SELECT * FROM [stadiumTrackerDB].[dbo].[Friends] WHERE (USER1 = ?) OR (USER2 = ?)");
             ps.setInt(1,integers[0]);
             ps.setInt(2,integers[0]);
             ResultSet rs = ps.executeQuery();
@@ -53,32 +53,24 @@ public class friendsList extends AsyncTask<Integer, Void, List<Map<String, Date>
                 //Find which UserID is not the current user and then map it
                 int userID1 = rs.getInt(1);
                 int userID2 = rs.getInt(2);
-                Date date = rs.getDate(3);
-                int user1Accept = rs.getInt(4);
-                int user2Accept = rs.getInt(5);
 
                 //Convert UserID to Username
-                if (userID1 == integers[0] && user2Accept == 1 && user1Accept ==1) {
+                if (userID1 == integers[0] ) {
                     PreparedStatement ps2 = DbConn.prepareStatement("SELECT Username FROM [stadiumTrackerDB].[dbo].[User] WHERE UserID = ?");
                     ps2.setInt(1,userID2);
                     ResultSet rs2 = ps2.executeQuery();
                     rs2.next();
                     String name = rs2.getString(1);
-                    Map<String,Date> temp = new HashMap<String,Date>();
-                    temp.put(name,date);
-                    retList.add(temp);
+                    retList.add(name);
                 }
                 else {
-                    if(user1Accept == 1 && user2Accept ==1) {
-                        PreparedStatement ps2 = DbConn.prepareStatement("SELECT Username FROM [stadiumTrackerDB].[dbo].[User] WHERE UserID = ?");
-                        ps2.setInt(1, userID1);
-                        ResultSet rs2 = ps2.executeQuery();
-                        rs2.next();
-                        String name = rs2.getString(1);
-                        Map<String, Date> temp = new HashMap<String, Date>();
-                        temp.put(name, date);
-                        retList.add(temp);
-                    }
+                    PreparedStatement ps2 = DbConn.prepareStatement("SELECT Username FROM [stadiumTrackerDB].[dbo].[User] WHERE UserID = ?");
+                    ps2.setInt(1, userID1);
+                    ResultSet rs2 = ps2.executeQuery();
+                    rs2.next();
+                    String name = rs2.getString(1);
+                    retList.add(name);
+
                 }
             }
             DbConn.close();

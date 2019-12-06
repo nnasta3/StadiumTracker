@@ -1,6 +1,7 @@
 package com.example.stadiumtracker;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,8 @@ import android.widget.Toast;
 import com.example.stadiumtracker.data.User;
 import com.example.stadiumtracker.database.friendsList;
 import com.example.stadiumtracker.database.addFriend;
+import com.example.stadiumtracker.database.getFriendIDFromName;
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +33,13 @@ public class FriendsListActivity extends AppCompatActivity {
     User user;
     Toolbar toolbar;
     ListView listView;
-    List<Map<String, Date>> friends;
+    List<String> friends;
     int addFriend = -2;
+    Context context = this.getContext();
 
+    public Context getContext() {
+        return context;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -43,7 +50,6 @@ public class FriendsListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
-
 
         user = (User) getIntent().getSerializableExtra("user");
 
@@ -56,35 +62,34 @@ public class FriendsListActivity extends AppCompatActivity {
             Log.w("error friendsList",e.toString());
         }
 
-        //Convert friends list to String
-        ArrayList<String> convertedFriends = new ArrayList<String>();
-        for(int i =0;i<friends.size();i++){
-            convertedFriends.add(convertMapToString(friends.get(i)));
-        }
 
         //Populate listView
-        ArrayAdapter<String>friendAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, convertedFriends);
+        ArrayAdapter<String>friendAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, friends);
         listView.setAdapter(friendAdapter);
 
         //Present User with more detailed info about their friend (compare pages) and option to remove friend
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                friendView(friends.get(position),position);
             }
         });
 
     }
 
-    /*
-        Converts mapped (friendName, Date) to string for display purposes
-    */
-    public String convertMapToString(Map<String,Date> map){
-        StringBuilder retString = new StringBuilder();
-        for(String key: map.keySet()){
-            retString.append(key + "\nDate Added: "+ map.get(key));
+    public void friendView(String friendName, int position){
+        Intent intent = new Intent(this,FriendViewActivity.class);
+        intent.putExtra("user", user);
+        intent.putExtra("friendName", friendName);
+        try {
+            int friendID = new getFriendIDFromName(this).execute(friends.get(position)).get();
+            intent.putExtra("friendID", friendID);
         }
-        return retString.toString();
+        catch (Exception e){
+            Log.w("error getFriendIDFromName",e.toString());
+        }
+
+        startActivity(intent);
     }
 
     @Override

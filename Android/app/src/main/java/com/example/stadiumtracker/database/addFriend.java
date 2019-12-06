@@ -59,20 +59,18 @@ public class addFriend extends AsyncTask<String, Void, Integer> {
                     return -3;
                 }
 
-                PreparedStatement ps2 = DbConn.prepareStatement("SELECT * FROM [stadiumTrackerDB].[dbo].[Friends] WHERE ((UserID1 = ?) AND (UserID2 = ?)) OR ((UserID1 = ?) AND (UserID2=?))");
+                PreparedStatement ps2 = DbConn.prepareStatement("SELECT * FROM [stadiumTrackerDB].[dbo].[Requests] WHERE ((Sender = ?) AND (Receiver = ?)) OR ((Sender = ?) AND (Receiver=?))");
                 ps2.setInt(1,userID);
                 ps2.setInt(2,Integer.parseInt(strings[1]));
                 ps2.setInt(3,Integer.parseInt(strings[1]));
                 ps2.setInt(4,userID);
                 ResultSet rs2 = ps2.executeQuery();
 
-                //Need to add a new entry into friend table
+                //Need to add a new entry into requests table
                 if(rs2.next() == false){
-                    PreparedStatement ps3 = DbConn.prepareStatement("INSERT INTO Friends (UserID1,UserID2,Start_Date,User1Accept,User2Accept) VALUES (?,?,0,?,?)");
+                    PreparedStatement ps3 = DbConn.prepareStatement("INSERT INTO [stadiumTrackerDB].[dbo].[Requests] (Sender,Receiver) VALUES (?,?)");
                     ps3.setInt(1,Integer.parseInt(strings[1]));
                     ps3.setInt(2,userID);
-                    ps3.setInt(3,1);
-                    ps3.setInt(4,0);
                     ps3.execute();
                     DbConn.close();
                     return 0;
