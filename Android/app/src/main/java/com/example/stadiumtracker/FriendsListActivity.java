@@ -77,6 +77,9 @@ public class FriendsListActivity extends AppCompatActivity {
 
     }
 
+    /*
+        Go to friendView of selected friend
+    */
     public void friendView(String friendName, int position){
         Intent intent = new Intent(this,FriendViewActivity.class);
         intent.putExtra("user", user);

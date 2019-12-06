@@ -7,14 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 import com.example.stadiumtracker.data.User;
 
-public class FriendViewActivity extends AppCompatActivity {
+public class CompareStadiumsActivity extends AppCompatActivity {
 
     User user;
+    int userID;
     Toolbar toolbar;
     TextView friendNameTextView;
     String friendName;
@@ -22,47 +22,23 @@ public class FriendViewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friend_view);
+        setContentView(R.layout.activity_compare_stadiums);
 
-        toolbar = findViewById(R.id.friend_view_toolbar);
+        toolbar = findViewById(R.id.compare_stadiums_toolbar);
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
         user = (User) getIntent().getSerializableExtra("user");
         friendName = (String) getIntent().getSerializableExtra("friendName");
-
-        friendNameTextView = findViewById(R.id.FriendName);
-        friendNameTextView.setText(friendName);
-        friendNameTextView.setTextColor(0xff669900);
-        friendNameTextView.setTextSize(32);
-
         friendID = (int) getIntent().getSerializableExtra("friendID");
-
+        userID = (int) getIntent().getSerializableExtra("userID");
     }
 
-    public void compareStadiums(View v){
-        Intent intent = new Intent(this, CompareStadiumsActivity.class);
-        intent.putExtra("user", user);
-        intent.putExtra("userID",user.getUserID());
-        intent.putExtra("friendName",friendName);
-        intent.putExtra("friendID",friendID);
-        startActivity(intent);
-    }
-
-    public void compareVisits(View v){
-        Intent intent = new Intent(this, CompareVisitsActivity.class);
-        intent.putExtra("user", user);
-        intent.putExtra("userID",user.getUserID());
-        intent.putExtra("friendName",friendName);
-        intent.putExtra("friendID",friendID);
-        startActivity(intent);
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.friend_view_menu, menu);
+        getMenuInflater().inflate(R.menu.compare_stadiums_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -73,11 +49,12 @@ public class FriendViewActivity extends AppCompatActivity {
                 Intent intent = new Intent(this,LoginActivity.class);
                 startActivity(intent);
                 return true;
-            case R.id.action_removeFriend:
-                return true;
             default:
-                Intent intent2 = new Intent(this, FriendsListActivity.class);
+                Intent intent2 = new Intent(this, FriendViewActivity.class);
                 intent2.putExtra("user", user);
+                intent2.putExtra("userId",user.getUserID());
+                intent2.putExtra("friendName",friendName);
+                intent2.putExtra("friendID",friendID);
                 startActivity(intent2);
                 return true;
         }

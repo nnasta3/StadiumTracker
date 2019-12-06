@@ -22,7 +22,7 @@
         android:layout_width="392dp"
         android:layout_height="80dp"
         android:layout_marginTop="20dp"
-        android:text="PlaceHolder"
+        android:text="@string/placeholderText"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -59,6 +59,9 @@
         android:id="@+id/compareStadiumsVisited"
         android:layout_width="120dp"
         android:layout_height="80dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:onClick="compareStadiums"
         android:text="@string/compareStadiumsVisited"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -66,12 +69,15 @@
         app:layout_constraintHorizontal_bias="0.134"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/totalNumberOfVisits"
-        app:layout_constraintVertical_bias="0.544" />
+        app:layout_constraintVertical_bias="0.531" />
 
     <Button
-        android:id="@+id/compareVisits"
+        android:id="@+id/compare_visits_title"
         android:layout_width="120dp"
         android:layout_height="80dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:onClick="compareVisits"
         android:text="@string/compareVisits"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
