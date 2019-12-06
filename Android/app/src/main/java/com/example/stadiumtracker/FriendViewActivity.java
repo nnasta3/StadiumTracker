@@ -73,7 +73,7 @@ public class FriendViewActivity extends AppCompatActivity {
                 Intent intent = new Intent(this,LoginActivity.class);
                 startActivity(intent);
                 return true;
-            case R.id.action_removeFriend:
+            case R.id.action_removeFriend://TODO ADD REMOVE FRIEND FUNCTIONALITY
                 return true;
             default:
                 Intent intent2 = new Intent(this, FriendsListActivity.class);

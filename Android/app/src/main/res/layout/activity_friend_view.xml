@@ -69,7 +69,7 @@
         app:layout_constraintHorizontal_bias="0.134"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/totalNumberOfVisits"
-        app:layout_constraintVertical_bias="0.531" />
+        app:layout_constraintVertical_bias="0.534" />
 
     <Button
         android:id="@+id/compare_visits_title"

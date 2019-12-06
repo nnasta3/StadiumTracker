@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.example.stadiumtracker.data.User;
 
@@ -16,7 +15,6 @@ public class CompareStadiumsActivity extends AppCompatActivity {
     User user;
     int userID;
     Toolbar toolbar;
-    TextView friendNameTextView;
     String friendName;
     int friendID;
 
