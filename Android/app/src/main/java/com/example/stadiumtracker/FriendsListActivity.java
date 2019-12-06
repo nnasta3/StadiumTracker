@@ -62,7 +62,6 @@ public class FriendsListActivity extends AppCompatActivity {
             Log.w("error friendsList",e.toString());
         }
 
-
         //Populate listView
         ArrayAdapter<String>friendAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, friends);
         listView.setAdapter(friendAdapter);
