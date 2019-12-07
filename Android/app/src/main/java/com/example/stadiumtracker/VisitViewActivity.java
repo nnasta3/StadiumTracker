@@ -297,7 +297,7 @@ public class VisitViewActivity extends AppCompatActivity {
         Intent intent = new Intent(this,StadiumViewActivity.class);
         intent.putExtra("user",user);
         intent.putExtra("stadium",event.getStadium());
-        intent.putExtra("numVisits",-1);
+        intent.putExtra("numVisits",0);
         intent.putExtra("event",event);
         intent.putExtra("from","visitView");
         startActivity(intent);
