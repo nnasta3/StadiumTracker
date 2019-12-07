@@ -1,7 +1,6 @@
 package com.example.stadiumtracker;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -17,16 +16,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.example.stadiumtracker.data.User;
 import com.example.stadiumtracker.database.friendsList;
 import com.example.stadiumtracker.database.addFriend;
 import com.example.stadiumtracker.database.getFriendIDFromName;
+import com.example.stadiumtracker.database.checkNotifications;
+import com.example.stadiumtracker.database.getFriendRequests;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
 
 public class FriendsListActivity extends AppCompatActivity {
 
@@ -35,11 +34,10 @@ public class FriendsListActivity extends AppCompatActivity {
     ListView listView;
     List<String> friends;
     int addFriend = -2;
-    Context context = this.getContext();
+    MenuItem notificationsMenuItem;
+    int notificationMenuItemCheck = 0;
+    ArrayList<String> friendRequests;
 
-    public Context getContext() {
-        return context;
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -97,6 +95,20 @@ public class FriendsListActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.friends_list_menu, menu);
+        try{
+            notificationMenuItemCheck = new checkNotifications(this).execute(user.getUserID()).get();
+            if(notificationMenuItemCheck == 0){
+                //Change to Open Email if there are no notifications pending for current user
+                notificationsMenuItem = menu.getItem(1);
+                notificationsMenuItem.setIcon(getResources().getDrawable(R.drawable.baseline_drafts_black_18dp));
+            }
+            else if( notificationMenuItemCheck == -2){
+                System.out.println("error checkNotifications");
+            }
+        } catch(Exception e){
+            Log.w("error checkNotifications",e.toString());
+        }
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -154,7 +166,21 @@ public class FriendsListActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_friend_requests://List of requests, when a user accepts save that in database
-                //TODO: handle friend requests
+                try{
+                    friendRequests = new getFriendRequests(this).execute(user.getUserID()).get();
+                    if(friendRequests.isEmpty()){
+                        Toast.makeText(FriendsListActivity.this,"You Have No Pending Friend Requests", Toast.LENGTH_SHORT).show();
+                    }
+                    else{//Display the list of notifications
+                        Intent intent3 = new Intent(this, FriendRequestsActivity.class);
+                        intent3.putExtra("user", user);
+                        intent3.putStringArrayListExtra("friendRequests",friendRequests);
+                        startActivity(intent3);
+                        return true;
+                    }
+                }catch (Exception e){
+                    Log.w("error addFriend",e.toString());
+                }
                 return true;
 
             default:

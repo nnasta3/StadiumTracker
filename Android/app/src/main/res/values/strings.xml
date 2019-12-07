@@ -72,4 +72,7 @@
     <string name="removeFriend">Remove Friend</string>
     <string name="compare_visits_title">Compare Visits</string>
     <string name="action_stub">Virtual Ticket Stub</string>
+    <string name="friendRequest">Friend Requests</string>
+    <string name="addButtonText">Add</string>
+    <string name="deleteButtonText">Delete</string>
 </resources>
