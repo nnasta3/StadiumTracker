@@ -10,16 +10,8 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.stadiumtracker.FriendRequestsActivity;
 import com.example.stadiumtracker.R;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
-
 import com.example.stadiumtracker.data.User;
 import com.example.stadiumtracker.database.acceptFriendRequest;
 import com.example.stadiumtracker.database.getFriendIDFromName;

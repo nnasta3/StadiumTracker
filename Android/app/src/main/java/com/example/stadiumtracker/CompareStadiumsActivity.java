@@ -5,10 +5,20 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import com.example.stadiumtracker.data.Stadium;
 import com.example.stadiumtracker.data.User;
+import com.example.stadiumtracker.database.allStadiums;
+import com.example.stadiumtracker.database.selectDistinctStadiumsVisited;
+import com.example.stadiumtracker.helpers.CompareStadiumsListAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CompareStadiumsActivity extends AppCompatActivity {
 
@@ -17,6 +27,12 @@ public class CompareStadiumsActivity extends AppCompatActivity {
     Toolbar toolbar;
     String friendName;
     int friendID;
+    ListView listView;
+    List<Stadium> stadiums;
+    TextView usernameTextView;
+    TextView friendNameTextView;
+    ArrayList<Integer> userIDs;
+    ArrayList<Integer> friendStadiumIDs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +48,24 @@ public class CompareStadiumsActivity extends AppCompatActivity {
         friendName = (String) getIntent().getSerializableExtra("friendName");
         friendID = (int) getIntent().getSerializableExtra("friendID");
         userID = (int) getIntent().getSerializableExtra("userID");
+
+        usernameTextView = findViewById(R.id.username_text_view);
+        usernameTextView.setText(user.getName());
+        friendNameTextView = findViewById(R.id.friend_name_text_view);
+        friendNameTextView.setText(friendName);
+
+        listView = findViewById(R.id.compare_stadiums_list_view);
+        try{
+            stadiums = new allStadiums(this).execute().get();
+            userIDs = new selectDistinctStadiumsVisited(this).execute(user.getUserID()).get();
+            friendStadiumIDs = new selectDistinctStadiumsVisited(this).execute(friendID).get();
+        } catch (Exception e){
+            Log.w("error allStadiums",e.toString());
+        }
+        //Pass the List/Mapping of Stadium,State,Country
+        CompareStadiumsListAdapter adapter = new CompareStadiumsListAdapter(stadiums,this,user,friendID,userIDs,friendStadiumIDs);
+        listView.setAdapter(adapter);
+
     }
 
     @Override

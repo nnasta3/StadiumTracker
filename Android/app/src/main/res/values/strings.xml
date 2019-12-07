@@ -75,4 +75,7 @@
     <string name="friendRequest">Friend Requests</string>
     <string name="addButtonText">Add</string>
     <string name="deleteButtonText">Delete</string>
+    <string name="list_of_events">List of Events</string>
+    <string name="friend_image_display">Friend Image</string>
+    <string name="user_image_view">User Image</string>
 </resources>

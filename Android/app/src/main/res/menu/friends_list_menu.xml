@@ -9,7 +9,7 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_friend_requests"
-        android:icon="@drawable/baseline_mail_black_18dp"
+        android:icon="@drawable/baseline_new_releases_black_18dp"
         android:title="@string/action_friends_list_friend_requests"
         app:showAsAction="ifRoom" />
     <item

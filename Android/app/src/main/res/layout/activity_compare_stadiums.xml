@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -22,7 +21,6 @@
         android:id="@+id/compare_stadiums_title"
         android:layout_width="367dp"
         android:layout_height="89dp"
-        android:layout_marginTop="10dp"
         android:text="@string/compare_stadiums_title"
         android:textAlignment="center"
         android:textColor="@android:color/holo_green_dark"
@@ -32,5 +30,67 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/compare_stadiums_toolbar"
         app:layout_constraintVertical_bias="0.014" />
+
+    <ListView
+        android:id="@+id/compare_stadiums_list_view"
+        android:layout_width="408dp"
+        android:layout_height="311dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/compare_stadiums_header_layout"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <RelativeLayout
+        android:id="@+id/compare_stadiums_header_layout"
+        android:layout_width="406dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/compare_stadiums_title">
+
+        <TextView
+            android:id="@+id/username_text_view"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="0dp"
+            android:text="@string/placeholderText"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/friend_name_text_view"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="6dp"
+            android:layout_marginBottom="-3dp"
+            android:layout_toEndOf="@+id/username_text_view"
+            android:text="@string/placeholderText"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/compare_stadium_list_header"
+            android:layout_width="235dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="0dp"
+            android:layout_toEndOf="@+id/friend_name_text_view"
+            android:text="@string/stadiums_list_title"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
