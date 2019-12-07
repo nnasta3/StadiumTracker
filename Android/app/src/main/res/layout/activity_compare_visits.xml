@@ -19,7 +19,7 @@
 
     <TextView
         android:id="@+id/compare_visits_title"
-        android:layout_width="367dp"
+        android:layout_width="338dp"
         android:layout_height="89dp"
         android:layout_marginTop="10dp"
         android:text="@string/compare_visits_title"

@@ -58,6 +58,16 @@ public class addFriend extends AsyncTask<String, Void, Integer> {
                     DbConn.close();
                     return -3;
                 }
+                //Check if the users are already friends
+                PreparedStatement ps4 = DbConn.prepareStatement("SELECT * FROM [stadiumTrackerDB].[dbo].[Friends] WHERE ((User1 = ?) AND (User2 = ?)) OR ((User1 = ?) AND (User2=?))");
+                ps4.setInt(1,userID);
+                ps4.setInt(2,Integer.parseInt(strings[1]));
+                ps4.setInt(3,Integer.parseInt(strings[1]));
+                ps4.setInt(4,userID);
+                ResultSet rs4 = ps4.executeQuery();
+                if(rs4.next()!=false){
+                    return 1;
+                }
 
                 PreparedStatement ps2 = DbConn.prepareStatement("SELECT * FROM [stadiumTrackerDB].[dbo].[Requests] WHERE ((Sender = ?) AND (Receiver = ?)) OR ((Sender = ?) AND (Receiver=?))");
                 ps2.setInt(1,userID);
