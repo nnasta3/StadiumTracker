@@ -100,6 +100,11 @@ public class StadiumViewActivity extends AppCompatActivity {
                 stadiumViewAdapter = new StadiumViewAdapter(this,events,user,numVisits);
                 listView.setAdapter(stadiumViewAdapter);
             }
+            if (events.size() != numVisits){
+                numVisits = events.size();
+                temp = numVisits+" visits";
+                visitsText.setText(temp);
+            }
         }
     }
 
