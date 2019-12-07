@@ -13,7 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.stadiumtracker.data.User;
+import com.example.stadiumtracker.database.getFriendViewDetails;
 import com.example.stadiumtracker.database.removeFriend;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FriendViewActivity extends AppCompatActivity {
 
@@ -24,6 +28,7 @@ public class FriendViewActivity extends AppCompatActivity {
     int friendID;
     TextView stadiumsCount;
     TextView visitsCount;
+    ArrayList<Integer> counts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +54,21 @@ public class FriendViewActivity extends AppCompatActivity {
 
         friendID = (int) getIntent().getSerializableExtra("friendID");
 
+        getCounts();
+
     }
+
+    public void getCounts(){
+        ArrayList<Integer> getCounts= new ArrayList<Integer>();
+        try {
+            getCounts = new getFriendViewDetails(this).execute(friendID).get();
+            stadiumsCount.setText(getCounts.get(0).toString());
+            visitsCount.setText(getCounts.get(1).toString());
+        } catch (Exception e){
+            Log.w("error getFriendViewDetails",e.toString());
+        }
+    }
+
 
     public void compareStadiums(View v){
         Intent intent = new Intent(this, CompareStadiumsActivity.class);
