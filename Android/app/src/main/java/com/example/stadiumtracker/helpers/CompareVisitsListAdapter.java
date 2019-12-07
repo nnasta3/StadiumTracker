@@ -54,9 +54,9 @@ public class CompareVisitsListAdapter extends BaseAdapter implements ListAdapter
         }
         //Handle TextView and display string from your list
         TextView listItemText = (TextView)view.findViewById(R.id.compare_list_text_view);
-        SpannableString s = new SpannableString(list.get(position).getRoadTeam().getNickname() + " @ " + list.get(position).getHomeTeam().getNickname() + "\n" + list.get(position).getStadium().getName());
+        SpannableString s = new SpannableString(list.get(position).getRoadTeam().getNickname() + " @ " + list.get(position).getHomeTeam().getNickname() + "\n" + list.get(position).getStadium().getName() +", "+ list.get(position).getDateFullString());
         s.setSpan(new RelativeSizeSpan(2),0,list.get(position).getRoadTeam().getNickname().length()+3+list.get(position).getHomeTeam().getNickname().length(),0);
-        s.setSpan(new RelativeSizeSpan(1),list.get(position).getRoadTeam().getNickname().length()+3+list.get(position).getHomeTeam().getNickname().length(),list.get(position).getRoadTeam().getNickname().length() +list.get(position).getHomeTeam().getNickname().length() + list.get(position).getStadium().getName().length()+4,0);
+        s.setSpan(new RelativeSizeSpan(1),list.get(position).getRoadTeam().getNickname().length()+3+list.get(position).getHomeTeam().getNickname().length(),list.get(position).getRoadTeam().getNickname().length() +list.get(position).getHomeTeam().getNickname().length() + list.get(position).getStadium().getName().length()+list.get(position).getDateFullString().length()+5,0);
         listItemText.setText(s);
 
 

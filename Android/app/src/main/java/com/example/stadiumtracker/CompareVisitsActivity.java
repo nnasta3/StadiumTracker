@@ -71,8 +71,11 @@ public class CompareVisitsActivity extends AppCompatActivity {
                 userEventIDs.add(e.getEventID());
             }
             for(Event e : friendEvents){
-                if(!allEvents.contains(e.getEventID())) {
-                    allEvents.add(e);
+                for(int i = 0; i<allEvents.size();i++){
+                    if(allEvents.get(i).getEventID() != e.getEventID()) {
+                        allEvents.add(e);
+                        break;
+                    }
                 }
                 friendEventIDs.add(e.getEventID());
             }

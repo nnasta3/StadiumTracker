@@ -33,14 +33,14 @@
 
     <ListView
         android:id="@+id/compare_visits_list_view"
-        android:layout_width="409dp"
-        android:layout_height="350dp"
+        android:layout_width="405dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/compare_visits_header_layout"
-        app:layout_constraintVertical_bias="0.236" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <RelativeLayout
         android:id="@+id/compare_visits_header_layout"
