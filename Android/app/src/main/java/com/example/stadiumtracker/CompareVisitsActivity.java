@@ -71,11 +71,8 @@ public class CompareVisitsActivity extends AppCompatActivity {
                 userEventIDs.add(e.getEventID());
             }
             for(Event e : friendEvents){
-                for(int i = 0; i<allEvents.size();i++){
-                    if(allEvents.get(i).getEventID() != e.getEventID()) {
-                        allEvents.add(e);
-                        break;
-                    }
+                if(!containsEvent(e,allEvents)){
+                    allEvents.add(e);
                 }
                 friendEventIDs.add(e.getEventID());
             }
@@ -87,6 +84,17 @@ public class CompareVisitsActivity extends AppCompatActivity {
         }
 
     }
+
+    public boolean containsEvent(Event e, ArrayList<Event> allEvents){
+        for(int i =0;i<allEvents.size();i++){
+            if(allEvents.get(i).getEventID() == e.getEventID()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

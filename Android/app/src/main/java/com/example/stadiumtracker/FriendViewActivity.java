@@ -11,9 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.stadiumtracker.data.User;
 import com.example.stadiumtracker.database.getFriendViewDetails;
 import com.example.stadiumtracker.database.removeFriend;
+
 import java.util.ArrayList;
 
 public class FriendViewActivity extends AppCompatActivity {
@@ -65,6 +67,7 @@ public class FriendViewActivity extends AppCompatActivity {
             Log.w("error getFriendViewDetails",e.toString());
         }
     }
+
 
     public void compareStadiums(View v){
         Intent intent = new Intent(this, CompareStadiumsActivity.class);
