@@ -33,10 +33,14 @@
 
     <ListView
         android:id="@+id/compare_visits_list_view"
-        android:layout_width="404dp"
-        android:layout_height="437dp"
+        android:layout_width="409dp"
+        android:layout_height="350dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/compare_visits_header_layout"
+        app:layout_constraintVertical_bias="0.236" />
 
     <RelativeLayout
         android:id="@+id/compare_visits_header_layout"
@@ -51,35 +55,36 @@
 
         <TextView
             android:id="@+id/username_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="73dp"
+            android:layout_height="39dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="11dp"
             android:layout_marginTop="-1dp"
             android:text="@string/placeholderText"
             android:textAlignment="center"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/friend_name_text_view"
-            android:layout_width="wrap_content"
+            android:layout_width="77dp"
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="11dp"
             android:layout_marginBottom="0dp"
             android:layout_toEndOf="@+id/username_text_view"
             android:text="@string/placeholderText"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/compare_visits_list_header"
-            android:layout_width="221dp"
+            android:layout_width="222dp"
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="23dp"
+            android:layout_marginStart="5dp"
             android:layout_marginBottom="0dp"
             android:layout_toEndOf="@+id/friend_name_text_view"
             android:text="@string/list_of_events"

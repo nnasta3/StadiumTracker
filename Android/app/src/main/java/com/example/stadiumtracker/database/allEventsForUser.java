@@ -69,7 +69,7 @@ public class allEventsForUser extends AsyncTask<Integer, Void, List<Event>> {
             Log.e("aEFU","done mapping. main query now");
             Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
             Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + ip + ":" + port + "/" + dbName + ";user=" + user + ";password=" + pass);
-            PreparedStatement ps = DbConn.prepareStatement("SELECT * FROM [dbo].[Event] WHERE EventID IN (SELECT EventID FROM [dbo].[Visit] WHERE UserID=?) ORDER BY Date DESC");
+            PreparedStatement ps = DbConn.prepareStatement("SELECT * FROM [stadiumTrackerDB].[dbo].[Event] WHERE EventID IN (SELECT EventID FROM [stadiumTrackerDB].[dbo].[Visit] WHERE UserID=?) ORDER BY Date DESC");
             ps.setInt(1,integers[0]);
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
@@ -86,6 +86,7 @@ public class allEventsForUser extends AsyncTask<Integer, Void, List<Event>> {
                 events.add(new Event(eventID,stadium,cal,homeTeam,roadTeam,homeScore,roadScore,league));
 
             }
+            DbConn.close();
         }catch (Exception e){
             Log.e("Db aEFU",e.toString());
             return events;

@@ -1,43 +1,33 @@
 package com.example.stadiumtracker.helpers;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.example.stadiumtracker.R;
-import com.example.stadiumtracker.data.Stadium;
-import com.example.stadiumtracker.data.User;
-import com.example.stadiumtracker.database.acceptFriendRequest;
-import com.example.stadiumtracker.database.deleteFriendRequest;
-import com.example.stadiumtracker.database.getFriendIDFromName;
-import com.example.stadiumtracker.database.selectDistinctStadiumsVisited;
-
+import com.example.stadiumtracker.data.Event;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompareStadiumsListAdapter extends BaseAdapter implements ListAdapter {
+public class CompareVisitsListAdapter extends BaseAdapter implements ListAdapter {
 
-    private List<Stadium> list;
+    private List<Event> list;
     private Context context;
-    private ArrayList<Integer> userStadiumIDs;
-    private ArrayList<Integer> friendStadiumIDs;
+    private ArrayList<Integer> userEventIDs;
+    private ArrayList<Integer> friendEventIDs;
 
 
-    public CompareStadiumsListAdapter(List<Stadium> list, Context context, ArrayList<Integer> userStadiumIDs, ArrayList<Integer> friendStadiumIDs) {
-        this.list = list;
+    public CompareVisitsListAdapter(List<Event> allEventList,Context context, ArrayList<Integer> userEvents, ArrayList<Integer> friendEvents) {
+        this.list = allEventList;
         this.context = context;
-        this.userStadiumIDs = userStadiumIDs;
-        this.friendStadiumIDs = friendStadiumIDs;
+        this.userEventIDs = userEvents;
+        this.friendEventIDs = friendEvents;
     }
 
     @Override
@@ -52,8 +42,7 @@ public class CompareStadiumsListAdapter extends BaseAdapter implements ListAdapt
 
     @Override
     public long getItemId(int pos) {
-        return 0;
-        //just return 0 if your list items do not have an Id variable.
+        return list.get(pos).getEventID();
     }
 
     @Override
@@ -65,9 +54,9 @@ public class CompareStadiumsListAdapter extends BaseAdapter implements ListAdapt
         }
         //Handle TextView and display string from your list
         TextView listItemText = (TextView)view.findViewById(R.id.compare_list_text_view);
-        SpannableString s = new SpannableString(list.get(position).getName() + "\n" + list.get(position).getCity() + ", " + list.get(position).getCountry());
-        s.setSpan(new RelativeSizeSpan(2),0,list.get(position).getName().length(),0);
-        s.setSpan(new RelativeSizeSpan(1),list.get(position).getName().length(),list.get(position).getName().length()+list.get(position).getCity().length() + list.get(position).getCountry().length()+2,0);
+        SpannableString s = new SpannableString(list.get(position).getRoadTeam().getNickname() + " @ " + list.get(position).getHomeTeam().getNickname() + "\n" + list.get(position).getStadium().getName());
+        s.setSpan(new RelativeSizeSpan(2),0,list.get(position).getRoadTeam().getNickname().length()+3+list.get(position).getHomeTeam().getNickname().length(),0);
+        s.setSpan(new RelativeSizeSpan(1),list.get(position).getRoadTeam().getNickname().length()+3+list.get(position).getHomeTeam().getNickname().length(),list.get(position).getRoadTeam().getNickname().length() +list.get(position).getHomeTeam().getNickname().length() + list.get(position).getStadium().getName().length()+4,0);
         listItemText.setText(s);
 
 
@@ -75,14 +64,14 @@ public class CompareStadiumsListAdapter extends BaseAdapter implements ListAdapt
         ImageView userImage = (ImageView) view.findViewById(R.id.user_image_view);
         ImageView friendImage = (ImageView)view.findViewById(R.id.friend_image_view);
 
-        if(!userStadiumIDs.contains(list.get(position).getStadiumID())){
+        if(!userEventIDs.contains(list.get(position).getEventID())){
             userImage.setImageResource(R.drawable.baseline_close_black_18dp);
         }
         else{
             userImage.setImageResource(R.drawable.baseline_check_black_18dp);
         }
 
-        if(!friendStadiumIDs.contains(list.get(position).getStadiumID())){
+        if(!friendEventIDs.contains(list.get(position).getEventID())){
             friendImage.setImageResource(R.drawable.baseline_close_black_18dp);
         }
         else{

@@ -63,7 +63,7 @@ public class CompareStadiumsActivity extends AppCompatActivity {
             Log.w("error allStadiums",e.toString());
         }
         //Pass the List/Mapping of Stadium,State,Country
-        CompareStadiumsListAdapter adapter = new CompareStadiumsListAdapter(stadiums,this,user,friendID,userIDs,friendStadiumIDs);
+        CompareStadiumsListAdapter adapter = new CompareStadiumsListAdapter(stadiums,this,userIDs,friendStadiumIDs);
         listView.setAdapter(adapter);
 
     }
