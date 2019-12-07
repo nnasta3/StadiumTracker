@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.stadiumtracker.data.User;
+import com.example.stadiumtracker.database.removeFriend;
 
 public class FriendViewActivity extends AppCompatActivity {
 
@@ -78,7 +81,17 @@ public class FriendViewActivity extends AppCompatActivity {
                 Intent intent = new Intent(this,LoginActivity.class);
                 startActivity(intent);
                 return true;
-            case R.id.action_removeFriend://TODO ADD REMOVE FRIEND FUNCTIONALITY
+            case R.id.action_removeFriend:
+                try{
+                    new removeFriend(this).execute(friendID,user.getUserID());
+                } catch (Exception e){
+                    Log.w("error removeFriend",e.toString());
+                }
+                Toast.makeText(FriendViewActivity.this, "Sucessfully Removed "+friendName+" From Your Friends List", Toast.LENGTH_LONG).show();
+                //Send the user back to their friends list
+                Intent intent3 = new Intent(this, FriendsListActivity.class);
+                intent3.putExtra("user", user);
+                startActivity(intent3);
                 return true;
             default:
                 Intent intent2 = new Intent(this, FriendsListActivity.class);
