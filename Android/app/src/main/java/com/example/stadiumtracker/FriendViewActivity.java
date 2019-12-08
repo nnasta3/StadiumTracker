@@ -27,8 +27,10 @@ public class FriendViewActivity extends AppCompatActivity {
     int friendID;
     TextView stadiumsCount;
     TextView visitsCount;
-    ArrayList<Integer> counts;
 
+    /*NICHOLAS NASTA
+     *Creates the FriendViewActivity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -57,6 +59,9 @@ public class FriendViewActivity extends AppCompatActivity {
 
     }
 
+    /*NICHOLAS NASTA
+     *Returns the number of stadiums visited and events visited for the currently selected friend
+     */
     public void getCounts(){
         ArrayList<Integer> getCounts= new ArrayList<Integer>();
         try {
@@ -68,7 +73,9 @@ public class FriendViewActivity extends AppCompatActivity {
         }
     }
 
-
+    /*NICHOLAS NASTA
+     *Sends the user to the CompareStadiumsActivity
+     */
     public void compareStadiums(View v){
         Intent intent = new Intent(this, CompareStadiumsActivity.class);
         intent.putExtra("user", user);
@@ -78,6 +85,9 @@ public class FriendViewActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /*NICHOLAS NASTA
+     *Sends the user to the CompareVisitsActivity
+     */
     public void compareVisits(View v){
         Intent intent = new Intent(this, CompareVisitsActivity.class);
         intent.putExtra("user", user);
@@ -86,12 +96,19 @@ public class FriendViewActivity extends AppCompatActivity {
         intent.putExtra("friendID",friendID);
         startActivity(intent);
     }
+
+    /*NICHOLAS NASTA
+     *Creates the menu from the friend menu layout
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.friend_view_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
+    /*NICHOLAS NASTA
+     *Handles the menu options for logout, remove friend, and go back options
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

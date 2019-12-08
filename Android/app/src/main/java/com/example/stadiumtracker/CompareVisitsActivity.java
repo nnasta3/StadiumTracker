@@ -10,15 +10,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.example.stadiumtracker.data.Event;
 import com.example.stadiumtracker.data.User;
 import com.example.stadiumtracker.database.allEventsForUser;
-import com.example.stadiumtracker.database.allStadiums;
-import com.example.stadiumtracker.database.selectDistinctStadiumsVisited;
-import com.example.stadiumtracker.helpers.CompareStadiumsListAdapter;
 import com.example.stadiumtracker.helpers.CompareVisitsListAdapter;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +33,11 @@ public class CompareVisitsActivity extends AppCompatActivity {
     ArrayList<Integer> userEventIDs;
     ArrayList<Integer> friendEventIDs;
 
+    /*NICHOLAS NASTA
+     * Create the CompareVisitsActivity
+     * Use findViewByID to get ui components
+     * Pulls list of visits for both user and friend from the database
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +63,7 @@ public class CompareVisitsActivity extends AppCompatActivity {
             allEvents = new ArrayList<>();
             userEventIDs = new ArrayList<>();
             friendEventIDs = new ArrayList<>();
+
             userEvents = new allEventsForUser(this).execute(userID).get();
             friendEvents = new allEventsForUser(this).execute(friendID).get();
 
@@ -85,6 +86,10 @@ public class CompareVisitsActivity extends AppCompatActivity {
 
     }
 
+    /*NICHOLAS NASTA
+     *Check if an event is in a list of events
+     * returns true if an event is already in the list
+     */
     public boolean containsEvent(Event e, ArrayList<Event> allEvents){
         for(int i =0;i<allEvents.size();i++){
             if(allEvents.get(i).getEventID() == e.getEventID()){
@@ -94,14 +99,18 @@ public class CompareVisitsActivity extends AppCompatActivity {
         return false;
     }
 
-
-
+    /*NICHOLAS NASTA
+     *Creates the menu for the CompareVisitsActivity
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.compare_visits_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
+    /*NICHOLAS NASTA
+     *Handles when a user presses the back button or the logout button
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

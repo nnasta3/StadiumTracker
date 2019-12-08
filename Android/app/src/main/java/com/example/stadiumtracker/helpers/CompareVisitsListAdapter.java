@@ -22,7 +22,9 @@ public class CompareVisitsListAdapter extends BaseAdapter implements ListAdapter
     private ArrayList<Integer> userEventIDs;
     private ArrayList<Integer> friendEventIDs;
 
-
+    /*NICHOLAS NASTA
+    * Creates a new CompareVisitsListAdapter
+    */
     public CompareVisitsListAdapter(List<Event> allEventList,Context context, ArrayList<Integer> userEvents, ArrayList<Integer> friendEvents) {
         this.list = allEventList;
         this.context = context;
@@ -30,21 +32,33 @@ public class CompareVisitsListAdapter extends BaseAdapter implements ListAdapter
         this.friendEventIDs = friendEvents;
     }
 
+    /*NICHOLAS NASTA
+    * Returns the size of the Event list
+    */
     @Override
     public int getCount() {
         return list.size();
     }
 
+    /*NICHOLAS NASTA
+    * Returns the Event in the list of Events
+    */
     @Override
     public Object getItem(int pos) {
         return list.get(pos);
     }
 
+    /*NICHOLAS NASTA
+    * Returns the EventID in the list of Events
+    */
     @Override
     public long getItemId(int pos) {
         return list.get(pos).getEventID();
     }
 
+    /*NICHOLAS NASTA
+    * This method changes the ImageViews for the CompareVisitActivity and sets the TextView for each visit
+    */
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View view = convertView;
