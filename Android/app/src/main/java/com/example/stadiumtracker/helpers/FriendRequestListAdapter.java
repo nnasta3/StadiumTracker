@@ -17,7 +17,6 @@ import com.example.stadiumtracker.database.acceptFriendRequest;
 import com.example.stadiumtracker.database.getFriendIDFromName;
 import com.example.stadiumtracker.database.deleteFriendRequest;
 
-
 public class FriendRequestListAdapter extends BaseAdapter implements ListAdapter {
 
     private ArrayList<String> list = new ArrayList<String>();
@@ -25,7 +24,9 @@ public class FriendRequestListAdapter extends BaseAdapter implements ListAdapter
     private User passedUser;
     private Context FriendRequestListContext;
 
-
+    /*NICHOLAS NASTA
+     * Creates a new CompareVisitsListAdapter
+     */
     public FriendRequestListAdapter(ArrayList<String> list, Context context,User user) {
         this.list = list;
         this.context = context;
@@ -33,22 +34,37 @@ public class FriendRequestListAdapter extends BaseAdapter implements ListAdapter
         passedUser = user;
     }
 
+    /* NICHOLAS NASTA
+     * Returns the size of the Friend Name list
+     */
     @Override
     public int getCount() {
         return list.size();
     }
 
+    /* NICHOLAS NASTA
+     * Returns the Friend Name from the list of Friend Names
+     */
     @Override
     public Object getItem(int pos) {
         return list.get(pos);
     }
 
+    /* NICHOLAS NASTA
+     * Returns 0, since there are no IDs associated with Friend Names
+     */
     @Override
     public long getItemId(int pos) {
         return 0;
-        //just return 0 if your list items do not have an Id variable.
     }
 
+    /* NICHOLAS NASTA
+     * Formats TextView and displays string from list of Friend Names
+     * Buttons for adding and deleting friend requests instantiated
+     * onClickListeners for buttons
+     * addBtn adds accepts a friend request
+     * deleteBtn deletes the friend request
+     */
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View view = convertView;

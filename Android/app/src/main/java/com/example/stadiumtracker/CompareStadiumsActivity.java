@@ -10,13 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.example.stadiumtracker.data.Stadium;
 import com.example.stadiumtracker.data.User;
 import com.example.stadiumtracker.database.allStadiums;
 import com.example.stadiumtracker.database.selectDistinctStadiumsVisited;
 import com.example.stadiumtracker.helpers.CompareStadiumsListAdapter;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,9 +29,16 @@ public class CompareStadiumsActivity extends AppCompatActivity {
     List<Stadium> stadiums;
     TextView usernameTextView;
     TextView friendNameTextView;
-    ArrayList<Integer> userIDs;
+    ArrayList<Integer> userStadiumIDs;
     ArrayList<Integer> friendStadiumIDs;
 
+    /* NICHOLAS NASTA
+     * Create the CompareStadiumsActivity
+     * Use findViewByID to get ui components
+     * Pulls list of StadiumIDs of visited stadiums for both user and friend from the database
+     * Adds all non duplicate Stadiums into the stadiums list
+     * Sends the userStadiumIDs, friendStadiumIDs, and all Stadiums to the CompareStadiumsListAdapter to display the data
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,23 +62,30 @@ public class CompareStadiumsActivity extends AppCompatActivity {
         listView = findViewById(R.id.compare_stadiums_list_view);
         try{
             stadiums = new allStadiums(this).execute().get();
-            userIDs = new selectDistinctStadiumsVisited(this).execute(user.getUserID()).get();
+            userStadiumIDs = new selectDistinctStadiumsVisited(this).execute(user.getUserID()).get();
             friendStadiumIDs = new selectDistinctStadiumsVisited(this).execute(friendID).get();
         } catch (Exception e){
             Log.w("error allStadiums",e.toString());
         }
         //Pass the List/Mapping of Stadium,State,Country
-        CompareStadiumsListAdapter adapter = new CompareStadiumsListAdapter(stadiums,this,userIDs,friendStadiumIDs);
+        CompareStadiumsListAdapter adapter = new CompareStadiumsListAdapter(stadiums,this,userStadiumIDs,friendStadiumIDs);
         listView.setAdapter(adapter);
 
     }
 
+    /* NICHOLAS NASTA
+     * Creates the menu for the CompareStadiumsActivity
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.compare_stadiums_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
+    /* NICHOLAS NASTA
+     * Handles when a user presses the back button or the logout button
+     * Go back sends the user to the currently selected friend view
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

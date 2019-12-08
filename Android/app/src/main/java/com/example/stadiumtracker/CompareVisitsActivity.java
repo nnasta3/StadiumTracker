@@ -33,10 +33,12 @@ public class CompareVisitsActivity extends AppCompatActivity {
     ArrayList<Integer> userEventIDs;
     ArrayList<Integer> friendEventIDs;
 
-    /*NICHOLAS NASTA
+    /* NICHOLAS NASTA
      * Create the CompareVisitsActivity
      * Use findViewByID to get ui components
-     * Pulls list of visits for both user and friend from the database
+     * Pulls list of EventIDs for both user and friend from the database
+     * Adds all non duplicate Events into the allEvents List
+     * Sends the userEventIDs, friendEventIDs, and all Events to the CompareVisitsListAdapter to display the data
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +88,8 @@ public class CompareVisitsActivity extends AppCompatActivity {
 
     }
 
-    /*NICHOLAS NASTA
-     *Check if an event is in a list of events
+    /* NICHOLAS NASTA
+     * Check if an event is in a list of events
      * returns true if an event is already in the list
      */
     public boolean containsEvent(Event e, ArrayList<Event> allEvents){
@@ -99,8 +101,8 @@ public class CompareVisitsActivity extends AppCompatActivity {
         return false;
     }
 
-    /*NICHOLAS NASTA
-     *Creates the menu for the CompareVisitsActivity
+    /* NICHOLAS NASTA
+     * Creates the menu for the CompareVisitsActivity
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -108,8 +110,9 @@ public class CompareVisitsActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    /*NICHOLAS NASTA
-     *Handles when a user presses the back button or the logout button
+    /* NICHOLAS NASTA
+     * Handles when a user presses the back button or the logout button
+     * Go back sends the user to the currently selected friend view
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -1,27 +1,17 @@
 package com.example.stadiumtracker.helpers;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.example.stadiumtracker.R;
 import com.example.stadiumtracker.data.Stadium;
-import com.example.stadiumtracker.data.User;
-import com.example.stadiumtracker.database.acceptFriendRequest;
-import com.example.stadiumtracker.database.deleteFriendRequest;
-import com.example.stadiumtracker.database.getFriendIDFromName;
-import com.example.stadiumtracker.database.selectDistinctStadiumsVisited;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +22,9 @@ public class CompareStadiumsListAdapter extends BaseAdapter implements ListAdapt
     private ArrayList<Integer> userStadiumIDs;
     private ArrayList<Integer> friendStadiumIDs;
 
-
+    /* NICHOLAS NASTA
+     * Creates a new CompareStadiumsListAdapter
+     */
     public CompareStadiumsListAdapter(List<Stadium> list, Context context, ArrayList<Integer> userStadiumIDs, ArrayList<Integer> friendStadiumIDs) {
         this.list = list;
         this.context = context;
@@ -40,22 +32,34 @@ public class CompareStadiumsListAdapter extends BaseAdapter implements ListAdapt
         this.friendStadiumIDs = friendStadiumIDs;
     }
 
+    /* NICHOLAS NASTA
+     * Returns the size of the Stadiums list
+     */
     @Override
     public int getCount() {
         return list.size();
     }
 
+    /* NICHOLAS NASTA
+     * Returns the Stadium in the list of Stadiums
+     */
     @Override
     public Object getItem(int pos) {
         return list.get(pos);
     }
 
+    /* NICHOLAS NASTA
+     * Returns the StadiumID in the list of Stadiums
+     */
     @Override
     public long getItemId(int pos) {
-        return 0;
-        //just return 0 if your list items do not have an Id variable.
+        return list.get(pos).getStadiumID();
     }
 
+    /* NICHOLAS NASTA
+     * Changes the ImageViews for user/friend depending on if a user/friend has been to that stadium
+     * Formats TextView and displays string from list of visits
+     */
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View view = convertView;
@@ -69,7 +73,6 @@ public class CompareStadiumsListAdapter extends BaseAdapter implements ListAdapt
         s.setSpan(new RelativeSizeSpan(2),0,list.get(position).getName().length(),0);
         s.setSpan(new RelativeSizeSpan(1),list.get(position).getName().length(),list.get(position).getName().length()+list.get(position).getCity().length() + list.get(position).getCountry().length()+2,0);
         listItemText.setText(s);
-
 
         //Change ImageViews depending on if a user/friend has been to that stadium
         ImageView userImage = (ImageView) view.findViewById(R.id.user_image_view);
@@ -88,7 +91,6 @@ public class CompareStadiumsListAdapter extends BaseAdapter implements ListAdapt
         else{
             friendImage.setImageResource(R.drawable.baseline_check_black_18dp);
         }
-
 
         return view;
     }

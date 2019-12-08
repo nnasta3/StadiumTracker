@@ -5,14 +5,11 @@ import android.os.AsyncTask;
 import android.util.Log;
 import com.example.stadiumtracker.R;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class friendsList extends AsyncTask<Integer, Void, List<String>> {
     private String ip;
@@ -23,12 +20,18 @@ public class friendsList extends AsyncTask<Integer, Void, List<String>> {
 
     private Context context;
 
+    /* NICHOLAS NASTA
+     * Constructor, sets strings for the database connection
+     */
     public friendsList(Context context){
         super();
         this.context = context;
         setStrings();
     }
 
+    /* NICHOLAS NASTA
+     * Sets the string values for the database connection
+     */
     private void setStrings(){
         ip = context.getResources().getString(R.string.ip);
         port = context.getResources().getString(R.string.port);
@@ -37,6 +40,15 @@ public class friendsList extends AsyncTask<Integer, Void, List<String>> {
         pass = context.getResources().getString(R.string.masterPass);
     }
 
+    /* NICHOLAS NASTA
+     * Connects to the database
+     * Pull the list of friends for the current user
+     * Find which UserID is not the current user
+     * Convert UserID to Username
+     * Add the username of the friend to the retList
+     * return retList
+     * returns null List<String> if there was an error
+     */
     @Override
     protected List<String> doInBackground(Integer... integers) {
         List<String> retList = new ArrayList<>();
@@ -50,7 +62,7 @@ public class friendsList extends AsyncTask<Integer, Void, List<String>> {
             ps.setInt(2,integers[0]);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                //Find which UserID is not the current user and then map it
+                //Find which UserID is not the current user
                 int userID1 = rs.getInt(1);
                 int userID2 = rs.getInt(2);
 

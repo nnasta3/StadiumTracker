@@ -3,15 +3,12 @@ package com.example.stadiumtracker.database;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-
 import com.example.stadiumtracker.R;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.List;
 
 public class getFriendViewDetails extends AsyncTask<Integer, Void, ArrayList<Integer>> {
 
@@ -23,20 +20,31 @@ public class getFriendViewDetails extends AsyncTask<Integer, Void, ArrayList<Int
 
     private Context context;
 
+    /* NICHOLAS NASTA
+     * Constructor, sets strings for the database connection
+     */
     public getFriendViewDetails(Context context){
             super();
             this.context = context;
             setStrings();
             }
 
+    /* NICHOLAS NASTA
+     * Sets the string values for the database connection
+     */
     private void setStrings(){
             ip = context.getResources().getString(R.string.ip);
             port = context.getResources().getString(R.string.port);
             dbName = context.getResources().getString(R.string.db_name);
             user = context.getResources().getString(R.string.masterUser);
             pass = context.getResources().getString(R.string.masterPass);
-            }
+    }
 
+    /* NICHOLAS NASTA
+     * Connects to the database
+     * Creates a list of 2 Integers by getting the Stadiums visited count and the visits count for the current friend
+     * ArrayList<Integer> retList = [# of distinct stadiums visited, # of total visits]
+     */
     @Override
     protected ArrayList<Integer> doInBackground(Integer... integers) {
         ArrayList<Integer> retList = new ArrayList<>();

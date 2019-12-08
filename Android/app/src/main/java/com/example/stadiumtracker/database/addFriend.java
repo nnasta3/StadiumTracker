@@ -3,9 +3,7 @@ package com.example.stadiumtracker.database;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-
 import com.example.stadiumtracker.R;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -21,12 +19,18 @@ public class addFriend extends AsyncTask<String, Void, Integer> {
 
     private Context context;
 
+    /* NICHOLAS NASTA
+     * Constructor, sets strings for the database connection
+     */
     public addFriend(Context context){
         super();
         this.context = context;
         setStrings();
     }
 
+    /* NICHOLAS NASTA
+     * Sets the string values for the database connection
+     */
     private void setStrings(){
         ip = context.getResources().getString(R.string.ip);
         port = context.getResources().getString(R.string.port);
@@ -35,6 +39,16 @@ public class addFriend extends AsyncTask<String, Void, Integer> {
         pass = context.getResources().getString(R.string.masterPass);
     }
 
+    /* NICHOLAS NASTA
+     * Connects to the database
+     * Check if there is already a pending friend request between the 2 users, if there is return 1 else return 0 and add an entry into the friends table
+     * Where the first param from String... strings is UserID2 and 2nd param is UserID1
+     * returns -1 for no existing user to add as a friend in the database
+     * returns -3 trying to add themselves as a friend
+     * returns 1 if the user is already friends with who they want to add
+     * returns 0 if the user successfully added a friend
+     * returns -2 for database error
+     */
     @Override
     protected Integer doInBackground(String... strings) {
         try{

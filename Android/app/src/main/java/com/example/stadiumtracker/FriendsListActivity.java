@@ -22,7 +22,6 @@ import com.example.stadiumtracker.database.addFriend;
 import com.example.stadiumtracker.database.getFriendIDFromName;
 import com.example.stadiumtracker.database.checkNotifications;
 import com.example.stadiumtracker.database.getFriendRequests;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +37,14 @@ public class FriendsListActivity extends AppCompatActivity {
     int notificationMenuItemCheck = 0;
     ArrayList<String> friendRequests;
 
+    /* NICHOLAS NASTA
+     * Create the FriendsListActivity
+     * Use findViewByID to get ui components
+     * Pulls the list of friends for the current user from the database
+     * Converts the friend's userID to their username
+     * Populates the ListView with the names of the friends
+     * If a user selects a friend from the list they are sent to that friends FriendViewActivity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -74,9 +81,9 @@ public class FriendsListActivity extends AppCompatActivity {
 
     }
 
-    /*
-        Go to friendView of selected friend
-    */
+    /* NICHOLAS NASTA
+     * Go to friendView of selected friend
+     */
     public void friendView(String friendName, int position){
         Intent intent = new Intent(this,FriendViewActivity.class);
         intent.putExtra("user", user);
@@ -92,6 +99,10 @@ public class FriendsListActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /* NICHOLAS NASTA
+     * Creates the menu for the FriendsListActivity
+     * Changes the Icon for friend request notifications if there are pending notifications for the current user
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.friends_list_menu, menu);
@@ -112,6 +123,12 @@ public class FriendsListActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /* NICHOLAS NASTA
+     * Handles when a user presses the back button, logout button, add friend button, and friend request notification button
+     * Add friend presents the user with a popup to search the database for friends, if a user is found a request is sent
+     * Friend Request Notification Button presents the user with a List of requests, when a user accepts save that in database
+     * Go back sends the user to the main menu
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Dialog dialog = new Dialog(this);
@@ -190,6 +207,10 @@ public class FriendsListActivity extends AppCompatActivity {
                 return true;
         }
     }
+
+    /* NICHOLAS NASTA
+     * Searches the database for a user when adding a friend
+     */
     public int searchHandler(String param){
         try{
             addFriend = new addFriend(this).execute(param,Integer.toString(user.getUserID())).get();

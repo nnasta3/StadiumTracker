@@ -3,9 +3,7 @@ package com.example.stadiumtracker.database;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-
 import com.example.stadiumtracker.R;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -22,12 +20,18 @@ public class selectDistinctStadiumsVisited extends AsyncTask<Integer, Void, Arra
 
     private Context context;
 
+    /* NICHOLAS NASTA
+     * Constructor, sets strings for the database connection
+     */
     public selectDistinctStadiumsVisited(Context context){
         super();
         this.context = context;
         setStrings();
     }
 
+    /* NICHOLAS NASTA
+     * Sets the string values for the database connection
+     */
     private void setStrings(){
         ip = context.getResources().getString(R.string.ip);
         port = context.getResources().getString(R.string.port);
@@ -36,6 +40,10 @@ public class selectDistinctStadiumsVisited extends AsyncTask<Integer, Void, Arra
         pass = context.getResources().getString(R.string.masterPass);
     }
 
+    /* NICHOLAS NASTA
+     * Connects to the database
+     * Pulls from the database a list of distinct stadiumIDs that the user has been to
+     */
     @Override
     protected ArrayList<Integer> doInBackground(Integer... integers) {
         ArrayList<Integer> retList = new ArrayList<Integer>();
@@ -50,7 +58,6 @@ public class selectDistinctStadiumsVisited extends AsyncTask<Integer, Void, Arra
             while (rs.next()) {
                 int stadiumID = rs.getInt(1);
                 retList.add(stadiumID);
-
             }
 
             DbConn.close();

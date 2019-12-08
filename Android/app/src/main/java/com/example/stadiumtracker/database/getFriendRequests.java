@@ -3,15 +3,12 @@ package com.example.stadiumtracker.database;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-
 import com.example.stadiumtracker.R;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.List;
 
 public class getFriendRequests extends AsyncTask<Integer, Void, ArrayList<String>> {
     private String ip;
@@ -22,12 +19,18 @@ public class getFriendRequests extends AsyncTask<Integer, Void, ArrayList<String
 
     private Context context;
 
+    /* NICHOLAS NASTA
+     * Constructor, sets strings for the database connection
+     */
     public getFriendRequests(Context context){
         super();
         this.context = context;
         setStrings();
     }
 
+    /* NICHOLAS NASTA
+     * Sets the string values for the database connection
+     */
     private void setStrings(){
         ip = context.getResources().getString(R.string.ip);
         port = context.getResources().getString(R.string.port);
@@ -36,6 +39,13 @@ public class getFriendRequests extends AsyncTask<Integer, Void, ArrayList<String
         pass = context.getResources().getString(R.string.masterPass);
     }
 
+    /* NICHOLAS NASTA
+     * Connects to the database
+     * Pulls the list of friend requests for the current user
+     * Convert the senderIDs into sender names and return the list
+     * returns an ArrayList<String> containing the names of the senders of the friend requests
+     * returns an empty ArrayList<String> if there are no friend request
+     */
     @Override
     protected ArrayList<String> doInBackground(Integer... integers) {
         ArrayList<String> retList = new ArrayList<String>();

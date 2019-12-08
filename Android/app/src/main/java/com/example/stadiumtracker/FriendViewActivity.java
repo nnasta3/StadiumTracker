@@ -11,11 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.stadiumtracker.data.User;
 import com.example.stadiumtracker.database.getFriendViewDetails;
 import com.example.stadiumtracker.database.removeFriend;
-
 import java.util.ArrayList;
 
 public class FriendViewActivity extends AppCompatActivity {
@@ -28,8 +26,10 @@ public class FriendViewActivity extends AppCompatActivity {
     TextView stadiumsCount;
     TextView visitsCount;
 
-    /*NICHOLAS NASTA
-     *Creates the FriendViewActivity
+    /* NICHOLAS NASTA
+     * Creates the FriendViewActivity
+     * Uses findViewById to get UI for this activity
+     * Displays the number of total visits and distinct stadiums this friend has been to in the TextViews
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +59,8 @@ public class FriendViewActivity extends AppCompatActivity {
 
     }
 
-    /*NICHOLAS NASTA
-     *Returns the number of stadiums visited and events visited for the currently selected friend
+    /* NICHOLAS NASTA
+     * Returns the number of stadiums visited and events visited for the currently selected friend
      */
     public void getCounts(){
         ArrayList<Integer> getCounts= new ArrayList<Integer>();
@@ -73,8 +73,8 @@ public class FriendViewActivity extends AppCompatActivity {
         }
     }
 
-    /*NICHOLAS NASTA
-     *Sends the user to the CompareStadiumsActivity
+    /* NICHOLAS NASTA
+     * Sends the user to the CompareStadiumsActivity
      */
     public void compareStadiums(View v){
         Intent intent = new Intent(this, CompareStadiumsActivity.class);
@@ -85,8 +85,8 @@ public class FriendViewActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /*NICHOLAS NASTA
-     *Sends the user to the CompareVisitsActivity
+    /* NICHOLAS NASTA
+     * Sends the user to the CompareVisitsActivity
      */
     public void compareVisits(View v){
         Intent intent = new Intent(this, CompareVisitsActivity.class);
@@ -97,8 +97,8 @@ public class FriendViewActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /*NICHOLAS NASTA
-     *Creates the menu from the friend menu layout
+    /* NICHOLAS NASTA
+     * Creates the menu from the friend menu layout
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -106,8 +106,9 @@ public class FriendViewActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    /*NICHOLAS NASTA
-     *Handles the menu options for logout, remove friend, and go back options
+    /* NICHOLAS NASTA
+     * Handles the menu options for logout, remove friend, and go back
+     * Go back sends the user back to their friends list
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

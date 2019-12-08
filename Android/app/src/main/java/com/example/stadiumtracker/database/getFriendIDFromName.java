@@ -1,11 +1,9 @@
 package com.example.stadiumtracker.database;
 
 import android.content.Context;
-
 import com.example.stadiumtracker.R;
 import android.os.AsyncTask;
 import android.util.Log;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -21,12 +19,18 @@ public class getFriendIDFromName extends AsyncTask<String, Void, Integer> {
 
     private Context context;
 
+    /* NICHOLAS NASTA
+     * Constructor, sets strings for the database connection
+     */
     public getFriendIDFromName(Context context){
         super();
         this.context = context;
         setStrings();
     }
 
+    /* NICHOLAS NASTA
+     * Sets the string values for the database connection
+     */
     private void setStrings(){
         ip = context.getResources().getString(R.string.ip);
         port = context.getResources().getString(R.string.port);
@@ -35,6 +39,12 @@ public class getFriendIDFromName extends AsyncTask<String, Void, Integer> {
         pass = context.getResources().getString(R.string.masterPass);
     }
 
+    /* NICHOLAS NASTA
+     * Connects to the database
+     * Pulls the UserID of the given friend name
+     * returns the UserID of the friend if found
+     * returns -1 if an error or not found
+     */
     @Override
     protected Integer doInBackground(String... strings) {
         int friendID = -1;
