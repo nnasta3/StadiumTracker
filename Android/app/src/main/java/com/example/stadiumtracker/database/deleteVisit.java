@@ -19,13 +19,19 @@ public class deleteVisit extends AsyncTask<Integer, Void, Void> {
     private String pass;
 
     private Context context;
-
+    /* John Strauser
+        constructor for the deleteVisit query class
+        context is used in setStrings
+     */
     public deleteVisit(Context context){
         super();
         this.context = context;
         setStrings();
     }
-
+    /* John Strauser
+        SetStrings should be present in every query function
+        Provides the class with the information needed to connect to the database
+     */
     private void setStrings(){
         ip = context.getResources().getString(R.string.ip);
         port = context.getResources().getString(R.string.port);
@@ -33,6 +39,11 @@ public class deleteVisit extends AsyncTask<Integer, Void, Void> {
         user = context.getResources().getString(R.string.masterUser);
         pass = context.getResources().getString(R.string.masterPass);
     }
+    /* John Strauser
+        Takes a userID and EventID as input
+        Delete the visit from the visit table
+        always return null
+     */
     @Override
     protected Void doInBackground(Integer... integers) {
         //integers[0] = userID

@@ -19,12 +19,20 @@ public class  insertUser extends AsyncTask<String, Void, Boolean> {
 
     private Context context;
 
+    /* John Strauser
+        constructor for the insertUser query class
+        context is used in SetStrings
+     */
     public insertUser(Context context){
         super();
         this.context = context;
         setStrings();
     }
 
+    /* John Strauser
+        SetStrings should be present in every query function
+        Provides the class with the information needed to connect to the database
+     */
     private void setStrings(){
         ip = context.getResources().getString(R.string.ip);
         port = context.getResources().getString(R.string.port);
@@ -32,6 +40,12 @@ public class  insertUser extends AsyncTask<String, Void, Boolean> {
         user = context.getResources().getString(R.string.masterUser);
         pass = context.getResources().getString(R.string.masterPass);
     }
+
+    /* John Strauser
+        Takes a username and password as input
+        insert the new user into the database
+        return true if insertion was successful, false otherwise
+     */
     @Override
     protected Boolean doInBackground(String... strings) {
         //Strings[0] = username

@@ -21,12 +21,20 @@ public class  eventCreate extends AsyncTask<String, Void, Integer> {
 
     private Context context;
 
+    /* John Strauser
+        constructor for the eventCreate query class
+        context is used in setStrings
+     */
     public eventCreate(Context context){
         super();
         this.context = context;
         setStrings();
     }
 
+    /* John Strauser
+        SetStrings should be present in every query function
+        Provides the class with the information needed to connect to the database
+     */
     private void setStrings(){
         ip = context.getResources().getString(R.string.ip);
         port = context.getResources().getString(R.string.port);
@@ -34,6 +42,11 @@ public class  eventCreate extends AsyncTask<String, Void, Integer> {
         user = context.getResources().getString(R.string.masterUser);
         pass = context.getResources().getString(R.string.masterPass);
     }
+    /* John Strauser
+        Takes the inputs listed below
+        attempts to insert the new event into the database
+        returns the eventID of the new event if successful, otherwise returns -1
+     */
     @Override
     protected Integer doInBackground(String... strings) {
         //Strings[0] = stadiumID

@@ -30,12 +30,20 @@ public class  eventsQuery extends AsyncTask<String, Void, Event> {
     private Map<Integer, Team> teamMap;
     private Context context;
 
+    /* John Strauser
+        constructor for the eventsQuery query class
+        context is used in setStrings
+     */
     public eventsQuery(Context context){
         super();
         this.context = context;
         setStrings();
     }
 
+    /* John Strauser
+        SetStrings should be present in every query function
+        Provides the class with the information needed to connect to the database
+     */
     private void setStrings(){
         ip = context.getResources().getString(R.string.ip);
         port = context.getResources().getString(R.string.port);
@@ -43,6 +51,13 @@ public class  eventsQuery extends AsyncTask<String, Void, Event> {
         user = context.getResources().getString(R.string.masterUser);
         pass = context.getResources().getString(R.string.masterPass);
     }
+    /* John Strauser
+        onPreExecute runs after eventsQuery.execute() is called and before doInBackground runs
+        onPreExecute calls the allStadiums and allTeams query classes to get a map of teams and stadiums
+        the stadium map uses a stadiumID as a key and the associated stadium instance as the value
+        the team map uses the teamID as a key and the associated team instance as the value
+        This is done to reduce the number of queries needed for the overall class
+     */
     @Override
     protected void onPreExecute(){
         try{
@@ -63,12 +78,16 @@ public class  eventsQuery extends AsyncTask<String, Void, Event> {
         }
 
     }
+    /* John Strauser
+        Takes the inputs listed below
+        returns an event that matches the inputs if one exists, otherwise returns null
+     */
     @Override
     protected Event doInBackground(String... strings) {
         //Strings[0] = stadiumID
         //Strings[1] = date
-        //Strings[2] = home team
-        //Strings[3] = road team
+        //Strings[2] = home team ID
+        //Strings[3] = road team ID
         //Strings[4] = home score
         //Strings[5] = road score
         //Strings[6] = league

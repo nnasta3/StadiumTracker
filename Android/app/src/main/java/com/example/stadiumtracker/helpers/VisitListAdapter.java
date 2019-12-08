@@ -23,53 +23,79 @@ public class VisitListAdapter implements ListAdapter {
     private List<Event> events;
     private Context context;
     private User user;
-
+    /* John Strauser
+        constructor for the list adapter for the VisitListActivity
+        events is the list of events that will be displayed
+        context is the context of the VisitListActivity, used in onItemClickListener of the list items
+        user is the user instance of the VisitListActivity, used in onItemClickListener of the list items
+     */
     public VisitListAdapter(List<Event> events, Context context, User user){
         this.events=events;
         this.context=context;
         this.user=user;
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public boolean areAllItemsEnabled() {
         return false;
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public boolean isEnabled(int position) {
         return false;
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public void registerDataSetObserver(DataSetObserver observer) {
 
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public void unregisterDataSetObserver(DataSetObserver observer) {
 
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public int getCount() {
         return events.size();
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public Object getItem(int position) {
         return position;
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public long getItemId(int position) {
         return position;
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public boolean hasStableIds() {
         return false;
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+        The only function that really matter in this adapter
+        creates the list item for each entry in the list
+        also sets the onItemClistListener which sends the user to the VisitViewActivity if a list item is clicked
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Event event = events.get(position);
@@ -99,17 +125,23 @@ public class VisitListAdapter implements ListAdapter {
         });
         return convertView;
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public int getItemViewType(int position) {
         return position;
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public int getViewTypeCount() {
         return events.size();
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public boolean isEmpty() {
         return getCount() == 0;

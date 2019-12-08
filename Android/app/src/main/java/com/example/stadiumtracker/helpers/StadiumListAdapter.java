@@ -19,53 +19,78 @@ public class StadiumListAdapter implements ListAdapter {
     private List<StadiumListHelper> stadiumListHelpers;
     private Context context;
     private User user;
-
+    /* John Strauser
+        constructor for the adapter used in the StadiumListActivity
+        context and user are used in switching intent to StadiumViewActivity
+        stadiumListHelpers is the list of information to be displayed
+     */
     public StadiumListAdapter(Context context, List<StadiumListHelper> stadiumListHelpers, User user){
         this.context = context;
         this.stadiumListHelpers = stadiumListHelpers;
         this.user = user;
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public boolean areAllItemsEnabled() {
         return false;
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public boolean isEnabled(int position) {
         return false;
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public void registerDataSetObserver(DataSetObserver observer) {
 
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public void unregisterDataSetObserver(DataSetObserver observer) {
 
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public int getCount() {
         return stadiumListHelpers.size();
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public Object getItem(int position) {
         return position;
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public long getItemId(int position) {
         return position;
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public boolean hasStableIds() {
         return false;
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+        the only function that really matters here
+        takes the information from stadiumListHelpers and converts it to a displayable list item
+        also sets on click to send user to StadiumViewActivity
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         StadiumListHelper stadiumListHelper = stadiumListHelpers.get(position);
@@ -94,17 +119,23 @@ public class StadiumListAdapter implements ListAdapter {
         });
         return convertView;
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public int getItemViewType(int position) {
         return position;
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public int getViewTypeCount() {
         return stadiumListHelpers.size();
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public boolean isEmpty() {
         return getCount() == 0;

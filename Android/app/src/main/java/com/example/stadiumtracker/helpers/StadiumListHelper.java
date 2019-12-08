@@ -7,19 +7,27 @@ public class StadiumListHelper {
     private Stadium stadium;
     private User user;
     private int visits;
-
+    /* John Strauser
+        default constructor
+        currently unused
+     */
     public StadiumListHelper() {
         stadium = null;
         user = null;
         visits = 0;
     }
-
+    /* John Strauser
+        generic constructor
+        StadiumListHelper class is used to store both a stadium and number of visits in the StadiumListActivity
+     */
     public StadiumListHelper(Stadium stadium, User user, int visits) {
         this.stadium = stadium;
         this.user = user;
         this.visits = visits;
     }
-
+    /* John Strauser
+        auto-generated getters and setters
+     */
     public Stadium getStadium() {
         return stadium;
     }

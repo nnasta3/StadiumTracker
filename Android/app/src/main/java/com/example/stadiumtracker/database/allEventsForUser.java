@@ -29,13 +29,19 @@ public class allEventsForUser extends AsyncTask<Integer, Void, List<Event>> {
     Map<Integer, Stadium> stadiumMap;
     Map<Integer, Team> teamMap;
     private Context context;
-
+    /* John Strauser
+        constructor for the allEventsForUser query class
+        context is used in setStrings
+     */
     public allEventsForUser(Context context){
         super();
         this.context = context;
         setStrings();
     }
-
+    /* John Strauser
+        SetStrings should be present in every query function
+        Provides the class with the information needed to connect to the database
+     */
     private void setStrings(){
         ip = context.getResources().getString(R.string.ip);
         port = context.getResources().getString(R.string.port);
@@ -43,6 +49,14 @@ public class allEventsForUser extends AsyncTask<Integer, Void, List<Event>> {
         user = context.getResources().getString(R.string.masterUser);
         pass = context.getResources().getString(R.string.masterPass);
     }
+    /* John Strauser
+        onPreExecute runs after allEventsForUser.execute() is called and before doInBackground() runs
+        calls queries for allStadiums and allTeams
+        creates hash maps for both stadiums and teams
+        stadium map has keys of stadiumID and values of stadium instances
+        team map has keys of teamID and values of team instances
+        Used to reduce the number of queries used
+     */
     @Override
     protected void onPreExecute(){
         try{
@@ -60,6 +74,10 @@ public class allEventsForUser extends AsyncTask<Integer, Void, List<Event>> {
             Log.e("aEFU pre",e.toString());
         }
     }
+    /* John Strauser
+        takes a userID as input
+        returns a list of events that the userID has visited
+     */
     @Override
     protected List<Event> doInBackground(Integer... integers) {
         //integers[0] = userID

@@ -25,13 +25,19 @@ public class allTeams extends AsyncTask<Void, Void, List<Team>> {
     private String pass;
     private Map<Integer,Stadium> stadiumMap;
     private Context context;
-
+    /* John Strauser
+        constructor for allTeams query class
+        context is used in setStrings
+     */
     public allTeams(Context context){
         super();
         this.context = context;
         setStrings();
     }
-
+    /* John Strauser
+        SetStrings should be present in every query function
+        Provides the class with the information needed to connect to the database
+     */
     private void setStrings(){
         ip = context.getResources().getString(R.string.ip);
         port = context.getResources().getString(R.string.port);
@@ -39,6 +45,11 @@ public class allTeams extends AsyncTask<Void, Void, List<Team>> {
         user = context.getResources().getString(R.string.masterUser);
         pass = context.getResources().getString(R.string.masterPass);
     }
+    /* John Strauser
+        onPreExecute runs after allTeams.execute() is called and before doInBackground() is called
+        creates a hash map of stadiums to reduce the number of queries needed
+        stadium map uses the stadiumID as a key and the stadium instance as the value
+     */
     @Override
     protected void onPreExecute(){
         try{
@@ -51,6 +62,10 @@ public class allTeams extends AsyncTask<Void, Void, List<Team>> {
             Log.e("allTeams",e.toString());
         }
     }
+    /* John Strauser
+        no inputs needed
+        returns a list of team instances that can be found in the database
+     */
     @Override
     protected List<Team> doInBackground(Void... voids) {
         List<Team> teams = new ArrayList<>();

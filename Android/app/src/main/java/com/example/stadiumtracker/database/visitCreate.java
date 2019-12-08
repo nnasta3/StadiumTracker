@@ -19,12 +19,20 @@ public class  visitCreate extends AsyncTask<Integer, Void, Boolean> {
 
     private Context context;
 
+    /* John Strauser
+        Constructor for the visitCreate query class
+        Context is used to get the database information
+     */
     public visitCreate(Context context){
         super();
         this.context = context;
         setStrings();
     }
 
+    /* John Strauser
+        SetStrings should be present in every query function
+        Provides the class with the information needed to connect to the database
+     */
     private void setStrings(){
         ip = context.getResources().getString(R.string.ip);
         port = context.getResources().getString(R.string.port);
@@ -32,10 +40,16 @@ public class  visitCreate extends AsyncTask<Integer, Void, Boolean> {
         user = context.getResources().getString(R.string.masterUser);
         pass = context.getResources().getString(R.string.masterPass);
     }
+
+    /* John Strauser
+        Takes an eventID and userID as inputs
+        Creates an entry in the visit table for the input eventID and userID
+        returns true if the insertion was successful, false otherwise
+     */
     @Override
     protected Boolean doInBackground(Integer... ints) {
         //ints[0] = eventID
-        //ints[1] = visitID
+        //ints[1] = userID
         int out = -1;
         try {
             // SET CONNECTIONSTRING

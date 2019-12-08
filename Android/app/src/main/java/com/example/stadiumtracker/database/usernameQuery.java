@@ -21,12 +21,20 @@ public class  usernameQuery extends AsyncTask<String, Void, Boolean> {
 
     private Context context;
 
+    /* John Strauser
+        Constructor for the usernameQuery query class
+        Context is used in setStrings
+     */
     public usernameQuery(Context context){
         super();
         this.context = context;
         setStrings();
     }
 
+    /* John Strauser
+        SetStrings should be present in every query function
+        Provides the class with the information needed to connect to the database
+     */
     private void setStrings(){
         ip = context.getResources().getString(R.string.ip);
         port = context.getResources().getString(R.string.port);
@@ -34,6 +42,10 @@ public class  usernameQuery extends AsyncTask<String, Void, Boolean> {
         user = context.getResources().getString(R.string.masterUser);
         pass = context.getResources().getString(R.string.masterPass);
     }
+    /* John Strauser
+        takes a username as input
+        returns true is the username exists in the database, false otherwise
+     */
     @Override
     protected Boolean doInBackground(String... strings) {
         //Strings[0] = username

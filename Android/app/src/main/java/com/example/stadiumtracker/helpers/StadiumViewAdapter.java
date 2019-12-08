@@ -23,54 +23,79 @@ public class StadiumViewAdapter implements ListAdapter {
     private List<Event> events;
     private User user;
     private int numVisits;
-
+    /* John Strauser
+        constructor for the adapter for the listView in StadiumViewActivity
+        context, user, and numVisits are used for swapping the intent when a list item is selected
+        events is the list of events to be displayed
+     */
     public StadiumViewAdapter(Context context, List<Event> events, User user, int numVisits){
         this.context=context;
         this.events=events;
         this.user=user;
         this.numVisits=numVisits;
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public boolean areAllItemsEnabled() {
         return false;
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public boolean isEnabled(int position) {
         return false;
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public void registerDataSetObserver(DataSetObserver observer) {
 
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public void unregisterDataSetObserver(DataSetObserver observer) {
 
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public int getCount() {
         return events.size();
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public Object getItem(int position) {
         return position;
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public long getItemId(int position) {
         return position;
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public boolean hasStableIds() {
         return false;
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+        the only function in the adapter that matters
+        create the layout for each list item
+        also creates the onItemClickListener to send the user to the VisitViewActivity if a list item is clicked
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Event event = events.get(position);
@@ -102,17 +127,23 @@ public class StadiumViewAdapter implements ListAdapter {
         });
         return convertView;
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public int getItemViewType(int position) {
         return position;
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public int getViewTypeCount() {
         return events.size();
     }
-
+    /* John Strauser
+        required function from the ListAdapter interface
+     */
     @Override
     public boolean isEmpty() {
         return getCount() == 0;

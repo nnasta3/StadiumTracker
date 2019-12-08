@@ -22,13 +22,19 @@ public class  allLeagues extends AsyncTask<String, Void, List<String>> {
     private String pass;
 
     private Context context;
-
+    /* John Strauser
+        constructor for allLeagues query class
+        context is used for setStrings
+     */
     public allLeagues(Context context){
         super();
         this.context = context;
         setStrings();
     }
-
+    /* John Strauser
+        SetStrings should be present in every query function
+        Provides the class with the information needed to connect to the database
+     */
     private void setStrings(){
         ip = context.getResources().getString(R.string.ip);
         port = context.getResources().getString(R.string.port);
@@ -36,6 +42,11 @@ public class  allLeagues extends AsyncTask<String, Void, List<String>> {
         user = context.getResources().getString(R.string.masterUser);
         pass = context.getResources().getString(R.string.masterPass);
     }
+    /* John Strauser
+        no inputs needed
+        returns a list of league names
+        example output would be {"NFL","NBA","MLB"}
+     */
     @Override
     protected List<String> doInBackground(String... strings) {
         List<String> out = new ArrayList<>();

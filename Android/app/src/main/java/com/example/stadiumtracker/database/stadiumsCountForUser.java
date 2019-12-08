@@ -23,12 +23,20 @@ public class stadiumsCountForUser extends AsyncTask<Integer, Void, Map<Integer,I
 
     private Context context;
 
+    /* John Strauser
+        constructor for stadiumsCountForUser query class
+        context is used in SetStrings
+     */
     public stadiumsCountForUser(Context context){
         super();
         this.context = context;
         setStrings();
     }
 
+    /* John Strauser
+        SetStrings should be present in every query function
+        Provides the class with the information needed to connect to the database
+     */
     private void setStrings(){
         ip = context.getResources().getString(R.string.ip);
         port = context.getResources().getString(R.string.port);
@@ -36,6 +44,12 @@ public class stadiumsCountForUser extends AsyncTask<Integer, Void, Map<Integer,I
         user = context.getResources().getString(R.string.masterUser);
         pass = context.getResources().getString(R.string.masterPass);
     }
+
+    /* John Strauser
+        takes a userID as input
+        returns a hashmap of integers
+        The map uses a stadiumID as the key and the number of visits to that stadium for the userID as the value
+     */
     @Override
     protected Map<Integer, Integer> doInBackground(Integer... integers) {
         //integers[0] = userID
