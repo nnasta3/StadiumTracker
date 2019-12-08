@@ -1,8 +1,10 @@
 package com.example.stadiumtracker;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -107,21 +109,22 @@ public class VisitViewActivity extends AppCompatActivity {
                 return true;
             case R.id.action_share:
                 //Share a string containing username, stadium, number of visits, and most recent visit
-                String shareString = user.getName()+" attended the game between the "+event.getHomeTeam()+" and the "+event.getRoadTeam()+" at "+event.getStadium().getName()+" on "+event.getDateFullString()+". ";
-                if (event.getHomeScore() > event.getRoadScore()){
-                    shareString += "The "+event.getHomeTeam().getNickname()+" won the game by a score of "+event.getHomeScore()+" - "+event.getRoadScore();
-                }else if (event.getRoadScore() > event.getHomeScore()){
-                    shareString += "The "+event.getRoadTeam().getNickname()+" won the game by a score of "+event.getRoadScore()+" - "+event.getHomeScore();
-                }else{
-                    shareString += "The game resulted in a tie with a score of "+event.getHomeScore();
-                }
-                //Can say events[0] is most recent because of sql query
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, shareString);
-                sendIntent.setType("text/plain");
-                Intent shareIntent = Intent.createChooser(sendIntent, null);
-                startActivity(shareIntent);
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+                new AlertDialog.Builder(this)
+                        .setTitle("Share Ticket Stub?")
+                        .setMessage("Would you like to share the virtual ticket stub for this event as well?")
+                        .setIcon(R.drawable.share_icon)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                shareHandler(true);
+                            }})
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                shareHandler(false);
+                            }})
+                        .show();
                 return true;
             case R.id.action_delete:
                 //Delete visit from database
@@ -146,78 +149,7 @@ public class VisitViewActivity extends AppCompatActivity {
                 dialog.setTitle("Ticket Stub");
 
                 //TODO: generate virtual ticket stub
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inMutable = true;
-                Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(),R.drawable.default_stub,options);
-                Canvas canvas = new Canvas(bitmap);
-                Paint paint = new Paint();
-                paint.setColor(Color.BLACK);
-                paint.setTypeface(Typeface.MONOSPACE);
-                paint.setTextSize(50);
-                int y = 150;
-                //Home team
-                if (event.getHomeTeam().toString().length() > 26){
-                    String homeTeamCity = event.getHomeTeam().getCity();
-                    String homeTeamName = event.getHomeTeam().getNickname();
-                    int cityDiff = 26 - homeTeamCity.length();
-                    int nameDiff = 26 - homeTeamCity.length();
-                    double cityAdd = cityDiff/1.75 * 30;
-                    double nameAdd = nameDiff/1.75 * 30;
-                    canvas.drawText(homeTeamCity,200+(int)cityAdd,y,paint);
-                    y += 50;
-                    canvas.drawText(homeTeamName,200+(int)nameAdd,y,paint);
-                    y += 50;
-                }else{
-                    String homeTeam = event.getHomeTeam().toString();
-                    int diff = 26 - (homeTeam.length());
-                    double add = diff/1.75 * 30;
-                    Log.e("addHome",""+add);
-                    canvas.drawText(homeTeam,200+(int)add,y,paint);
-                    y += 50;
-                }
-                //vs
-                String vs = "Vs.";
-                canvas.drawText(vs,560,y,paint);
-                y += 50;
-                //road team
-                if (event.getRoadTeam().toString().length() > 26){
-                    String roadTeamCity = event.getRoadTeam().getCity();
-                    String roadTeamName = event.getRoadTeam().getNickname();
-                    int cityDiff = 26 - roadTeamCity.length();
-                    int nameDiff = 26 - roadTeamName.length();
-                    double cityAdd = cityDiff/1.75 * 30;
-                    double nameAdd = nameDiff/1.75 * 30;
-                    canvas.drawText(roadTeamCity,200+(int)cityAdd,y,paint);
-                    y += 50;
-                    canvas.drawText(roadTeamName,200+(int)nameAdd,y,paint);
-                    y += 50;
-                }else{
-                    String roadTeam = event.getRoadTeam().toString();
-                    int diff = 26 - roadTeam.length();
-                    double add = diff/1.75 * 30;
-                    Log.e("addRoad",""+add);
-                    canvas.drawText(roadTeam,200+(int)add,y,paint);
-                    y += 50;
-                }
-                //stadium
-                y += 25;
-                String stadium = event.getStadium().getName();
-                int stadiumDiff = 26 - stadium.length();
-                double stadiumAdd = stadiumDiff/1.75 * 30;
-                canvas.drawText(stadium,200+(int)stadiumAdd,y,paint);
-                y+= 50;
-                //City, Country
-                String cc = event.getStadium().getCity()+", "+event.getStadium().getCountry();
-                int ccDiff = 26 - cc.length();
-                double ccAdd = ccDiff/1.75 * 30;
-                canvas.drawText(cc,200+(int)ccAdd,y,paint);
-                y+= 50;
-                //date
-                y+= 25;
-                String date = event.getDateFullString();
-                int dateDiff = 26 - date.length();
-                double dateAdd = dateDiff/1.75 * 30;
-                canvas.drawText(date,200+(int)dateAdd,y,paint);
+                Bitmap stub = generateStub();
 
                 //Display stub popup
                 ImageButton close = (ImageButton) dialog.findViewById(R.id.stub_popup_close);
@@ -226,7 +158,7 @@ public class VisitViewActivity extends AppCompatActivity {
                 ImageButton download = (ImageButton) dialog.findViewById(R.id.stub_popup_download);
 
                 //set image view to virtual ticket stub
-                image.setImageBitmap(bitmap);
+                image.setImageBitmap(stub);
                 //Button listeners
                 close.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -243,7 +175,7 @@ public class VisitViewActivity extends AppCompatActivity {
                             Toast.makeText(dialog.getContext(), "Cannot Access External Storage at this time", Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
                         }
-                        Uri uri = saveBitmap(bitmap);
+                        Uri uri = saveBitmap(stub);
                         shareImage(uri);
                     }
                 });
@@ -261,7 +193,7 @@ public class VisitViewActivity extends AppCompatActivity {
                             file.delete();
                         try {
                             FileOutputStream fileOutputStream = new FileOutputStream(file);
-                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
+                            stub.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
                             fileOutputStream.flush();
                             fileOutputStream.close();
                         } catch (Exception e) {
@@ -303,6 +235,117 @@ public class VisitViewActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void shareHandler(boolean stub){
+        String shareString = user.getName()+" attended the game between the "+event.getHomeTeam()+" and the "+event.getRoadTeam()+" at "+event.getStadium().getName()+" on "+event.getDateFullString()+". ";
+        if (event.getHomeScore() > event.getRoadScore()){
+            shareString += "The "+event.getHomeTeam().getNickname()+" won the game by a score of "+event.getHomeScore()+" - "+event.getRoadScore();
+        }else if (event.getRoadScore() > event.getHomeScore()){
+            shareString += "The "+event.getRoadTeam().getNickname()+" won the game by a score of "+event.getRoadScore()+" - "+event.getHomeScore();
+        }else{
+            shareString += "The game resulted in a tie with a score of "+event.getHomeScore();
+        }
+
+        if (stub){
+            Bitmap ticket = generateStub();
+            String state = Environment.getExternalStorageState();
+            if (!Environment.MEDIA_MOUNTED.equals(state)) {
+                Toast.makeText(this, "Cannot Access External Storage at this time", Toast.LENGTH_SHORT).show();
+            }
+            Uri uri = saveBitmap(ticket);
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, shareString);
+            sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            sendIntent.setType("*/*");
+            Intent shareIntent = Intent.createChooser(sendIntent, null);
+            startActivity(shareIntent);
+        }else {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, shareString);
+            sendIntent.setType("text/plain");
+            Intent shareIntent = Intent.createChooser(sendIntent, null);
+            startActivity(shareIntent);
+        }
+    }
+
+    private Bitmap generateStub(){
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inMutable = true;
+        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(),R.drawable.default_stub,options);
+        Canvas canvas = new Canvas(bitmap);
+        Paint paint = new Paint();
+        paint.setColor(Color.BLACK);
+        paint.setTypeface(Typeface.MONOSPACE);
+        paint.setTextSize(50);
+        int y = 150;
+        //Home team
+        if (event.getHomeTeam().toString().length() > 26){
+            String homeTeamCity = event.getHomeTeam().getCity();
+            String homeTeamName = event.getHomeTeam().getNickname();
+            int cityDiff = 26 - homeTeamCity.length();
+            int nameDiff = 26 - homeTeamCity.length();
+            double cityAdd = cityDiff/1.75 * 30;
+            double nameAdd = nameDiff/1.75 * 30;
+            canvas.drawText(homeTeamCity,200+(int)cityAdd,y,paint);
+            y += 50;
+            canvas.drawText(homeTeamName,200+(int)nameAdd,y,paint);
+            y += 50;
+        }else{
+            String homeTeam = event.getHomeTeam().toString();
+            int diff = 26 - (homeTeam.length());
+            double add = diff/1.75 * 30;
+            Log.e("addHome",""+add);
+            canvas.drawText(homeTeam,200+(int)add,y,paint);
+            y += 50;
+        }
+        //vs
+        String vs = "Vs.";
+        canvas.drawText(vs,560,y,paint);
+        y += 50;
+        //road team
+        if (event.getRoadTeam().toString().length() > 26){
+            String roadTeamCity = event.getRoadTeam().getCity();
+            String roadTeamName = event.getRoadTeam().getNickname();
+            int cityDiff = 26 - roadTeamCity.length();
+            int nameDiff = 26 - roadTeamName.length();
+            double cityAdd = cityDiff/1.75 * 30;
+            double nameAdd = nameDiff/1.75 * 30;
+            canvas.drawText(roadTeamCity,200+(int)cityAdd,y,paint);
+            y += 50;
+            canvas.drawText(roadTeamName,200+(int)nameAdd,y,paint);
+            y += 50;
+        }else{
+            String roadTeam = event.getRoadTeam().toString();
+            int diff = 26 - roadTeam.length();
+            double add = diff/1.75 * 30;
+            Log.e("addRoad",""+add);
+            canvas.drawText(roadTeam,200+(int)add,y,paint);
+            y += 50;
+        }
+        //stadium
+        y += 25;
+        String stadium = event.getStadium().getName();
+        int stadiumDiff = 26 - stadium.length();
+        double stadiumAdd = stadiumDiff/1.75 * 30;
+        canvas.drawText(stadium,200+(int)stadiumAdd,y,paint);
+        y+= 50;
+        //City, Country
+        String cc = event.getStadium().getCity()+", "+event.getStadium().getCountry();
+        int ccDiff = 26 - cc.length();
+        double ccAdd = ccDiff/1.75 * 30;
+        canvas.drawText(cc,200+(int)ccAdd,y,paint);
+        y+= 50;
+        //date
+        y+= 25;
+        String date = event.getDateFullString();
+        int dateDiff = 26 - date.length();
+        double dateAdd = dateDiff/1.75 * 30;
+        canvas.drawText(date,200+(int)dateAdd,y,paint);
+
+        return bitmap;
+    }
     private Uri saveBitmap(Bitmap image) {
         Uri uri = null;
         try {
