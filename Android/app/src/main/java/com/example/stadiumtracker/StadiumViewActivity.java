@@ -46,6 +46,16 @@ public class StadiumViewActivity extends AppCompatActivity {
     StadiumViewAdapter stadiumViewAdapter;
     String from;
 
+    /*John Strauser
+        Initializes UI
+        gets UI components from findViewByID
+        gets information from intent
+        sets up toolbar
+        Gets stadium image from URL
+        Sets stadium information
+        Gets visits to stadium for user from query
+        sets listview
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,13 +117,27 @@ public class StadiumViewActivity extends AppCompatActivity {
             }
         }
     }
-
+    /*John Strauser
+        Initialize toolbar UI
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.stadium_view_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
+    /*John Strauser
+        called when toolbar button is clicked
+        action_logout:
+            logout button
+            sends user to login activity
+        action_share:
+            share button
+            Generate string to share
+            sends to android share sheet
+        default:
+            Back button
+            sends user back to either stadium list or visit view depending on where they came from
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -156,7 +180,10 @@ public class StadiumViewActivity extends AppCompatActivity {
 
         }
     }
-
+    /*John Strauser
+        Gets a drawable from URL provided
+        used for picture in stadium view activity
+     */
     public class  ImageFromURL extends AsyncTask<String, Void, Drawable>{
         @Override
         protected Drawable doInBackground(String... strings) {

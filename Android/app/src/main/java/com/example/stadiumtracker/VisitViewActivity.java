@@ -51,12 +51,25 @@ public class VisitViewActivity extends AppCompatActivity {
     Toolbar toolbar;
     TextView leagueText, homeTeamText, roadTeamText, scoresText, stadiumText, cityText, dateText;
     String from;
-
-    private static final String[] LOCATION_PERMS={
+    /* John Strauser
+        These values are for the permissions request popup to save the virtual ticket stub to the device
+        No clue why 1337 and +3 are needed, but they didn't work with other values
+     */
+    private static final String[] PERMS={
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
     private static final int INITIAL_REQUEST=1337;
-    private static final int LOCATION_REQUEST=INITIAL_REQUEST+3;
+    private static final int REQUEST=INITIAL_REQUEST+3;
+
+    /* John Strauser
+        Called on initial startup of VisitViewActivity
+        Steps:
+            1. StrictMode allows the app to temporarily store the virtual ticket stub on the device for sharing
+            2. Get all the ui components via findViewByID()
+            3. Get the information from the intent that started the activity
+            4. Setup the toolbar
+            5. Set all the information in the page
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,12 +107,36 @@ public class VisitViewActivity extends AppCompatActivity {
         dateText.setText(event.getDateFullString());
     }
 
+    /* John Strauser
+        Automatically called by android when the toolbar is created in onCreate()
+        Gets the options menu button from xml
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.visit_view_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
+    /* John Strauser
+        switch-case statement for each button in the toolbar
+        action_logout:
+            Logout Button
+            sends back to LoginActivity
+        action_share:
+            Share Button
+            Asks user if they want to share the virtual ticket stub as well via popup dialog
+            Sends to shareHandler with boolean indicating user's choice from dialog
+        action_delete:
+            Delete Button
+            Deletes the current Visit from the database
+            Sends user back to either the StadiumView or VisitList depending on where they came from
+        action_stub:
+            Virtual Ticket Stub
+            Generates and displays the virtual ticket stub for this event in a popup dialog
+            That popup allows the user to either share or save the image
+        default:
+            Back button (left side of toolbar)
+            Sends user back to either the StadiumView or VisitList depending on where they came from
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -184,7 +221,7 @@ public class VisitViewActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         if(!(PackageManager.PERMISSION_GRANTED==checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE))){
-                            requestPermissions(LOCATION_PERMS,LOCATION_REQUEST);
+                            requestPermissions(PERMS,REQUEST);
                         }
                         //save to device's photo gallery
                         String fileName = event.fileString()+".png";
@@ -225,6 +262,10 @@ public class VisitViewActivity extends AppCompatActivity {
         }
     }
 
+    /* John Strauser
+        onClick function for the user clicking the stadium name in the UI
+        Sends user to StadiumViewActivity
+     */
     public void toStadium(View v){
         Intent intent = new Intent(this,StadiumViewActivity.class);
         intent.putExtra("user",user);
@@ -234,7 +275,12 @@ public class VisitViewActivity extends AppCompatActivity {
         intent.putExtra("from","visitView");
         startActivity(intent);
     }
-
+    /* John Strauser
+        Called by the share button in the toolbar
+        Generates a string of text to share
+        If the user indicated they want to share the virtual ticket stub as well, that stub is generated
+        Information is send to a Share Sheet, where the application gives up control to Android
+     */
     private void shareHandler(boolean stub){
         String shareString = user.getName()+" attended the game between the "+event.getHomeTeam()+" and the "+event.getRoadTeam()+" at "+event.getStadium().getName()+" on "+event.getDateFullString()+". ";
         if (event.getHomeScore() > event.getRoadScore()){
@@ -270,6 +316,13 @@ public class VisitViewActivity extends AppCompatActivity {
         }
     }
 
+    /* John Strauser
+        Generates the virtual ticket stub
+        Creates a bitmap from the default image, then paints texts on top
+        Locations of text are calculated based on pixel measurements I performed on the default image
+        The X/1.75 * 30 is an example of these measurements
+        After the text is done being painted the bitmap is returned
+     */
     private Bitmap generateStub(){
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inMutable = true;
@@ -280,72 +333,79 @@ public class VisitViewActivity extends AppCompatActivity {
         paint.setTypeface(Typeface.MONOSPACE);
         paint.setTextSize(50);
         int y = 150;
+        int x = 200;
+        int yDiff = 50;
+        int stringMax = 26;
         //Home team
-        if (event.getHomeTeam().toString().length() > 26){
+        if (event.getHomeTeam().toString().length() > stringMax){
             String homeTeamCity = event.getHomeTeam().getCity();
             String homeTeamName = event.getHomeTeam().getNickname();
-            int cityDiff = 26 - homeTeamCity.length();
-            int nameDiff = 26 - homeTeamCity.length();
+            int cityDiff = stringMax - homeTeamCity.length();
+            int nameDiff = stringMax - homeTeamCity.length();
             double cityAdd = cityDiff/1.75 * 30;
             double nameAdd = nameDiff/1.75 * 30;
-            canvas.drawText(homeTeamCity,200+(int)cityAdd,y,paint);
-            y += 50;
-            canvas.drawText(homeTeamName,200+(int)nameAdd,y,paint);
-            y += 50;
+            canvas.drawText(homeTeamCity,x+(int)cityAdd,y,paint);
+            y += yDiff;
+            canvas.drawText(homeTeamName,x+(int)nameAdd,y,paint);
+            y += yDiff;
         }else{
             String homeTeam = event.getHomeTeam().toString();
-            int diff = 26 - (homeTeam.length());
+            int diff = stringMax - (homeTeam.length());
             double add = diff/1.75 * 30;
             Log.e("addHome",""+add);
-            canvas.drawText(homeTeam,200+(int)add,y,paint);
-            y += 50;
+            canvas.drawText(homeTeam,x+(int)add,y,paint);
+            y += yDiff;
         }
         //vs
         String vs = "Vs.";
         canvas.drawText(vs,560,y,paint);
-        y += 50;
+        y += yDiff;
         //road team
-        if (event.getRoadTeam().toString().length() > 26){
+        if (event.getRoadTeam().toString().length() > stringMax){
             String roadTeamCity = event.getRoadTeam().getCity();
             String roadTeamName = event.getRoadTeam().getNickname();
-            int cityDiff = 26 - roadTeamCity.length();
-            int nameDiff = 26 - roadTeamName.length();
+            int cityDiff = stringMax - roadTeamCity.length();
+            int nameDiff = stringMax - roadTeamName.length();
             double cityAdd = cityDiff/1.75 * 30;
             double nameAdd = nameDiff/1.75 * 30;
-            canvas.drawText(roadTeamCity,200+(int)cityAdd,y,paint);
-            y += 50;
-            canvas.drawText(roadTeamName,200+(int)nameAdd,y,paint);
-            y += 50;
+            canvas.drawText(roadTeamCity,x+(int)cityAdd,y,paint);
+            y += yDiff;
+            canvas.drawText(roadTeamName,x+(int)nameAdd,y,paint);
+            y += yDiff;
         }else{
             String roadTeam = event.getRoadTeam().toString();
-            int diff = 26 - roadTeam.length();
+            int diff = stringMax - roadTeam.length();
             double add = diff/1.75 * 30;
             Log.e("addRoad",""+add);
-            canvas.drawText(roadTeam,200+(int)add,y,paint);
-            y += 50;
+            canvas.drawText(roadTeam,x+(int)add,y,paint);
+            y += yDiff;
         }
         //stadium
-        y += 25;
+        y += (yDiff/2);
         String stadium = event.getStadium().getName();
-        int stadiumDiff = 26 - stadium.length();
+        int stadiumDiff = stringMax - stadium.length();
         double stadiumAdd = stadiumDiff/1.75 * 30;
-        canvas.drawText(stadium,200+(int)stadiumAdd,y,paint);
-        y+= 50;
+        canvas.drawText(stadium,x+(int)stadiumAdd,y,paint);
+        y+= yDiff;
         //City, Country
         String cc = event.getStadium().getCity()+", "+event.getStadium().getCountry();
-        int ccDiff = 26 - cc.length();
+        int ccDiff = stringMax - cc.length();
         double ccAdd = ccDiff/1.75 * 30;
-        canvas.drawText(cc,200+(int)ccAdd,y,paint);
-        y+= 50;
+        canvas.drawText(cc,x+(int)ccAdd,y,paint);
+        y+= yDiff;
         //date
-        y+= 25;
+        y+= (yDiff/2);
         String date = event.getDateFullString();
-        int dateDiff = 26 - date.length();
+        int dateDiff = stringMax - date.length();
         double dateAdd = dateDiff/1.75 * 30;
-        canvas.drawText(date,200+(int)dateAdd,y,paint);
+        canvas.drawText(date,x+(int)dateAdd,y,paint);
 
         return bitmap;
     }
+    /* John Strauser
+        Takes a bitmap as input and creates a temporary save location
+        Uri path is returned as output
+     */
     private Uri saveBitmap(Bitmap image) {
         Uri uri = null;
         try {
@@ -359,6 +419,10 @@ public class VisitViewActivity extends AppCompatActivity {
         }
         return uri;
     }
+    /* John Strauser
+        Shares the image pointed to by the Uri input
+        no return value, Android takes control when startActivity() is called
+     */
     private void shareImage(Uri uri){
         Intent sendIntent = new Intent(android.content.Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_STREAM, uri);

@@ -48,11 +48,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
-/*
-    TODO for this file:
-        1. API querying
- */
-
 public class RecordActivity extends AppCompatActivity {
     User user;
     Toolbar toolbar;
@@ -69,12 +64,26 @@ public class RecordActivity extends AppCompatActivity {
     Calendar calendar;
     String dateString;
 
+    /* John Strauser
+        These are used for permissions popup on gps button being pressed
+     */
     private static final String[] LOCATION_PERMS={
             Manifest.permission.ACCESS_FINE_LOCATION
     };
     private static final int INITIAL_REQUEST=1337;
     private static final int LOCATION_REQUEST=INITIAL_REQUEST+3;
-
+    /* John Strauser
+        Steps:
+            Initializes UI
+            Gets UI components using findViewByID
+            gets information from intent
+            sets up toolbar
+            Initializes data text box
+            Sets up stadium spinner with 'prompt' stadium first then adds list of stadiums gathered from query
+            Sets up league spinner with 'prompt' league first then adds list of leagues gathered from query
+            Sets up home team spinner with 'prompt' team first then adds list of teams gathered from query
+            Sets up road team spinner with 'prompt' team first then adds list of teams gathered from query
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -309,13 +318,27 @@ public class RecordActivity extends AppCompatActivity {
             }
         });
     }
-
+    /*John Strauser
+        Initializes the menu options of the toolbar when called in onCreate()
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.record_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
+    /*John Strauser
+       Called when a button in the toolbar is selected
+       action_logout:
+            Logout button
+            Sends user back to login activity
+       action_gps:
+            GS Button
+            Checks if user has granted GPS permissions to the app, if not pops up a dialog asking for it
+            Gets the latitude and longitude of the user and sets the stadium spinner to the stadium that is closest to the user's latitude and longitude
+       default:
+            Back button
+            Sends user back to main menu
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -358,7 +381,9 @@ public class RecordActivity extends AppCompatActivity {
 
         }
     }
-
+    /*John Strauser
+        Removes teams that are not a part of the selected league after a league has been selected
+     */
     public List<Team> filterTeams(){
         List<Team> out = new ArrayList<>();
         for(int i=0; i<fullTeamList.size(); i++){
@@ -368,7 +393,9 @@ public class RecordActivity extends AppCompatActivity {
         }
         return out;
     }
-
+    /*John Strauser
+        gets the smallest index from a list of doubles
+     */
     private int getSmallest(List<Double> list){
         int out = 0;
         for(int i=1; i<list.size(); i++){
@@ -378,6 +405,9 @@ public class RecordActivity extends AppCompatActivity {
         }
         return out;
     }
+    /*John Strauser
+        Adds stadiums to stadiumList from query
+     */
     private void addStadiums(){
         try{
             List<Stadium> all = new allStadiums(this).execute().get();
@@ -386,7 +416,9 @@ public class RecordActivity extends AppCompatActivity {
             Log.w("Error","" + e);
         }
     }
-
+    /*John Strauser
+        Adds leagues to leagueList from query
+     */
     private void addLeagues(){
         try{
             List<String> all = new allLeagues(this).execute().get();
@@ -395,7 +427,16 @@ public class RecordActivity extends AppCompatActivity {
             Log.w("Error","" + e);
         }
     }
-
+    /*John Strauser
+        called when the record button is pressed
+        calls validates fields, cancels recording if validation fails
+        Checks if the event already exists
+        If it does not exist, it creates the event
+        Creates the visit
+        Creates an alert dialog asking if the user wants to share the visit
+        If so, generates a sharestring and sends to main menu
+        If not, just sends to main menu
+     */
     public void recordHandler(View v){
         if(!validateFields()){
             //Fields are invalid in this condition, do nothing
@@ -462,7 +503,10 @@ public class RecordActivity extends AppCompatActivity {
                 .show();
 
     }
-
+    /*John Strauser
+        Uses a series of if statements to determine if the record form has been filled out properly
+        Displays a failure message and returns false if any field is not valid
+     */
     public boolean validateFields(){
         //No validation needed for date field, user is not allowed to enter text into that field and the datepicker validates otherwise
         //Only need to check that the selected stadium is not null or not the hint field
@@ -521,11 +565,16 @@ public class RecordActivity extends AppCompatActivity {
         }
         return true;
     }
-
+    /*John Strauser
+        Shows dialog for datePicker
+     */
     public void datePickerHandler(View v){
         showDialog(10);
     }
 
+    /*John Strauser
+        Creates datepicker dialog
+     */
     @Override
     protected Dialog onCreateDialog(int id){
         if(id == 10){
@@ -533,7 +582,9 @@ public class RecordActivity extends AppCompatActivity {
         }
         return null;
     }
-
+    /*John Strauser
+        Listener for date picker dialog
+     */
     private DatePickerDialog.OnDateSetListener dateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -543,7 +594,9 @@ public class RecordActivity extends AppCompatActivity {
             //TODO: Look to query api here if selected stadium is not null
         }
     };
-
+    /*John Strauser
+        Gets a list of teams for the spinner
+     */
     class  getTeams extends AsyncTask<String, Void, List<Team>> {
         String ip = getResources().getString(R.string.ip);
         String port = getResources().getString(R.string.port);
@@ -577,7 +630,9 @@ public class RecordActivity extends AppCompatActivity {
             return out;
         }
     }
-
+    /*John Strauser
+        returns the stadium provided by the input id
+     */
     public Stadium getStadiumById(int id){
         for(int i=0; i<stadiumList.size(); i++){
             if (stadiumList.get(i).getStadiumID() == id){

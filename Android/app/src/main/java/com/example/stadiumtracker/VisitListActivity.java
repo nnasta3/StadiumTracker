@@ -45,7 +45,14 @@ public class VisitListActivity extends AppCompatActivity {
     ListView listView;
     List<Event> events, allEvents;
     VisitListAdapter visitListAdapter;
-
+    /*John Strauser
+        Initializes UI
+        gets UI components from findViewByID
+        gets information from intent
+        sets up toolbar
+        Gets list of events from query
+        sets up listview
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,13 +84,35 @@ public class VisitListActivity extends AppCompatActivity {
         //Set adapter for listview
         listView.setAdapter(visitListAdapter);
     }
-
+    /*John Strauser
+        Initializes toolbar UI
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.visit_list_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
+    /*John Strauser
+        called when toolbar button is clicked
+        action_logout:
+            logout button
+            sends user to login activity
+        action_filter:
+            filter button
+            pops up dialog for filter and calls filter handler
+        action_sort:
+            sort button
+            pops up dialog for sort and calls sort handler
+        action_search:
+            search button
+            pops up dialog for search and call search handler
+        action_refresh:
+            refresh button
+            resets listview to include all events
+        default:
+            back button
+            sends user back to main menu
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Dialog dialog = new Dialog(this);
@@ -346,7 +375,12 @@ public class VisitListActivity extends AppCompatActivity {
 
         }
     }
-
+    /*John Strauser
+        given search parameter
+        If parameter exists in an event, keep it in the listview
+        otherwise remove it
+        if no results exist from the search, undo the search
+     */
     public void searchHandler(String param){
         List<Event> temp = new ArrayList<>();
         temp.addAll(events);
@@ -391,7 +425,10 @@ public class VisitListActivity extends AppCompatActivity {
         visitListAdapter = new VisitListAdapter(events,this,user);
         listView.setAdapter(visitListAdapter);
     }
-
+    /*John Strauser
+        take in what to sort by and what direction to sort
+        use list sort to sort the list with a comparator
+     */
     public void sortHandler(String param, String dir){
         events.sort(new Comparator<Event>() {
             @Override
@@ -474,7 +511,11 @@ public class VisitListActivity extends AppCompatActivity {
         visitListAdapter = new VisitListAdapter(events,this,user);
         listView.setAdapter(visitListAdapter);
     }
-
+    /*John Strauser
+        take in all filters
+        if a list entry doesnt match a filter, remove it from the list
+        if no results exist, reset the list to before the filtering
+     */
     public void filterHandler(String team,String stadium,String league,Calendar startDate,Calendar endDate,int maxScore,String maxRG,int minScore,String minRG){
         List<Event> temp = new ArrayList<>();
         temp.addAll(events);

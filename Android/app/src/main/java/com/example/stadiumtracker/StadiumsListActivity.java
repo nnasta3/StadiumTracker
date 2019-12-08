@@ -49,6 +49,16 @@ public class StadiumsListActivity extends AppCompatActivity {
     List<StadiumListHelper> stadiumListHelpers, partialStadiumListHelpers;
     StadiumListAdapter stadiumListAdapter;
 
+    /*John Strauser
+        Initializes UI
+        uses findViewByID to get ui components
+        get information from intent
+        setup toolbar
+        get all stadiums from query
+        get map of num visits from query
+        create list of stadiumListHelpers
+        Populate listview
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,13 +109,35 @@ public class StadiumsListActivity extends AppCompatActivity {
             listView.setAdapter(stadiumListAdapter);
         }
     }
-
+    /*John Strauser
+        Initialize toolbar UI
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.stadiums_list_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
+    /*John Strauser
+        Called when a toolbar button is clicked
+        action_logout:
+            logout button
+            sends user to LoginActivity
+        action_filter:
+            filter button
+            filters list based on inputs from dialog
+        action_search:
+            search button
+            seraches list and removes entries that do not match
+        action_sort:
+            sort button
+            sorts listview by inputs from dialog
+        action_refresh:
+            Refresh button
+            resets the listview to all stadiums
+        default:
+            back button
+            sends user to main menu
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Dialog dialog = new Dialog(this);
@@ -263,7 +295,11 @@ public class StadiumsListActivity extends AppCompatActivity {
 
         }
     }
-
+    /*John Strauser
+        Called by filter dialog
+        Filters out stadiums that do not match the filters provided
+        If no entries remain, resets list to before filter was applied and displays error message
+     */
     public void filterHandler(String city, String country){
         List<StadiumListHelper> temp = new ArrayList<>();
         temp.addAll(partialStadiumListHelpers);
@@ -286,7 +322,11 @@ public class StadiumsListActivity extends AppCompatActivity {
         stadiumListAdapter = new StadiumListAdapter(this,partialStadiumListHelpers,user);
         listView.setAdapter(stadiumListAdapter);
     }
-
+    /*John Strauser
+        Searches list by input param
+        Removes entries that do not match
+        If no entries remain, reset list to before search and display error message
+     */
     public void searchHandler(String param){
         List<StadiumListHelper> temp = new ArrayList<>();
         temp.addAll(partialStadiumListHelpers);
@@ -308,7 +348,9 @@ public class StadiumsListActivity extends AppCompatActivity {
         stadiumListAdapter = new StadiumListAdapter(this,partialStadiumListHelpers,user);
         listView.setAdapter(stadiumListAdapter);
     }
-
+    /*John Strauser
+        Use list sort to sort listView by parameters input
+     */
     public void sortHandler(String sp, String rg){
         //sp = spinner selection in string form
         //rg = radio group selection in string form (asc/dsc)

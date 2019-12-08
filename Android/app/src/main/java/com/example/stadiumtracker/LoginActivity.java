@@ -16,7 +16,9 @@ public class LoginActivity extends AppCompatActivity {
     EditText usernameField;
     EditText passwordField;
 
-
+    /* John Strauser
+        Initializes the UI
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +28,13 @@ public class LoginActivity extends AppCompatActivity {
          passwordField = (EditText) findViewById(R.id.password_login);
 
     }
-
+    /* John Strauser
+        Called on click of "login" button
+        Takes username and password from text boxes in UI
+        Ensures information input is valid
+        Performs login query
+        Sends user to main menu if loginQuery returns success, otherwise displays "invalid login" message
+     */
     public void loginHandler(View v){
         String username = usernameField.getText().toString();
         String password = passwordField.getText().toString();
@@ -55,7 +63,10 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }
-
+    /* John Strauser
+        Called when register button is clicked
+        sends user to sign up activity
+     */
     public void registerHandler(View v){
         Intent intent = new Intent(this,SignUpActivity.class);
         startActivity(intent);

@@ -23,7 +23,10 @@ public class SignUpActivity extends AppCompatActivity {
     EditText usernameField;
     EditText passwordField;
     EditText confirmPasswordField;
-
+    /*John Strauser
+        Initializes the UI
+           Uses findViewByID to get UI components
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +36,13 @@ public class SignUpActivity extends AppCompatActivity {
         passwordField = (EditText) findViewById(R.id.password_sign_up);
         confirmPasswordField = (EditText) findViewById(R.id.password_confirm_sign_up);
     }
-
+    /*John Strauser
+        Called when signup button is clicked
+        Gets information from UI form
+        calls validate fields
+        if fields are valid, attempt to create account
+        if account creation fails, tell user. Otherwsie, send user to loginactivity
+     */
     public void signUpHandler(View v){
         String username = usernameField.getText().toString();
         String password = passwordField.getText().toString();
@@ -57,6 +66,10 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
     }
+    /*John Strauser
+        Check that username and password fields are valid using if statements
+        display failure reason and return false if a field is invalid
+     */
     private boolean validateFields(String username, String password, String confirmPassword){
         int userLengthMin = 3;
         int passLengthMin = 3;

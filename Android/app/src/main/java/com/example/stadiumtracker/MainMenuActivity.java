@@ -12,17 +12,16 @@ import android.support.v7.widget.Toolbar;
 
 import com.example.stadiumtracker.data.User;
 
-/*
-    TODO for this file:
-        1. visit list page button
-        2. friends list button
- */
-
 public class MainMenuActivity extends AppCompatActivity {
     User user;
     Toolbar toolbar;
     String shareString;
-
+    /*John Strauser
+        initialize UI
+        setup toolbar
+        get information from the intent
+        If sharestring was passed, call android share sheet
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,13 +47,21 @@ public class MainMenuActivity extends AppCompatActivity {
             Log.w("error sharing",e.toString());
         }
     }
-
+    /*John Strauser
+        initialize toolbar ui
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
+    /*John Strauser
+        called when a toolbar button is clicked
+        action_logout:
+            logout button sends user to login activity
+        default:
+            back button sends user to login activity
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -68,22 +75,34 @@ public class MainMenuActivity extends AppCompatActivity {
 
         }
     }
+    /*John Strauser
+        sends user to record activity
+     */
     public void recordHandler(View v){
         Intent intent = new Intent(this,RecordActivity.class);
         intent.putExtra("user", user);
         startActivity(intent);
     }
+    /*John Strauser
+        sends user to stadium list
+     */
     public void stadiumHandler(View v){
         Intent intent = new Intent(this,StadiumsListActivity.class);
         intent.putExtra("user", user);
         startActivity(intent);
     }
+    /*John Strauser
+        sends user to visit list
+     */
     public void visitHandler(View v){
         Intent intent = new Intent(this,VisitListActivity.class);
         intent.putExtra("user", user);
         Log.e("main menu","starting visit list");
         startActivity(intent);
     }
+    /*John Strauser
+        sends user to friends list
+     */
     public void friendsHandler(View v){
         Intent intent = new Intent(this, FriendsListActivity.class);
         intent.putExtra("user", user);
