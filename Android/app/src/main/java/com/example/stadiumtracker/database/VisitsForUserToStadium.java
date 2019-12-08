@@ -13,14 +13,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 public class VisitsForUserToStadium extends AsyncTask<Integer, Void, List<Event>> {
     private String ip;
@@ -32,6 +30,11 @@ public class VisitsForUserToStadium extends AsyncTask<Integer, Void, List<Event>
     private Map<Integer, Team> teamMap;
     private Context context;
 
+    /* John Strauser
+        Constructor for this query class
+        Context is needed to get database information strings from strings.xml
+        Stadium is provided to reduce the number of queries needed
+     */
     public VisitsForUserToStadium(Context context,Stadium stadium){
         super();
         this.context = context;
@@ -39,6 +42,10 @@ public class VisitsForUserToStadium extends AsyncTask<Integer, Void, List<Event>
         setStrings();
     }
 
+    /* John Strauser
+        SetStrings should be present in every query function
+        Provides the class with the information needed to connect to the database
+     */
     private void setStrings(){
         ip = context.getResources().getString(R.string.ip);
         port = context.getResources().getString(R.string.port);
@@ -46,6 +53,12 @@ public class VisitsForUserToStadium extends AsyncTask<Integer, Void, List<Event>
         user = context.getResources().getString(R.string.masterUser);
         pass = context.getResources().getString(R.string.masterPass);
     }
+
+    /* John Strauser
+        onPreExecute is called after the execute() function is called on this class, but before the doInBackground() function is called
+        This instance collects all the teams in the database at once to reduce the number of queries that are needed.
+        Teams are stored in a hash map where the key is the teamID and the value is the instance of the Team class.
+     */
     @Override
     protected void onPreExecute(){
         try{
@@ -59,6 +72,11 @@ public class VisitsForUserToStadium extends AsyncTask<Integer, Void, List<Event>
             Log.e("VFUTS",e.toString());
         }
     }
+
+    /* John Strauser
+        Takes in the userID and StadiumID.
+        Returns a list of events that occurred at the StadiumID where the UserID has visited
+     */
     @Override
     protected List<Event> doInBackground(Integer... integers) {
         //integers[0] = userID

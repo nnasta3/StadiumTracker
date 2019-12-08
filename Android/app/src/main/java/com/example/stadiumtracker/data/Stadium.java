@@ -9,18 +9,26 @@ public class Stadium implements java.io.Serializable{
     private double gpsLong;
     private String imageURL;
 
-    //This constructor should only really be used for the first entry in a dropdown
+    /* John Strauser
+        Default constructor that is only used for setting a 'prompt' value in the RecordActivity stadium dropdown menu
+     */
     public Stadium(){
         stadiumID = -1;
         name = "Stadium";
         city = "";
         country = "";
-        //This latitude and longitude is literally the south pole. If they are closer to here than any stadium in our database they probably don't fit our use cases
+        /* John Strauser
+            This latitude and longitude translates to the south pole (according to google).
+            Used so that this stadium should never be returned by the GPS button in RecordActivity
+         */
         gpsLat = 90.0000;
         gpsLong = 45.0000;
         imageURL = "";
     }
 
+    /* John Strauser
+        Generic constructor for the stadium class
+     */
     public Stadium(int stadiumID, String name, String city, String country, double gpsLat, double gpsLong, String imageURL){
         this.stadiumID=stadiumID;
         this.name=name;
@@ -30,7 +38,9 @@ public class Stadium implements java.io.Serializable{
         this.gpsLong=gpsLong;
         this.imageURL=imageURL;
     }
-
+    /* John Strauser
+        Auto-generated getters and setters
+     */
     public int getStadiumID() {
         return stadiumID;
     }
@@ -87,6 +97,9 @@ public class Stadium implements java.io.Serializable{
         this.imageURL = imageURL;
     }
 
+    /* John Strauser
+        to string simply returns the name of the stadium
+     */
     public String toString(){
         return name;
     }

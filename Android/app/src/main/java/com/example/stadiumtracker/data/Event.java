@@ -12,10 +12,9 @@ public class Event implements java.io.Serializable{
     private int roadScore;
     private String league;
 
-    public Event(){
-
-    }
-
+    /* John Strauser
+        Generic constructor for the Event class
+    */
     public Event(int eventID, Stadium stadium, Calendar date, Team homeTeam, Team roadTeam, int homeScore, int roadScore, String league) {
         this.eventID = eventID;
         this.stadium = stadium;
@@ -26,7 +25,9 @@ public class Event implements java.io.Serializable{
         this.roadScore = roadScore;
         this.league = league;
     }
-
+    /* John Strauser
+        Auto-generated getters and setters
+     */
     public int getEventID() {
         return eventID;
     }
@@ -91,10 +92,19 @@ public class Event implements java.io.Serializable{
         this.league = league;
     }
 
+    /* John Strauser
+        Provides the date in the format "Month Day, Year"
+        Used primarily in listviews found in VisitViewActivity and StadiumViewActivity
+     */
     public String getDateFullString(){
         String [] months = {"January","February","March","April","May","June","July","August","September","October","November","December"};
         return months[date.get(Calendar.MONTH)]+" "+date.get(Calendar.DAY_OF_MONTH)+", "+date.get(Calendar.YEAR);
     }
+
+    /* John Strauser
+        Provides a string to be used as a file name for saving the virtual ticket stub that corresponds to this event.
+        In the test environment this is not guaranteed to be unique.
+     */
     public String fileString(){
         return roadTeam.getNickname()+"@"+homeTeam.getNickname()+"-"+(date.get(Calendar.MONTH)+1)+"-"+date.get(Calendar.DAY_OF_MONTH)+"-"+date.get(Calendar.YEAR);
     }

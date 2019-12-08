@@ -8,6 +8,9 @@ public class Team implements java.io.Serializable{
     private Stadium stadium;
     private String league;
 
+    /* John Strauser
+        Generic constructor for a team instance
+     */
     public Team(int teamID, String city, String nickname, String abbrev, Stadium stadium, String league) {
         this.teamID = teamID;
         this.city = city;
@@ -16,7 +19,10 @@ public class Team implements java.io.Serializable{
         this.stadium = stadium;
         this.league = league;
     }
-
+    /* John Strauser
+        Constructor for a generic home or road team. Only used to create the 'prompt' entries in RecordActivity's team dropdown menus.
+        Takes a boolean to determine if it is a home or road team.
+     */
     public Team(boolean home){
         teamID = -1;
         if(home){
@@ -30,7 +36,9 @@ public class Team implements java.io.Serializable{
         stadium = null;
         league = "";
     }
-
+    /* John Strauser
+        Auto-generated getters and setters
+     */
     public int getTeamID() {
         return teamID;
     }
@@ -78,7 +86,10 @@ public class Team implements java.io.Serializable{
     public void setLeague(String league) {
         this.league = league;
     }
-
+    /* John Strauser
+        to string used in many places.
+        Example output would be "New York Yankees"
+     */
     public String toString(){
         return city + " " + nickname;
     }
