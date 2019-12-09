@@ -8,6 +8,11 @@
         android:title="@string/action_add_friend"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/action_search_friends_list"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="@string/search"
+        app:actionViewClass="android.widget.SearchView" />
+    <item
         android:id="@+id/action_friend_requests"
         android:icon="@drawable/baseline_new_releases_black_18dp"
         android:title="@string/action_friends_list_friend_requests"
@@ -16,5 +21,5 @@
         android:id="@+id/action_logout"
         android:icon="@drawable/logout_icon"
         android:title="@string/action_logout"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 </menu>

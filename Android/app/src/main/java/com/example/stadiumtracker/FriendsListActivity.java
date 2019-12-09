@@ -35,7 +35,8 @@ public class FriendsListActivity extends AppCompatActivity {
     int addFriend = -2;
     MenuItem notificationsMenuItem;
     int notificationMenuItemCheck = 0;
-    ArrayList<String> friendRequests;
+    ArrayList<String> friendRequests, partialFriendsList;
+    ArrayAdapter<String> friendAdapter;
 
     /* NICHOLAS NASTA
      * Create the FriendsListActivity
@@ -68,7 +69,7 @@ public class FriendsListActivity extends AppCompatActivity {
         }
 
         //Populate listView
-        ArrayAdapter<String>friendAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, friends);
+        friendAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, friends);
         listView.setAdapter(friendAdapter);
 
         //Present User with more detailed info about their friend (compare pages) and option to remove friend
@@ -78,6 +79,8 @@ public class FriendsListActivity extends AppCompatActivity {
                 friendView(friends.get(position),position);
             }
         });
+
+        partialFriendsList = new ArrayList<>();
 
     }
 
@@ -134,7 +137,36 @@ public class FriendsListActivity extends AppCompatActivity {
         Dialog dialog = new Dialog(this);
         Button add;
         Button cancel;
+        EditText editText;
         switch (item.getItemId()) {
+            case R.id.action_search_friends_list:
+                //search popup
+                dialog.setContentView(R.layout.add_friend_popup);
+                dialog.setTitle("Search Friends List");
+
+                editText = (EditText) dialog.findViewById(R.id.search_popup_input);
+                add = (Button) dialog.findViewById(R.id.search_popup_confirm);
+                add.setText("Search");
+                cancel = (Button) dialog.findViewById(R.id.search_popup_cancel);
+
+                add.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //call handler, then dismiss
+                        String searchParam = editText.getText().toString();
+                        searchFriendsListHandler(searchParam);
+                        dialog.dismiss();
+                    }
+                });
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+                return true;
+
             case R.id.action_logout:
                 Intent intent = new Intent(this,LoginActivity.class);
                 startActivity(intent);
@@ -145,7 +177,7 @@ public class FriendsListActivity extends AppCompatActivity {
                 dialog.setContentView(R.layout.add_friend_popup);
                 dialog.setTitle("Add Friend");
 
-                EditText editText = (EditText) dialog.findViewById(R.id.search_popup_input);
+                editText = (EditText) dialog.findViewById(R.id.search_popup_input);
                 add = (Button) dialog.findViewById(R.id.search_popup_confirm);
                 cancel = (Button) dialog.findViewById(R.id.search_popup_cancel);
 
@@ -199,7 +231,6 @@ public class FriendsListActivity extends AppCompatActivity {
                     Log.w("error addFriend",e.toString());
                 }
                 return true;
-
             default:
                 Intent intent2 = new Intent(this, MainMenuActivity.class);
                 intent2.putExtra("user", user);
@@ -218,5 +249,25 @@ public class FriendsListActivity extends AppCompatActivity {
             Log.w("error addFriend",e.toString());
         }
         return addFriend;
+    }
+
+    /* NICHOLAS NASTA
+     * Searches the friends list and updates the list with searched friends
+     */
+    public void searchFriendsListHandler(String param){
+        ArrayList<String> temp = new ArrayList<>();
+        temp.addAll(partialFriendsList);
+        partialFriendsList.clear();
+        for(int i=0; i<friends.size(); i++){
+            if (friends.get(i).contains(param.toLowerCase())){
+                partialFriendsList.add(friends.get(i));
+            }
+        }
+        if (partialFriendsList.size() == 0){
+            partialFriendsList.addAll(temp);
+            Toast.makeText(this, "Search provided no results", Toast.LENGTH_SHORT).show();
+        }
+        friendAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,partialFriendsList);
+        listView.setAdapter(friendAdapter);
     }
 }
